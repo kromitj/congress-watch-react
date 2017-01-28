@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  thomas_id: 
+  api_uri: 
+  first_name: 
+  middle_name: 
+  last_name: 
+  party: 
+  twitter_account: 
+  facebook_account: 
+  id: 
+  url: 
+  rss_url: 
+  domain: 
+  dw_nominate: 
+  ideal_point: 
+  seniority: 
+  next_election: 
+  total_votes: 
+  missed_votes: 
+  total_present: 
+  state: 
+  missed_votes_pct: 
+  votes_with_party_pct: 1.5
+
+two:
+  thomas_id: 
+  api_uri: 
+  first_name: 
+  middle_name: 
+  last_name: 
+  party: 
+  twitter_account: 
+  facebook_account: 
+  id: 
+  url: 
+  rss_url: 
+  domain: 
+  dw_nominate: 
+  ideal_point: 
+  seniority: 
+  next_election: 
+  total_votes: 
+  missed_votes: 
+  total_present: 
+  state: 
+  missed_votes_pct: 
+  votes_with_party_pct: 1.5
