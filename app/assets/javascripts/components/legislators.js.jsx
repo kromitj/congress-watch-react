@@ -8,6 +8,7 @@ class Legislators extends React.Component {
   }
 
   render() {
+    this.state.legislators = this.props.legislators
     var legislatorList = this.props.legislators.map(function(legislator) {
               return React.createElement(Legislator, { legislator: legislator})
             });
