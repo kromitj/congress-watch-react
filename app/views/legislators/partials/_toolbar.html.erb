@@ -1,2 +1,13 @@
- <%= react_component 'ToolBar' %>
+
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:q, "Show By:") %>
+  <%= select_tag(:search_by, options_for_select([['State', 1], ['Madrid', 2]])) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+
+
+
+
+
 
