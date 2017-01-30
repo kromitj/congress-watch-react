@@ -2,18 +2,20 @@ class Legislator extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      legislator: props.legislator
+      legislator: props.legislator,
+      fields: ["first_name", "last_name", "state", "party"]
     };
   }
 
   render() {
+    const legislatorRow = this.state.fields.map((field) =>
+        <LegislatorField value={ this.state.legislator[field] } />
+    )
+    console.log(legislatorRow)
     return (
-      <div>
-    		<td>{this.state.legislator.first_name}</td>
-    		<td>{this.state.legislator.last_name}</td>
-    		<td>{this.state.legislator.state}</td>
-    		<td>{this.state.legislator.party}</td>
-      </div>
+      <tr key={this.state.legislator.id}>
+        { legislatorRow }      
+      </tr>
     );
   }
 }
