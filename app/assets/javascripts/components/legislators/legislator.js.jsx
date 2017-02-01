@@ -4,14 +4,13 @@ class Legislator extends React.Component {
     this.state = {
       legislator: props.legislator,
       fields: ["first_name", "last_name", "state", "party"]
-    };
+    }
   }
 
   render() {
-    const legislatorRow = this.state.fields.map((field) =>
-        <LegislatorField value={ this.state.legislator[field] } />
+     const legislatorRow = this.state.fields.map((field) =>
+        <LegislatorField value={ this.props.legislator[field] } />
     )
-    console.log(legislatorRow)
     return (
       <tr key={this.state.legislator.id}>
         { legislatorRow }      

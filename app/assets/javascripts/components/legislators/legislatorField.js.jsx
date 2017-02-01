@@ -8,7 +8,7 @@ class LegislatorField extends React.Component {
 
   render() {
     return (      
-    		<td>{ this.state.value }</td>
+    		<td>{ this.props.value }</td>
     );
   }
 }

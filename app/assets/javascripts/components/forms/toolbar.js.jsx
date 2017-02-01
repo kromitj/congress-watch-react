@@ -12,7 +12,6 @@ class ToolBar extends React.Component {
   }
 
   handleSubmit( event ) {
-    alert('Your favorite flavor is: ' + this.state.search_by );
     event.preventDefault();
   }
 
