@@ -1,4 +1,4 @@
-class ToolBar extends React.Component {
+class SearchByBar extends React.Component {
   constructor(props) {
     super();
     this.state = {
@@ -17,7 +17,7 @@ class ToolBar extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="input-group">
       <form action='/legislators' method='get' acceptCharset='UTF-8'>
         <input type='hidden' name='utf8' value='✓' />
         <select name="search_by" value={this.state.search_by} onChange={this.handleChange}>
@@ -26,10 +26,11 @@ class ToolBar extends React.Component {
           <option value="party">Party</option>
           <option value="last_name">Last Name</option>
         </select>
-        <input type="text" name="search_value"></input>
+        <input type="text" name="search_value" className="form-control"></input>
         <input type="submit" onClick={ () => this.handleSubmit() }></input>
       </form>
       </div>
     );
   }
 }
+

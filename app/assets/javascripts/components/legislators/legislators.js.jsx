@@ -3,7 +3,7 @@ class Legislators extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      legislators: props.legislators
+      legislators: Immutable.List(props.legislators)
     }
     this.hangleChange = this.handleChange.bind( this )
   }
@@ -15,18 +15,19 @@ class Legislators extends React.Component {
 
 
   render() {
-    console.log("inside render")
     var  legislatorList = this.populateList()
     return (
       <div className="legislators">
+        < SearchByBar />
         <h2>Legislators</h2>
+        
         <table className="table table-bordered">
         <thead>
           <tr>
-            <th><button type="button" onClick={ () => this.handleChange("first_name")}  >First</button></th>
-            <th><button type="button" onClick={ () => this.handleChange("last_name")}  >Last</button></th>
-            <th><button type="button" onClick={ () => this.handleChange("state")}  >State</button></th>
-            <th><button type="button" onClick={ () => this.handleChange("party")}  >Party</button></th>
+            <th><button type="button" className="btn" onClick={ () => this.handleChange("first_name")}  >First</button></th>
+            <th><button type="button" className="btn" onClick={ () => this.handleChange("last_name")}  >Last</button></th>
+            <th><button type="button" className="btn" onClick={ () => this.handleChange("state")}  >State</button></th>
+            <th><button type="button" className="btn" onClick={ () => this.handleChange("party")}  >Party</button></th>
           </tr>
         </thead>
           <tbody>
@@ -38,17 +39,7 @@ class Legislators extends React.Component {
   }
 
   sort_by(sort_by) {
-    const sorted = this.state.legislators.sort(function(a, b) {
-      a_val = a[sort_by]
-      b_val = b[sort_by]
-      if (a_val < b_val) {
-        return -1;
-      }
-      if (a_val > b_val) {
-        return 1;
-      }
-      return 0;
-    });
+    const sorted = this.state.legislators.sortBy(legislator => legislator[sort_by])
     return sorted
   }
 

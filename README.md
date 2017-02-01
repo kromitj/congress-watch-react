@@ -1,24 +1,16 @@
-# README
+# CongressWatcher
+## I'm watching you
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 
 
-Things you may want to cover:
+**Puts the data of the propublica api into a Reactive app, that lets you see up-todate info on legislators and the bills that their involved in and also committees too. **
 
-* Ruby version
+* Ruby version: ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15]
 
-* System dependencies
+* System dependencies:
+	
+	* sqlite3
+	* react-rails
+	* httparty
+	* https://api.propublica.org
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
