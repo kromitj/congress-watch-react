@@ -17,7 +17,7 @@ class SearchByBar extends React.Component {
 
   render() {
     return (
-      <div className="input-group">
+      <div>
       <form action='/legislators' method='get' acceptCharset='UTF-8'>
         <input type='hidden' name='utf8' value='✓' />
         <select name="search_by" value={this.state.search_by} onChange={this.handleChange}>
@@ -26,11 +26,10 @@ class SearchByBar extends React.Component {
           <option value="party">Party</option>
           <option value="last_name">Last Name</option>
         </select>
-        <input type="text" name="search_value" className="form-control"></input>
+        <input type="text" name="search_value"></input>
         <input type="submit" onClick={ () => this.handleSubmit() }></input>
       </form>
       </div>
     );
   }
 }
-

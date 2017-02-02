@@ -8,7 +8,7 @@ class Legislators extends React.Component {
     this.hangleChange = this.handleChange.bind( this )
   }
 
-  handleChange( value ) {
+  handleChange( value ) {;
     console.log("inside handleCHange")
     this.setState( { legislators: this.sort_by( value) })
   }
@@ -28,12 +28,15 @@ class Legislators extends React.Component {
             <th><button type="button" className="btn" onClick={ () => this.handleChange("last_name")}  >Last</button></th>
             <th><button type="button" className="btn" onClick={ () => this.handleChange("state")}  >State</button></th>
             <th><button type="button" className="btn" onClick={ () => this.handleChange("party")}  >Party</button></th>
+            <th><button type="button" className="btn" onClick={ () => this.handleChange("id")}  >Id</button></th>
           </tr>
         </thead>
           <tbody>
-            { legislatorList }
           </tbody>
         </table>
+        <div id="accordion" role="tablist" aria-multiselectable="true">
+            { legislatorList }          
+        </div>
       </div>
     );
   }
