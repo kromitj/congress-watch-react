@@ -31,12 +31,10 @@ class Legislators extends React.Component {
             <th><button type="button" className="btn" onClick={ () => this.handleChange("id")}  >Id</button></th>
           </tr>
         </thead>
-          <tbody>
-          </tbody>
         </table>
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-            { legislatorList }          
-        </div>
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                { legislatorList }          
+            </div>
       </div>
     );
   }
