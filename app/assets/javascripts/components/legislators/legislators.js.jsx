@@ -10,9 +10,7 @@ class Legislators extends React.Component {
 
   handleChange( value ) {
     console.log("inside handleCHange")
-    this.setState( { legislators: this.sort_by( value) })
-  }
-
+    this.s
 
   render() {
     var  legislatorList = this.populateList()
@@ -40,7 +38,7 @@ class Legislators extends React.Component {
 
   sort_by(sort_by) {
     const sorted = this.state.legislators.sortBy(legislator => legislator[sort_by])
-    return sorted
+    return Immutable.List(sorted)
   }
 
   renderLegislator(legislator) {

@@ -7,6 +7,11 @@ class Legislator extends React.Component {
     }
   }
 
+  handleChange( value ) {
+    console.log("inside handleCHange")
+    this.setState( { legislator: this.sort_by( value) })
+  }
+
   render() {
      const legislatorRow = this.state.fields.map((field) =>
         <LegislatorField value={ this.props.legislator[field] } />
