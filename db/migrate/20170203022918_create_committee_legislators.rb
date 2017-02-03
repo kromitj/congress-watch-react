@@ -1,6 +1,6 @@
 class CreateCommitteeLegislators < ActiveRecord::Migration[5.0]
   def change
-    create_table :committee_legislators do |t|
+    create_table :committee_legislators, :id => false do |t|
 		t.integer :committee_id
 		t.integer :person_id
 		t.string :role

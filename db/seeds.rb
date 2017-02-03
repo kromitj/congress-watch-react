@@ -29,38 +29,40 @@ current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?curre
     person[:sortname] = legislator["sortname"]
     person[:twitterid] = legislator["twitterid"]
     person[:youtubeid] = legislator["youtubeid"]
+    
+    return person
   end
 
   def isolateRole(role)
   	 iso_role = {}
-  	 iso_role[:caucus] 			 = role["caucus"]
+  	 iso_role[:caucus] = role["caucus"]
      iso_role[:congress_numbers] = role["congress_numbers"]
-     iso_role[:current] 		 = role["current"]
-     iso_role[:description] 	 = role["description"]
-     iso_role[:district]	 	 = role["district"]
-     iso_role[:enddate] 		 = role["enddate"]
-     iso_role[:address] 		 = role["extra"]["address"] unless role["extra"] == nil
-     iso_role[:contact_form]     = role["extra"]["contact_form"] unless role["extra"] == nil
-     iso_role[:fax] 		     = role["extra"]["fax"] unless role["extra"] == nil
-     iso_role[:office] 		     = role["extra"]["office"] unless role["extra"] == nil
-     iso_role[:rss_url] 		 = role["extra"]["rss_url"] unless role["extra"] == nil
-     iso_role[:how] 		     = role["extra"]["how"] unless role["extra"] == nil
-     iso_role[:role_id] 		 = role["id"]
+     iso_role[:current] = role["current"]
+     iso_role[:description] = role["description"]
+     iso_role[:district] = role["district"]
+     iso_role[:enddate] = role["enddate"]
+     iso_role[:address] = role["extra"]["address"] unless role["extra"] == nil
+     iso_role[:contact_form] = role["extra"]["contact_form"] unless role["extra"] == nil
+     iso_role[:fax] = role["extra"]["fax"] unless role["extra"] == nil
+     iso_role[:office] = role["extra"]["office"] unless role["extra"] == nil
+     iso_role[:rss_url] = role["extra"]["rss_url"] unless role["extra"] == nil
+     iso_role[:how] = role["extra"]["how"] unless role["extra"] == nil
+     iso_role[:role_id] = role["id"]
      iso_role[:leadership_title] = role["leadership_title"]
-     iso_role[:party] 		     = role["party"]
-     iso_role[:person] 		     = role["person"]
-     iso_role[:phone] 		     = role["phone"]
-     iso_role[:role_type] 		 = role["role_type"]
-     iso_role[:role_type_label]  = role["role_type_label"]
-     iso_role[:senator_class] 	 = role["senator_class"]
-     iso_role[:senator_rank]     = role["senator_rank"]
-     iso_role[:startdate] 		 = role["startdate"]
-     iso_role[:state] 		     = role["state"]
-     iso_role[:title] 		     = role["title"]
-     iso_role[:title_long] 		 = role["title_long"]
-     iso_role[:website] 		 = role["website"]
+     iso_role[:party] = role["party"]
+     iso_role[:person] = role["person"]
+     iso_role[:phone] = role["phone"]
+     iso_role[:role_type] = role["role_type"]
+     iso_role[:role_type_label] = role["role_type_label"]
+     iso_role[:senator_class] = role["senator_class"]
+     iso_role[:senator_rank] = role["senator_rank"]
+     iso_role[:startdate] = role["startdate"]
+     iso_role[:state] = role["state"]
+     iso_role[:title] = role["title"]
+     iso_role[:title_long] = role["title_long"]
+     iso_role[:website] = role["website"]
 
-     iso_role
+     return iso_role
   end
 
   def isolateRoles(legislator)
@@ -69,11 +71,12 @@ current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?curre
 
   def isolateCommittee(committee)
   	iso_committee = {}
-	  iso_committee[:committee] = committee["committee"]
-	  iso_committee[:id] = committee["id"]
-	  iso_committee[:person] = committee["person"]
+	  iso_committee[:committee_id] = committee["committee"]
+	  iso_committee[:person_id] = committee["person"]
 	  iso_committee[:role] = committee["role"]
 	  iso_committee[:role_label] = committee["role_label"]
+    
+    return iso_committee
   end
 
   def isolateCommittees(legislator)
@@ -93,14 +96,19 @@ current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?curre
         end
     	
       when "committee"
-    		collection.each { |legislator| CommitteeLegislator.create(legislator)}
+    		collection.each do |legislator| CommitteeLegislator.create(legislator)
+          person = Person.where(person_id: legislator[:person_id])
+          legislator[:person_id] = person
+          CommitteeLegislator.create(legislator)
+        end
     	else
 
     	end
   end
-
+  leg_count = 1.0
+  leg_length = current_legislator_ids.length
   current_legislator_ids.each do |legislator_id|
-
+    percent = ((leg_count/leg_length).round(2)*100).floor
     api_call = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
     legislator = res = HTTParty.get(api_call)
     
@@ -112,5 +120,6 @@ current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?curre
 
     committees = isolateCommittees(legislator)
     seedTable("committee", committees)
-
+    puts "#{leg_count}/#{leg_length} #{percent}%" if leg_count % 5 == 0
+    leg_count+=1
   end

@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170203022918) do
 
-  create_table "committee_legislators", force: :cascade do |t|
+  create_table "committee_legislators", id: false, force: :cascade do |t|
     t.integer  "committee_id"
     t.integer  "person_id"
     t.string   "role"
