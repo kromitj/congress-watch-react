@@ -10,7 +10,8 @@ class Legislators extends React.Component {
 
   handleChange( value ) {
     console.log("inside handleCHange")
-    this.s
+    this.setState( { legislators: this.sort_by( value) })
+  }
 
   render() {
     var  legislatorList = this.populateList()
