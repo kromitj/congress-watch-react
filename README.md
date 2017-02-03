@@ -20,3 +20,6 @@ Notes for Dev:
 
 Source Legislator Picutes from:
 	https://theunitedstates.io/images/congress/[size]/[bioguide].jpg
+
+	Schema:
+	![Alt text](schemaDesign.jpg)
