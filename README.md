@@ -22,4 +22,4 @@ Source Legislator Picutes from:
 	https://theunitedstates.io/images/congress/[size]/[bioguide].jpg
 
 	Schema:
-	![Alt text](/schemaDesign.png)
+![Alt text](/schemaDesign.png)
