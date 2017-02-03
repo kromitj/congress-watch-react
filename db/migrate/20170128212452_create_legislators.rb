@@ -26,7 +26,6 @@ class CreateLegislators < ActiveRecord::Migration[5.0]
       t.string :district
       t.float :missed_votes_pct
       t.float :votes_with_party_pct
-
       t.timestamps
     end
   end
