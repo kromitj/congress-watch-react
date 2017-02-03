@@ -1,4 +1,4 @@
 class Person < ApplicationRecord
-	has_many :roles, :committee_legislators
-	has_many committees, through: :committee_legislator
+	has_many :roles
+	has_many :committee_legislators
 end

@@ -1,6 +1,6 @@
 class CreateCommittees < ActiveRecord::Migration[5.0]
   def change
-    create_table :committees do |t|
+    create_table :committees, :id => false  do |t|
     	
 		t.string :abbrev
 		t.string :code
@@ -11,7 +11,7 @@ class CreateCommittees < ActiveRecord::Migration[5.0]
 		t.string :jurisdiction
 		t.string :jurisdiction_link
 		t.string :name
-		t.bollean :obsolete
+		t.boolean :obsolete
 		t.string :url
 
         t.timestamps

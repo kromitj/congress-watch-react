@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170128212452) do
+ActiveRecord::Schema.define(version: 20170203022918) do
 
-  create_table "legislators", id: false, force: :cascade do |t|
-    t.string   "id"
+  create_table "committee_legislators", force: :cascade do |t|
+    t.integer  "committee_id"
+    t.integer  "person_id"
+    t.string   "role"
+    t.string   "role_label"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "committees", id: false, force: :cascade do |t|
+    t.string   "abbrev"
+    t.string   "code"
+    t.string   "committee"
+    t.string   "committee_type"
+    t.string   "committee_type_label"
+    t.integer  "id"
+    t.string   "jurisdiction"
+    t.string   "jurisdiction_link"
+    t.string   "name"
+    t.boolean  "obsolete"
+    t.string   "url"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "legislators", force: :cascade do |t|
     t.integer  "thomas_id"
     t.string   "api_uri"
     t.string   "first_name"
@@ -40,6 +64,58 @@ ActiveRecord::Schema.define(version: 20170128212452) do
     t.float    "votes_with_party_pct"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+  end
+
+  create_table "people", primary_key: "person_id", force: :cascade do |t|
+    t.string   "bioguideid"
+    t.string   "birthday"
+    t.integer  "cspanid"
+    t.string   "firstname"
+    t.string   "gender"
+    t.string   "gender_label"
+    t.string   "lastname"
+    t.string   "link"
+    t.string   "middlename"
+    t.string   "name"
+    t.string   "namemod"
+    t.string   "nickname"
+    t.string   "osid"
+    t.integer  "pvsid"
+    t.string   "sortname"
+    t.string   "twitterid"
+    t.string   "youtubeid"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "roles", primary_key: "role_id", force: :cascade do |t|
+    t.string   "caucus"
+    t.string   "congress_numbers"
+    t.boolean  "current"
+    t.string   "description"
+    t.integer  "district"
+    t.date     "enddate"
+    t.string   "address"
+    t.string   "contact_form"
+    t.string   "fax"
+    t.string   "office"
+    t.string   "rss_url"
+    t.string   "how"
+    t.string   "leadership_title"
+    t.string   "party"
+    t.integer  "person_id"
+    t.string   "phone"
+    t.string   "role_type"
+    t.string   "role_type_label"
+    t.string   "senator_class"
+    t.string   "senator_rank"
+    t.date     "startdate"
+    t.string   "state"
+    t.string   "title"
+    t.string   "title_long"
+    t.string   "website"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
 end

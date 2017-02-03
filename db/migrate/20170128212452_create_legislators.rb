@@ -1,7 +1,6 @@
 class CreateLegislators < ActiveRecord::Migration[5.0]
   def change
-    create_table :legislators, id: false do |t|
-      t.string :id
+    create_table :legislators do |t|
       t.integer :thomas_id
       t.string :api_uri
       t.string :first_name

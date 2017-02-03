@@ -1,13 +1,13 @@
 class CreatePeople < ActiveRecord::Migration[5.0]
   def change
-    create_table :people do |t|
+    create_table :people, :id => false do |t|
+		 t.primary_key :person_id
     	 t.string :bioguideid
 		 t.string :birthday 
 		 t.integer :cspanid
 		 t.string :firstname
 		 t.string :gender
 		 t.string :gender_label
-		 t.integer :id
 		 t.string :lastname
 		 t.string :link
 		 t.string :middlename
@@ -24,3 +24,5 @@ class CreatePeople < ActiveRecord::Migration[5.0]
     end
   end
 end
+
+ 
