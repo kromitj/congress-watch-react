@@ -8,11 +8,9 @@ class Legislators extends React.Component {
     this.hangleChange = this.handleChange.bind( this )
   }
 
-  handleChange( value ) {;
+  handleChange( value ) {
     console.log("inside handleCHange")
-    this.setState( { legislators: this.sort_by( value) })
-  }
-
+    this.s
 
   render() {
     var  legislatorList = this.populateList()
@@ -28,20 +26,19 @@ class Legislators extends React.Component {
             <th><button type="button" className="btn" onClick={ () => this.handleChange("last_name")}  >Last</button></th>
             <th><button type="button" className="btn" onClick={ () => this.handleChange("state")}  >State</button></th>
             <th><button type="button" className="btn" onClick={ () => this.handleChange("party")}  >Party</button></th>
-            <th><button type="button" className="btn" onClick={ () => this.handleChange("id")}  >Id</button></th>
           </tr>
         </thead>
+          <tbody>
+            { legislatorList }
+          </tbody>
         </table>
-            <div id="accordion" role="tablist" aria-multiselectable="true">
-                { legislatorList }          
-            </div>
       </div>
     );
   }
 
   sort_by(sort_by) {
     const sorted = this.state.legislators.sortBy(legislator => legislator[sort_by])
-    return sorted
+    return Immutable.List(sorted)
   }
 
   renderLegislator(legislator) {
@@ -54,4 +51,3 @@ class Legislators extends React.Component {
     )
   }
 }
-
