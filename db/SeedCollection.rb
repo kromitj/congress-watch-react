@@ -1,7 +1,6 @@
 require 'httparty' 
 
 class SeedCollection
-	# PROGRESS_BAR_PARAM_KEYS = ["current_leg_seed_count", "leg_seed_count", "refresh_rate"]
 	attr_accessor :collection_group
 	def initialize(model, collection_name, singular, fields, belongs_to=[], change_headers= [], remove_headers=[])
 		@name = collection_name
@@ -21,26 +20,7 @@ class SeedCollection
 			records.each { |record| seed_record(record)}
 		end
 	end
-
-	# def seed_record(data)
-	# 	record_fields = Hash[@fields.map { |field| [field, data[field]] }]
-	# 	case @model
-	# 	when 'person'		
-	# 		Person.create(record_fields)
-	# 	when 'role'
-	# 		person = Person.where({person_id: record_fields["person"]}).first
- #       		record_fields["person"] = person    		
-	# 		Role.create(record_fields)			
-	# 	when 'committee_legislator'
-	# 		person = Person.where({person_id: record_fields["person"]}).first
- #       		record_fields["person"] = person
- #       		record_fields["committee_id"] = record_fields["committee"]
- #       		record_fields.delete("committee")
-	# 		CommitteeLegislator.create(record_fields)
-	# 	else
-	# 	end
-	# end
-
+	
 	def seed_record(data)
 		@record_fields = Hash[@fields.map { |field| [field, data[field]] }]
 		handle_belongs_to.handle_headers.remove_headers

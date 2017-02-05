@@ -10,10 +10,6 @@ class SeedHelper
 		@collection_groups << { group_name: group_name, group_api: api_path, members: members, ids: ids}
 	end
 
-	# def populate_groups
-	# 	@collections.each { |collection| @collection_groups[collection.collection_group] << collection} # change this to populate groups on init
-	# end
-
 	def enum_groups
 		@collection_groups.each do |group|
 			group[:ids].each do |id|
