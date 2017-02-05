@@ -1,3 +1,8 @@
+PATH
+  remote: ./../../seedBuddy/
+  specs:
+    seed_buddy (0.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -185,6 +190,7 @@ DEPENDENCIES
   rails (~> 5.0.1)
   react-rails (~> 1.0)
   sass-rails (~> 5.0)
+  seed_buddy!
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
