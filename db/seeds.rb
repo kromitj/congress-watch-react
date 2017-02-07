@@ -5,7 +5,16 @@ require_relative './SeedCollection.rb'
 #gems
 require 'httparty' 
 require 'seed_buddy'
-a = SeedBuddy.new('https://www.govtrack.us/api/v2/')
+
+# legislator_all = 'https://www.govtrack.us/api/v2/role?current=true&limit=1000'
+# legislator_ids = SeedBuddy.map_api_response(legislator_all, nil, ["objects"], ["person"], "id")
+# seed = SeedBuddy.new('https://www.govtrack.us/api/v2/')
+# seed.get_model("CommitteeLegislator").api_model.modify_schema_field({old_key: "committee_id", new_key: "committee"})
+# seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person", api_calls: legislator_ids})
+# puts seed.groups
+
+
+# raise a.inspect
 # current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?current=true&limit=1000')["objects"].map { |legislator| legislator["person"]["id"]}
 
 # person_json_fields = ["bioguideid", "birthday", "cspanid", "firstname", "gender", "gender_label", "id", "lastname", "link", "middlename", "name", "namemod", "nickname", "osid", "pvsid", "sortname", "twitterid", "youtubeid"]
@@ -26,11 +35,13 @@ a = SeedBuddy.new('https://www.govtrack.us/api/v2/')
 # seeds.enum_groups
 
    
+seed = SeedBuddy.new('https://www.govtrack.us/api/v2/')
+seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person"})
+seed.map_group_calls(0, 'https://www.govtrack.us/api/v2/role?current=true&limit=1000', nil, ["objects"], ["person"], "id")
+seed.get_model("CommitteeLegislator").api_model.modify_schema_field({old_key: "committee_id", new_key: "committee"})
 
 
-
-
-
+puts seed.groups
 
 
 # #files
