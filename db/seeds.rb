@@ -36,12 +36,12 @@ require 'seed_buddy'
 
    
 seed = SeedBuddy.new('https://www.govtrack.us/api/v2/')
-seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person"})
+seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person/"})
 seed.map_group_calls(0, 'https://www.govtrack.us/api/v2/role?current=true&limit=1000', nil, ["objects"], ["person"], "id")
-seed.get_model("CommitteeLegislator").api_model.modify_schema_field({old_key: "committee_id", new_key: "committee"})
+seed.get_model("CommitteeLegislator").api_model.modify_schema_field([{old_key: "committee_id", new_key: "committee"}])
 
-
-puts seed.groups
+seed.generate_json
+seed.seed_data
 
 
 # #files
