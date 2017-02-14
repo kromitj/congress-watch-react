@@ -1,8 +1,8 @@
 # CongressWatcher
 ## I'm watching you
 
-![Alt text](./wire-frames/mobile-main.png) ![Alt text](./wire-frames/web-main.png)
-
+<!-- ![Alt text](./wire-frames/mobile-main.png) ![Alt text](./wire-frames/web-main.png) -->
+<img src="./wire-frames/mobile-main.png" width="425"/> <img src="./wire-frames/web-main.png" width="425"/> 
 **Puts the data of the propublica api into a Reactive app, that lets you see up-todate info on legislators and the bills that their involved in and also committees too. **
 
 * Ruby version: ruby 2.4.0p0 (2016-12-24 revision 57164) [x86_64-darwin15]
