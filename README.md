@@ -1,7 +1,7 @@
 # CongressWatcher
 ## I'm watching you
 
-## 
+![Alt text](./wire-frames/congress-group.png)
 
 **Puts the data of the propublica api into a Reactive app, that lets you see up-todate info on legislators and the bills that their involved in and also committees too. **
 
