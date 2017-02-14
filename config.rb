@@ -2,152 +2,363 @@
   "models": [
     {
       "name": "Committee",
-      "ar_model": {
-        "modle": "Committee",
+      "associations": {
         "associations": [
 
-        ],
-        "schema": {
-          "abbrev": "",
-          "code": "",
-          "committee": "",
-          "committee_type": "",
-          "committee_type_label": "",
-          "created_at": "",
-          "id": "",
-          "jurisdiction": "",
-          "jurisdiction_link": "",
-          "name": "",
-          "obsolete": "",
-          "updated_at": "",
-          "url": ""
-        }
+        ]
       },
-      "api_model": {
-        "model": "Committee",
-        "schema": {
-          "abbrev": "abbrev",
-          "code": "code",
-          "committee": "committee",
-          "committee_type": "committee_type",
-          "committee_type_label": "committee_type_label",
-          "created_at": "created_at",
-          "id": "id",
-          "jurisdiction": "jurisdiction",
-          "jurisdiction_link": "jurisdiction_link",
-          "name": "name",
-          "obsolete": "obsolete",
-          "updated_at": "updated_at",
-          "url": "url"
+      "field_relationships": [
+        {
+          "ar_field": "abbrev",
+          "api_field": "abbrev",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "code",
+          "api_field": "code",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "committee",
+          "api_field": "committee",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "committee_type",
+          "api_field": "committee_type",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "committee_type_label",
+          "api_field": "committee_type_label",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "id",
+          "api_field": "id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "jurisdiction",
+          "api_field": "jurisdiction",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "jurisdiction_link",
+          "api_field": "jurisdiction_link",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "name",
+          "api_field": "name",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "obsolete",
+          "api_field": "obsolete",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "url",
+          "api_field": "url",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "created_at",
+          "api_field": "created_at",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "updated_at",
+          "api_field": "updated_at",
+          "api_path": [
+
+          ]
         }
-      }
+      ]
     },
     {
       "name": "CommitteeLegislator",
-      "ar_model": {
-        "modle": "CommitteeLegislator",
+      "associations": {
         "associations": [
           {
             "name": "person",
             "ass_type": "belongs_to",
             "model_obj": "Person"
           }
-        ],
-        "schema": {
-          "committee_id": "",
-          "created_at": "",
-          "person_id": "",
-          "role": "",
-          "role_label": "",
-          "updated_at": ""
-        }
+        ]
       },
-      "api_model": {
-        "model": "CommitteeLegislator",
-        "schema": {
-          "committee": "committee_id",
-          "created_at": "created_at",
-          "person_id": "person_id",
-          "role": "role",
-          "role_label": "role_label",
-          "updated_at": "updated_at"
+      "field_relationships": [
+        {
+          "ar_field": "committee_id",
+          "api_field": "committee_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "person_id",
+          "api_field": "person_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "role",
+          "api_field": "role",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "role_label",
+          "api_field": "role_label",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "created_at",
+          "api_field": "created_at",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "updated_at",
+          "api_field": "updated_at",
+          "api_path": [
+
+          ]
         }
-      }
+      ]
     },
     {
       "name": "Legislator",
-      "ar_model": {
-        "modle": "Legislator",
+      "associations": {
         "associations": [
 
-        ],
-        "schema": {
-          "api_uri": "",
-          "created_at": "",
-          "district": "",
-          "domain": "",
-          "dw_nominate": "",
-          "facebook_account": "",
-          "facebook_id": "",
-          "first_name": "",
-          "google_entity_id": "",
-          "id": "",
-          "ideal_point": "",
-          "last_name": "",
-          "middle_name": "",
-          "missed_votes": "",
-          "missed_votes_pct": "",
-          "next_election": "",
-          "party": "",
-          "rss_url": "",
-          "seniority": "",
-          "state": "",
-          "thomas_id": "",
-          "total_present": "",
-          "total_votes": "",
-          "twitter_account": "",
-          "updated_at": "",
-          "url": "",
-          "votes_with_party_pct": ""
-        }
+        ]
       },
-      "api_model": {
-        "model": "Legislator",
-        "schema": {
-          "api_uri": "api_uri",
-          "created_at": "created_at",
-          "district": "district",
-          "domain": "domain",
-          "dw_nominate": "dw_nominate",
-          "facebook_account": "facebook_account",
-          "facebook_id": "facebook_id",
-          "first_name": "first_name",
-          "google_entity_id": "google_entity_id",
-          "id": "id",
-          "ideal_point": "ideal_point",
-          "last_name": "last_name",
-          "middle_name": "middle_name",
-          "missed_votes": "missed_votes",
-          "missed_votes_pct": "missed_votes_pct",
-          "next_election": "next_election",
-          "party": "party",
-          "rss_url": "rss_url",
-          "seniority": "seniority",
-          "state": "state",
-          "thomas_id": "thomas_id",
-          "total_present": "total_present",
-          "total_votes": "total_votes",
-          "twitter_account": "twitter_account",
-          "updated_at": "updated_at",
-          "url": "url",
-          "votes_with_party_pct": "votes_with_party_pct"
+      "field_relationships": [
+        {
+          "ar_field": "id",
+          "api_field": "id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "thomas_id",
+          "api_field": "thomas_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "api_uri",
+          "api_field": "api_uri",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "first_name",
+          "api_field": "first_name",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "middle_name",
+          "api_field": "middle_name",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "last_name",
+          "api_field": "last_name",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "party",
+          "api_field": "party",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "twitter_account",
+          "api_field": "twitter_account",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "facebook_account",
+          "api_field": "facebook_account",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "facebook_id",
+          "api_field": "facebook_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "google_entity_id",
+          "api_field": "google_entity_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "url",
+          "api_field": "url",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "rss_url",
+          "api_field": "rss_url",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "domain",
+          "api_field": "domain",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "dw_nominate",
+          "api_field": "dw_nominate",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "ideal_point",
+          "api_field": "ideal_point",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "seniority",
+          "api_field": "seniority",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "next_election",
+          "api_field": "next_election",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "total_votes",
+          "api_field": "total_votes",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "missed_votes",
+          "api_field": "missed_votes",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "total_present",
+          "api_field": "total_present",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "state",
+          "api_field": "state",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "district",
+          "api_field": "district",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "missed_votes_pct",
+          "api_field": "missed_votes_pct",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "votes_with_party_pct",
+          "api_field": "votes_with_party_pct",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "created_at",
+          "api_field": "created_at",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "updated_at",
+          "api_field": "updated_at",
+          "api_path": [
+
+          ]
         }
-      }
+      ]
     },
     {
       "name": "Person",
-      "ar_model": {
-        "modle": "Person",
+      "associations": {
         "associations": [
           {
             "name": "roles",
@@ -159,131 +370,360 @@
             "ass_type": "has_many",
             "model_obj": "CommitteeLegislator"
           }
-        ],
-        "schema": {
-          "bioguideid": "",
-          "birthday": "",
-          "created_at": "",
-          "cspanid": "",
-          "firstname": "",
-          "gender": "",
-          "gender_label": "",
-          "lastname": "",
-          "link": "",
-          "middlename": "",
-          "name": "",
-          "namemod": "",
-          "nickname": "",
-          "osid": "",
-          "person_id": "",
-          "pvsid": "",
-          "sortname": "",
-          "twitterid": "",
-          "updated_at": "",
-          "youtubeid": ""
-        }
+        ]
       },
-      "api_model": {
-        "model": "Person",
-        "schema": {
-          "bioguideid": "bioguideid",
-          "birthday": "birthday",
-          "created_at": "created_at",
-          "cspanid": "cspanid",
-          "firstname": "firstname",
-          "gender": "gender",
-          "gender_label": "gender_label",
-          "lastname": "lastname",
-          "link": "link",
-          "middlename": "middlename",
-          "name": "name",
-          "namemod": "namemod",
-          "nickname": "nickname",
-          "osid": "osid",
-          "person_id": "person_id",
-          "pvsid": "pvsid",
-          "sortname": "sortname",
-          "twitterid": "twitterid",
-          "updated_at": "updated_at",
-          "youtubeid": "youtubeid"
+      "field_relationships": [
+        {
+          "ar_field": "person_id",
+          "api_field": "person_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "bioguideid",
+          "api_field": "bioguideid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "birthday",
+          "api_field": "birthday",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "cspanid",
+          "api_field": "cspanid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "firstname",
+          "api_field": "firstname",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "gender",
+          "api_field": "gender",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "gender_label",
+          "api_field": "gender_label",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "lastname",
+          "api_field": "lastname",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "link",
+          "api_field": "link",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "middlename",
+          "api_field": "middlename",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "name",
+          "api_field": "name",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "namemod",
+          "api_field": "namemod",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "nickname",
+          "api_field": "nickname",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "osid",
+          "api_field": "osid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "pvsid",
+          "api_field": "pvsid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "sortname",
+          "api_field": "sortname",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "twitterid",
+          "api_field": "twitterid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "youtubeid",
+          "api_field": "youtubeid",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "created_at",
+          "api_field": "created_at",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "updated_at",
+          "api_field": "updated_at",
+          "api_path": [
+
+          ]
         }
-      }
+      ]
     },
     {
       "name": "Role",
-      "ar_model": {
-        "modle": "Role",
+      "associations": {
         "associations": [
           {
             "name": "person",
             "ass_type": "belongs_to",
             "model_obj": "Person"
           }
-        ],
-        "schema": {
-          "address": "",
-          "caucus": "",
-          "congress_numbers": "",
-          "contact_form": "",
-          "created_at": "",
-          "current": "",
-          "description": "",
-          "district": "",
-          "enddate": "",
-          "fax": "",
-          "how": "",
-          "leadership_title": "",
-          "office": "",
-          "party": "",
-          "person_id": "",
-          "phone": "",
-          "role_id": "",
-          "role_type": "",
-          "role_type_label": "",
-          "rss_url": "",
-          "senator_class": "",
-          "senator_rank": "",
-          "startdate": "",
-          "state": "",
-          "title": "",
-          "title_long": "",
-          "updated_at": "",
-          "website": ""
-        }
+        ]
       },
-      "api_model": {
-        "model": "Role",
-        "schema": {
-          "address": "address",
-          "caucus": "caucus",
-          "congress_numbers": "congress_numbers",
-          "contact_form": "contact_form",
-          "created_at": "created_at",
-          "current": "current",
-          "description": "description",
-          "district": "district",
-          "enddate": "enddate",
-          "fax": "fax",
-          "how": "how",
-          "leadership_title": "leadership_title",
-          "office": "office",
-          "party": "party",
-          "person_id": "person_id",
-          "phone": "phone",
-          "role_id": "role_id",
-          "role_type": "role_type",
-          "role_type_label": "role_type_label",
-          "rss_url": "rss_url",
-          "senator_class": "senator_class",
-          "senator_rank": "senator_rank",
-          "startdate": "startdate",
-          "state": "state",
-          "title": "title",
-          "title_long": "title_long",
-          "updated_at": "updated_at",
-          "website": "website"
+      "field_relationships": [
+        {
+          "ar_field": "role_id",
+          "api_field": "role_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "caucus",
+          "api_field": "caucus",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "congress_numbers",
+          "api_field": "congress_numbers",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "current",
+          "api_field": "current",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "description",
+          "api_field": "description",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "district",
+          "api_field": "district",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "enddate",
+          "api_field": "enddate",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "address",
+          "api_field": "address",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "contact_form",
+          "api_field": "contact_form",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "fax",
+          "api_field": "fax",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "office",
+          "api_field": "office",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "rss_url",
+          "api_field": "rss_url",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "how",
+          "api_field": "how",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "leadership_title",
+          "api_field": "leadership_title",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "party",
+          "api_field": "party",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "person_id",
+          "api_field": "person_id",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "phone",
+          "api_field": "phone",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "role_type",
+          "api_field": "role_type",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "role_type_label",
+          "api_field": "role_type_label",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "senator_class",
+          "api_field": "senator_class",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "senator_rank",
+          "api_field": "senator_rank",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "startdate",
+          "api_field": "startdate",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "state",
+          "api_field": "state",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "title",
+          "api_field": "title",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "title_long",
+          "api_field": "title_long",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "website",
+          "api_field": "website",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "created_at",
+          "api_field": "created_at",
+          "api_path": [
+
+          ]
+        },
+        {
+          "ar_field": "updated_at",
+          "api_field": "updated_at",
+          "api_path": [
+
+          ]
         }
-      }
+      ]
     }
   ],
   "groups": [
@@ -339,7 +779,6 @@
         300072,
         300081,
         300083,
-        300088,
         400061,
         400253,
         400413,
@@ -835,7 +1274,8 @@
         412731,
         412732,
         400315,
-        412733
+        412733,
+        412734
       ]
     }
   ]
