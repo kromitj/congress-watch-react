@@ -1,5 +1,4 @@
-<table style="width:100%">
-  <tr>
+
     <th>Action</th>
     <th>Mobile</th> 
     <th>Web</th>
