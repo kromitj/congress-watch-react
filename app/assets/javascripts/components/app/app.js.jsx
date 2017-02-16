@@ -19,20 +19,22 @@ class App extends React.Component {
     }
 
     updateWindowDimensions() {
-      this.setState({ width: window.innerWidth, height: window.innerHeight });
+      this.setState({ width: window.innerWidth, height: window.innerHeight, isMobile: this.isMobile()});
     }
 
     render() {
         return(
             <div>
                 <h1>App</h1>
-                <Header />
-                <SideBar />
+                <Header isMobile={this.state.isMobile }/>
+                <SideBar isMobile={this.state.isMobile }/>
                 <Body /> 
                 <Footer />
             </div>
         )
     }
+
+
 
     isMobile() {
      if( navigator.userAgent.match(/Android/i)
