@@ -4,7 +4,6 @@ require_relative './SeedHelper.rb'
 require_relative './SeedCollection.rb'
 #gems
 require 'httparty' 
-require 'seed_buddy'
 
 # legislator_all = 'https://www.govtrack.us/api/v2/role?current=true&limit=1000'
 # legislator_ids = SeedBuddy.map_api_response(legislator_all, nil, ["objects"], ["person"], "id")
@@ -35,45 +34,38 @@ require 'seed_buddy'
 # seeds.enum_groups
 
    
-seed = SeedBuddy.new("API",'https://www.govtrack.us/api/v2/')
-seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person/"})
-seed.map_group_calls(0, 'https://www.govtrack.us/api/v2/role?current=true&limit=1000', nil, ["objects"], ["person"], "id")
-seed.get_model("CommitteeLegislator").api_model.modify_schema_field([{old_key: "committee_id", new_key: "committee"}])
+# seed = SeedBuddy.new("API",'https://www.govtrack.us/api/v2/')
+# seed.create_group({members: ["Person", "Role", "CommitteeLegislator"], api_path: "https://www.govtrack.us/api/v2/person/"})
+# seed.map_group_calls(0, 'https://www.govtrack.us/api/v2/role?current=true&limit=1000', nil, ["objects"], ["person"], "id")
+# seed.get_model("CommitteeLegislator").api_model.modify_schema_field([{old_key: "committee_id", new_key: "committee"}])
 
-seed.generate_json
-seed.seed_data
+# seed.generate_json
+# seed.seed_data
 
 
 # #files
 
 # # get IDs for all current Legislators
-# # current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?current=true&limit=1000')["objects"].map { |legislator| legislator["person"]["id"]}
-  
-# # seed People && Role && CommitteeLegislator
+current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?current=true&limit=1000')["objects"].map { |legislator| legislator["person"]["id"]}
+print current_legislator_ids
+# seed People && Role && CommitteeLegislator
+count = 0
+current_legislator_ids.each do |legislator_id|
 
-# # leg_seed_count = current_legislator_ids.count # used for progressbar
-# # current_leg_seed_count = 1.0 # used for progress bar
-# # progress_bar_param_keys = ["current_leg_seed_count", "leg_seed_count", "refresh_rate"]
-# # current_legislator_ids.each do |legislator_id|
+  # get JSON data for current legislator using id as parameter
+  api_call_uri = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
+  legislator_response = HTTParty.get(api_call_uri)
 
-#   # get JSON data for current legislator using id as parameter
-#   # api_call_uri = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
-#   # legislator_response = HTTParty.get(api_call_uri)
+  # Parse person data from JSON response
+  person = isolate_person(legislator_response)
+  Person.create(person)
 
-#   # Parse person data from JSON response
-#   # person = isolate_person(legislator_response)
-#   # Person.create(person)
+  # Parse role data from JSON(api_call)
+  roles = isolate_roles(legislator_response)
+  seed_collection("role", roles)
 
-#   # Parse role data from JSON(api_call)
-# #   roles = isolate_roles(legislator_response)
-# #   seed_collection("role", roles)
-
-# #   committees = isolate_committees(legislator_response)
-# #   seed_collection("committee", committees)
-# #   handle_progress_bar(progress_bar_param_keys,[current_leg_seed_count, leg_seed_count, 5])  
-# #   current_leg_seed_count+=1
-# # end
-
-# # seed Committee
-
-
+  committees = isolate_committees(legislator_response)
+  seed_collection("committee", committees) 
+  print "person seeded: #{count}"
+  count+=1
+end

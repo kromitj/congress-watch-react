@@ -1,4 +1,4 @@
-class LegislatorList extends React.Component {
+class RoleList extends React.Component {
     constructor(props) {
         super();
         this.state = {
@@ -6,9 +6,26 @@ class LegislatorList extends React.Component {
         }
     };
     render() {
+        var roles = this.props.listItems.map(function(role) {
+            return <Role role={role} />;
+        });
+
         return(
-            <div>
-                <h4>LegislatorList</h4>
+            <div className="roles">
+                <h2>Legislators</h2>
+                <table className="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th><button type="button" onClick={ () => this.sort_by("first_name")}  >First</button></th>
+                            <th><button type="button" onClick={ () => this.sort_by("last_name")}  >Last</button></th>
+                            <th><button type="button" onClick={ () => this.sort_by("state")}  >State</button></th>
+                            <th><button type="button" onClick={ () => this.sort_by("party")}  >Party</button></th>
+                        </tr>
+                     </thead>
+                    <tbody>
+                        { roles }
+                    </tbody>
+                </table>
             </div>
         )
     }

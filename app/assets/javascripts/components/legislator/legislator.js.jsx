@@ -1,19 +1,19 @@
-class Legislator extends React.Component {
+class Role extends React.Component {
   constructor(props) {
     super();
+    this.fields = ["firstname", "lastname", "state", "party"];
     this.state = {
-      legislator: props.legislator,
-      fields: ["first_name", "last_name", "state", "party"]
+
     }
   }
 
   render() {
-     const legislatorRow = this.state.fields.map((field) =>
-        <LegislatorField value={ this.props.legislator[field] } />
+     const roleRow = this.fields.map((field) =>
+        <ItemField value={ this.props.role[field] } />
     )
     return (
-      <tr key={this.state.legislator.id}>
-        { legislatorRow }      
+      <tr key={this.props.role.id}>
+        {roleRow }     
       </tr>
     );
   }

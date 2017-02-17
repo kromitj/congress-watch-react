@@ -6,13 +6,28 @@ class BodyMain extends React.Component {
         }
     };
     render() {
+        bodyContent = this.bodyContent(this.props.contentType)
         return(
             <div>
                 <h2>BodyMain</h2>
-                <LegislatorList />
-                <BillList />
-                <CommitteeList />
+                {bodyContent }               
             </div>
         )
+    }
+
+    bodyContent(contentType) {
+        switch(contentType) {
+            case "LegislatorList":
+                return <RoleList listItems={this.props.listItems}/>
+                break;
+            case "BillList":
+                return <BillList />
+                break;
+            case "CommitteeList":
+                return <CommitteeList />
+                break;
+            default:
+                return <LegislatorList />
+        } 
     }
 }

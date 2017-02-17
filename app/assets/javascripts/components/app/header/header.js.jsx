@@ -16,14 +16,14 @@ class Header extends React.Component {
         if (this.props.isMobile) {
             return (
                <div>
-                    <h2>Header-Mobile</h2>
+                    <h2>{ this.props.appName } mobile</h2>
                     <Alert />
                 </div> 
             )
         } else {
             return (
                 <div>
-                    <h2>Header-Non Mobile</h2>
+                    <h2>{ this.props.appName } non mobile</h2>
                     <Alert />
                     <User />
                 </div> 

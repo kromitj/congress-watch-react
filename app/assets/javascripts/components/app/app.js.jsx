@@ -1,12 +1,17 @@
 class App extends React.Component {
     constructor(props) {
         super();
+        this.appName = "Congress Watch"
         this.state = {
+            action: "LegislatorList",
             height: props.height,
             width: props.width,
-            isMobile: this.isMobile()
+            isMobile: this.isMobile(),
+            searchValue: "",
+            listItems: props.listItems
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.onSend = this.onSend.bind(this)
     };
 
     componentDidMount() {
@@ -23,18 +28,23 @@ class App extends React.Component {
     }
 
     render() {
+      headerProps = this.packHeaderProps();
+      bodyProps = this.packBodyProps();
         return(
             <div>
-                <h1>App</h1>
-                <Header isMobile={this.state.isMobile }/>
+                <Header {...headerProps }/>
                 <SideBar isMobile={this.state.isMobile }/>
-                <Body /> 
+                <Body {...bodyProps }/> 
                 <Footer />
             </div>
         )
     }
-
-
+    
+    onSend(newMessage) {
+      this.setState({
+        searchValue: newMessage
+      });
+    };
 
     isMobile() {
      if( navigator.userAgent.match(/Android/i)
@@ -49,5 +59,20 @@ class App extends React.Component {
       }  else {
         return false;
       } 
+    }
+
+
+    packHeaderProps() {
+      return {
+        appName: this.appName, isMobile: this.state.isMobile
+      }
+    }
+    packBodyProps() {
+      return {
+        isMobile: this.state.isMobile,
+        onSend: this.onSend,
+        contentType: this.state.action,
+        listItems: this.props.listItems
+      }
     }  
 }
