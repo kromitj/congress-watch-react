@@ -7,13 +7,12 @@ class SideBarHamburger extends React.Component {
     };
     render() {
         return (
-            <div className="navbar navbar-default col-sm-2 col-md-2">
-                <button type="button" className="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body">
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                </button>
-              </div> 
+            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span className="sr-only">Toggle navigation</span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+              </button>
             )
     };
 };

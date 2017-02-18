@@ -14,5 +14,6 @@
  *
  *= require_tree .
  *= require_self
- *= require jasny-bootstrap.min
+ *= require font-awesome
+ 
  */
