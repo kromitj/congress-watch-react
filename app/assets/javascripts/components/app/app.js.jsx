@@ -31,11 +31,12 @@ class App extends React.Component {
       headerProps = this.packHeaderProps();
       bodyProps = this.packBodyProps();
         return(
-            <div>
+
+            <div className="container-fluid">
                 <Header {...headerProps }/>
                 <SideBar isMobile={this.state.isMobile }/>
-                <Body {...bodyProps }/> 
-                <Footer />
+                <Body {...bodyProps }/>
+                <div className="row"><Footer /></div>
             </div>
         )
     }
@@ -74,5 +75,5 @@ class App extends React.Component {
         contentType: this.state.action,
         listItems: this.props.listItems
       }
-    }  
+    }
 }

@@ -12,7 +12,6 @@ class RoleList extends React.Component {
 
         return(
             <div className="roles">
-                <h2>Legislators</h2>
                 <table className="table table-bordered">
                     <thead>
                         <tr>

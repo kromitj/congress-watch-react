@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap
+//= require jasny-bootstrap.min
 //= require turbolinks
 //= require react
 //= require react_ujs

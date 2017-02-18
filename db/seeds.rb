@@ -1,6 +1,5 @@
 
 require_relative './seed_helper_methods.rb'
-require_relative './SeedHelper.rb'
 require_relative './SeedCollection.rb'
 #gems
 require 'httparty' 

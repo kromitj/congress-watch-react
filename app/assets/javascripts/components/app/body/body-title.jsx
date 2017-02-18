@@ -7,8 +7,8 @@ class BodyTitle extends React.Component {
     };
     render() {
         return(
-            <div>
-                <h3>Body Title</h3>
+            <div className="col-sm-4 col-md-4 col-sm-offset-2 col-md-offset-2">
+                <h3>Legislators</h3>
             </div>
         )
     }

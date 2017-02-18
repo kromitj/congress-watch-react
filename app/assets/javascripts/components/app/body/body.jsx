@@ -8,8 +8,7 @@ class Body extends React.Component {
     render() {
         bodyHeaderProps = this.packBodyHeaderProps()
         return(
-            <div>
-                <h2>Body</h2>
+            <div className="row">
                 <BodyHeader {...bodyHeaderProps } />
                 <BodyMain {...this.props } />
             </div>

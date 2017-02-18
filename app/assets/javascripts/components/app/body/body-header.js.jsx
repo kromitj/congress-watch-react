@@ -9,12 +9,15 @@ class BodyHeader extends React.Component {
         if (this.props.isMobile) {
             console.log(this.props)
             return (
-               <div>
-                    <h2>BodyHeader- Mobile</h2>
-                    <SideBarHamburger />
-                    <BodyTitle />
-                    <SearchBar onSend={this.props.onSend}/>
-                </div> 
+                <div className="row">
+                   <div className="row">
+                        <SideBarHamburger />
+                        <BodyTitle />                    
+                    </div>
+                    <div className="row">                    
+                        <SearchBar onSend={this.props.onSend}/>
+                    </div>  
+                < /div>
             )
         } else {
             return (

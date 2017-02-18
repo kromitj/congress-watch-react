@@ -10,9 +10,10 @@ class SearchBar extends React.Component {
 
     render() {
         return(
-            <form onSubmit={this.submit}>
-                 <input value={this.state.input} onChange={this.updateInput} type="text" />
-                <input type="submit" value="Send" />
+            <form className="row" onSubmit={this.submit}>
+                <div class="input-group">
+                  <input value={this.state.input} onChange={this.updateInput} type="text" className="form-control" aria-describedby="basic-addon1"></input>
+                </div>              
             </form>
         )
     };

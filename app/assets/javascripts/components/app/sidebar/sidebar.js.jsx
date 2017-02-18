@@ -17,10 +17,11 @@ class SideBar extends React.Component {
         if (this.props.isMobile) {
             return (
                <div>
-                    <h2>SideBar-Mobile</h2>
-                    <User />
-                    <Groups />
-                </div> 
+                   <div className="navmenu navmenu-default navmenu-fixed-left offcanvas">
+                    < Groups />
+                    <h1>Heres Groups</h1>            
+                  </div>              
+              </ div>
             )
         } else {
             return (

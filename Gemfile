@@ -40,6 +40,7 @@ gem 'jbuilder', '~> 2.5'
   gem 'react-rails', '~> 1.0'
   gem 'httparty'
   gem 'bootstrap-sass', '3.3.6'
+  gem 'jasny-bootstrap-rails'
   gem "seed_buddy", path: "./../../seedBuddy/"
 
 group :development, :test do

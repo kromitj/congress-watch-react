@@ -9,7 +9,6 @@ class BodyMain extends React.Component {
         bodyContent = this.bodyContent(this.props.contentType)
         return(
             <div>
-                <h2>BodyMain</h2>
                 {bodyContent }               
             </div>
         )
