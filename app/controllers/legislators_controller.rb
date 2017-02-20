@@ -1,6 +1,5 @@
 class LegislatorsController < ApplicationController		
 	def index
-		puts params[:branch]
 		branch = params[:branch]
 		@legislators = pack_legislator_list_item(branch)
 

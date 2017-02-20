@@ -1,3 +1,21 @@
+const actionDefaults = {
+    dashboard: {
+        header: "DashBoard",
+        subHeader: "HomeBase",
+        cookieCrumb: "DashBoard"
+    },
+    senatorShow: {
+        header: "Legislator",
+        subHeader: "Senator",
+        cookieCrumb: "Senator"
+    },
+    repShow: {
+        header: "Legislator",
+        subHeader: "Representative",
+        cookieCrumb: "Representative"
+    }
+}
+
 class BodyContainer extends React.Component {
     constructor(props) {
         super();
@@ -9,8 +27,9 @@ class BodyContainer extends React.Component {
     render() {
         content = this.dispatchData(this.props.dataType, this.props.data)
         console.log("content: " + content)
+        props = this.packBody(this.props.dataType, content)
         return(
-            <Body content={content} />
+            <Body {...props} />
         )
     }
 
@@ -33,5 +52,11 @@ class BodyContainer extends React.Component {
 
     dispatchSenatorList(data) {
         return <RoleList roleItems={this.props.data} />
+    }
+
+    packBody(dataType, content) {
+        props = actionDefaults[dataType]
+        props.content = content
+        return props
     }
 }
