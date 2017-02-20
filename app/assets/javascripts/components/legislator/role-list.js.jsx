@@ -19,6 +19,7 @@ class RoleList extends React.Component {
                             <th><button type="button" onClick={ () => this.sort_by("last_name")}  >Last</button></th>
                             <th><button type="button" onClick={ () => this.sort_by("state")}  >State</button></th>
                             <th><button type="button" onClick={ () => this.sort_by("party")}  >Party</button></th>
+                            <th><button type="button" onClick={ () => this.sort_by("branch")}  >Branch</button></th>
                         </tr>
                      </thead>
                     <tbody>

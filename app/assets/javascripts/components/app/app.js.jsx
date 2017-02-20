@@ -1,14 +1,45 @@
+const actions = {
+  senatorShow: function(that) {
+     $.ajax({
+      url: "/legislators",
+      data: {branch: "senator"},
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        that.setState({bodyContent: data});
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });           
+  },
+  repShow: function(that) {
+     $.ajax({
+      url: "/legislators",
+      data: {branch: "rep"},
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        that.setState({bodyContent: data});
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });           
+  }
+}
+
 class App extends React.Component {
     constructor(props) {
         super();
-        this.appName = "Congress Watch"
         this.state = {
             action: "dashboard",
             height: props.height,
             width: props.width,
             isMobile: this.isMobile(),
             searchValue: "",
-            listItems: props.listItems
+            listItems: props.listItems,
+            bodyContent: null
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onSend = this.onSend.bind(this)
@@ -29,27 +60,26 @@ class App extends React.Component {
     }
 
     render() {
-      headerProps = this.packHeaderProps();
-      bodyProps = this.packBodyProps();
+      bodyProps = this.packBodyProps()
         return(
              <div id="wrapper">
                 <Nav requestSegue={this.prepareForSegue} />
-                <Body />
+                <BodyContainer {...bodyProps}/>
             </div>
         )
     }
     
     onSend(newMessage) {
       this.setState({
-        searchValue: newMessage
+        searchValue: newMessage,
       });
     };
 
     prepareForSegue(segue) {
-      console.log("inside prepare")
+      var response = actions[segue](this)
       this.setState({
         action: segue
-      });
+      })
     };
 
     isMobile() {
@@ -77,10 +107,8 @@ class App extends React.Component {
     }
     packBodyProps() {
       return {
-        isMobile: this.state.isMobile,
-        onSend: this.onSend,
-        contentType: this.state.action,
-        listItems: this.props.listItems
+        dataType: this.state.action,
+        data: this.state.bodyContent
       }
     }
 }

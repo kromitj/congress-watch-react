@@ -1,7 +1,7 @@
 class Role extends React.Component {
   constructor(props) {
     super();
-    this.fields = ["firstname", "lastname", "state", "party"];
+    this.fields = ["firstname", "lastname", "state", "party", "role_type"];
     this.state = {
 
     }
