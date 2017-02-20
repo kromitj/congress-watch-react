@@ -24,27 +24,12 @@ class RoleSideBar extends React.Component {
     }
 
     onSenatorClick(ev) {
-        ev.preventDefault();
-        console.log("inside onSenatorClick")     
+        ev.preventDefault();   
         this.props.requestSegue("senatorShow");
     }
     onRepClick(ev) {
-        ev.preventDefault();
-        console.log("inside onRepClick")     
+        ev.preventDefault();    
         this.props.requestSegue("repShow");
-    }
-
-    senatorShow(ev) {
-        ev.preventDefault();
-        console.log("/legislators")
-        var $link = $(this);
-        console.log($link.attr("href"))
-        var ajaxRequest = $.ajax({
-          url: "/legislators",
-        });
-        ajaxRequest.done(function (senators) {
-            console.log(senators)
-        });
     }
 }
 
