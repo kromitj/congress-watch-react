@@ -3,7 +3,7 @@ class App extends React.Component {
         super();
         this.appName = "Congress Watch"
         this.state = {
-            action: "LegislatorList",
+            action: "dashboard",
             height: props.height,
             width: props.width,
             isMobile: this.isMobile(),
@@ -12,6 +12,7 @@ class App extends React.Component {
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onSend = this.onSend.bind(this)
+        this.prepareForSegue = this.prepareForSegue.bind(this)
     };
 
     componentDidMount() {
@@ -31,12 +32,9 @@ class App extends React.Component {
       headerProps = this.packHeaderProps();
       bodyProps = this.packBodyProps();
         return(
-
-            <div className="container-fluid">
-                <Header {...headerProps }/>
-                <SideBar isMobile={this.state.isMobile }/>
-                <Body {...bodyProps }/>
-                <div className="row"><Footer /></div>
+             <div id="wrapper">
+                <Nav requestSegue={this.prepareForSegue} />
+                <Body />
             </div>
         )
     }
@@ -44,6 +42,13 @@ class App extends React.Component {
     onSend(newMessage) {
       this.setState({
         searchValue: newMessage
+      });
+    };
+
+    prepareForSegue(segue) {
+      console.log("inside prepare")
+      this.setState({
+        action: segue
       });
     };
 
@@ -56,8 +61,10 @@ class App extends React.Component {
      || navigator.userAgent.match(/BlackBerry/i)
      || navigator.userAgent.match(/Windows Phone/i)
      ){
+        console.log("is mobile");
         return true;
       }  else {
+        console.log("isn't mobile");
         return false;
       } 
     }

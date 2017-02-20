@@ -6,7 +6,7 @@ class RoleList extends React.Component {
         }
     };
     render() {
-        var roles = this.props.listItems.map(function(role) {
+        var roles = this.props.roleItems.map(function(role) {
             return <Role role={role} />;
         });
 
