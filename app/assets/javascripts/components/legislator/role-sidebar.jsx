@@ -5,6 +5,7 @@ class RoleSideBar extends React.Component {
 
         }
         this.onSenatorClick = this.onSenatorClick.bind(this);
+        this.onRepClick = this.onRepClick.bind(this);
     };
     render() {
         return(
@@ -12,10 +13,10 @@ class RoleSideBar extends React.Component {
                 <a href="javascript:;" data-toggle="collapse" data-target="#legislator-drop"><i className="fa fa-fw fa-arrows-v"></i> Legislators<i className="fa fa-fw fa-caret-down"></i></a>
                 <ul id="legislator-drop" className="collapse">
                     <li>
-                        <a href="/legislators" className="senatorShow"  onClick={this.senatorShow}>Sentors</a>
+                        <a href="#" className="senatorShow"  onClick={this.onSenatorClick}>Sentors</a>
                     </li>
                     <li>
-                        <a href="#">Representatives</a>
+                        <a href="#" className="repShow"  onClick={this.onRepClick}>Representatives</a>
                     </li>
                 </ul>
             </li>
@@ -23,7 +24,14 @@ class RoleSideBar extends React.Component {
     }
 
     onSenatorClick(ev) {
-
+        ev.preventDefault();
+        console.log("inside onSenatorClick")     
+        this.props.requestSegue("senatorShow");
+    }
+    onRepClick(ev) {
+        ev.preventDefault();
+        console.log("inside onRepClick")     
+        this.props.requestSegue("repShow");
     }
 
     senatorShow(ev) {

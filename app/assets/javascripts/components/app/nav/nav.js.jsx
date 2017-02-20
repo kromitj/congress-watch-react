@@ -12,7 +12,7 @@ class Nav extends React.Component {
                 <NavbarHeader />
                 <TopNavRight />
 
-                <NavSidebar />
+                <NavSidebar requestSegue={this.props.requestSegue}/>
             </nav>
         )
     }

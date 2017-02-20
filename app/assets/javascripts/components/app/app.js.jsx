@@ -3,7 +3,7 @@ class App extends React.Component {
         super();
         this.appName = "Congress Watch"
         this.state = {
-            action: "LegislatorList",
+            action: "dashboard",
             height: props.height,
             width: props.width,
             isMobile: this.isMobile(),
@@ -12,6 +12,7 @@ class App extends React.Component {
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onSend = this.onSend.bind(this)
+        this.prepareForSegue = this.prepareForSegue.bind(this)
     };
 
     componentDidMount() {
@@ -32,7 +33,7 @@ class App extends React.Component {
       bodyProps = this.packBodyProps();
         return(
              <div id="wrapper">
-                <Nav />
+                <Nav requestSegue={this.prepareForSegue} />
                 <Body />
             </div>
         )
@@ -41,6 +42,13 @@ class App extends React.Component {
     onSend(newMessage) {
       this.setState({
         searchValue: newMessage
+      });
+    };
+
+    prepareForSegue(segue) {
+      console.log("inside prepare")
+      this.setState({
+        action: segue
       });
     };
 
