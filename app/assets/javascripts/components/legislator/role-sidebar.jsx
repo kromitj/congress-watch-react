@@ -4,7 +4,7 @@ class RoleSideBar extends React.Component {
         this.state = {
 
         }
-        this.senatorShow = this.senatorShow.bind(this);
+        this.onSenatorClick = this.onSenatorClick.bind(this);
     };
     render() {
         return(
@@ -21,6 +21,11 @@ class RoleSideBar extends React.Component {
             </li>
         )
     }
+
+    onSenatorClick(ev) {
+
+    }
+
     senatorShow(ev) {
         ev.preventDefault();
         console.log("/legislators")
@@ -36,18 +41,3 @@ class RoleSideBar extends React.Component {
 }
 
 
-$('.sign-in-bttn').on('click', function(event) {
-    ev.preventDefault();
-    
-
-    // ajaxRequest.done(function (formHtml) {
-    //   if ($('.form-holder').html().length === 0){
-    //     $(".form-holder").animate({
-    //       height: '200px'}, "fast"
-    //     );
-    //     $('.form-holder').html(formHtml);
-    //   }else{
-    //     $('.form-holder').empty();
-    //   }
-    // });
-  }); // end login click handler
