@@ -4,6 +4,7 @@ class RoleList extends React.Component {
         this.state = {
 
         }
+        this.sortList = this.sortList.bind(this)
     };
     render() {
         var roles = this.props.roleItems.map(function(role) {
@@ -15,11 +16,11 @@ class RoleList extends React.Component {
                 <table className="table table-bordered">
                     <thead>
                         <tr>
-                            <th><button type="button" onClick={ () => this.sort_by("first_name")}  >First</button></th>
-                            <th><button type="button" onClick={ () => this.sort_by("last_name")}  >Last</button></th>
-                            <th><button type="button" onClick={ () => this.sort_by("state")}  >State</button></th>
-                            <th><button type="button" onClick={ () => this.sort_by("party")}  >Party</button></th>
-                            <th><button type="button" onClick={ () => this.sort_by("branch")}  >Branch</button></th>
+                            <th><button type="button" onClick={ () => this.sortList("firstname")}  >First</button></th>
+                            <th><button type="button" onClick={ () => this.sortList("lastname")}  >Last</button></th>
+                            <th><button type="button" onClick={ () => this.sortList("state")}  >State</button></th>
+                            <th><button type="button" onClick={ () => this.sortList("party")}  >Party</button></th>
+                            <th><button type="button" onClick={ () => this.sortList("role_type")}  >Branch</button></th>
                         </tr>
                      </thead>
                     <tbody>
@@ -28,5 +29,10 @@ class RoleList extends React.Component {
                 </table>
             </div>
         )
+    }
+
+    sortList(value) {  
+        console.log("sortBy: " + value)
+        this.props.sortBy(value);
     }
 }

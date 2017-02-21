@@ -29,6 +29,9 @@ const actions = {
   }
 }
 
+
+
+
 class App extends React.Component {
     constructor(props) {
         super();
@@ -37,6 +40,7 @@ class App extends React.Component {
             bodyContent: null
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
+        this.sortData = this.sortData.bind(this)
     };
 
     componentDidMount() {
@@ -65,6 +69,25 @@ class App extends React.Component {
       })
     };
 
+    sortData(sortBy) {
+      var contentCopy = Array.from(this.state.bodyContent)
+      console.log(contentCopy[0].firstname)
+      contentCopy.sort(function(a, b) {
+                if (a[sortBy] < b[sortBy]) {
+                  return -1;
+                }
+                if (a[sortBy] > b[sortBy]) {
+                  return 1;
+                }
+
+                // names must be equal
+                return 0;
+              });
+
+      this.setState({
+        bodyContent: contentCopy
+      })
+    }
 
     packHeaderProps() {
       return {
@@ -74,7 +97,8 @@ class App extends React.Component {
     packBodyProps() {
       return {
         dataType: this.state.action,
-        data: this.state.bodyContent
+        data: this.state.bodyContent,
+        sortData: this.sortData
       }
     }
 }

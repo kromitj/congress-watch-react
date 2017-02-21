@@ -20,14 +20,13 @@ class BodyContainer extends React.Component {
     constructor(props) {
         super();
         this.state = {
-
         }
     };
 
     render() {
         content = this.dispatchData(this.props.dataType, this.props.data)
         console.log("content: " + content)
-        props = this.packBody(this.props.dataType, content)
+        props = this.packBody(this.props.dataType, content, this.props.sortData)
         return(
             <Body {...props} />
         )
@@ -51,12 +50,17 @@ class BodyContainer extends React.Component {
     }
 
     dispatchSenatorList(data) {
-        return <RoleList roleItems={this.props.data} />
+        props = this.packList(data, this.props.sortData)
+        return <RoleList {...props} />
     }
 
-    packBody(dataType, content) {
+    packBody(dataType, content, sortData) {
         props = actionDefaults[dataType]
         props.content = content
         return props
+    }
+
+    packList(items, sortData) {
+        return {roleItems: items, sortBy: sortData}
     }
 }
