@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203022918) do
+ActiveRecord::Schema.define(version: 20170223004039) do
 
   create_table "committee_legislators", id: false, force: :cascade do |t|
     t.integer  "committee_id"
@@ -35,6 +35,22 @@ ActiveRecord::Schema.define(version: 20170203022918) do
     t.string   "url"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "group_items", force: :cascade do |t|
+    t.integer  "group_id"
+    t.string   "groupable_type"
+    t.integer  "groupable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["groupable_type", "groupable_id"], name: "index_group_items_on_groupable_type_and_groupable_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.string   "group_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "legislators", force: :cascade do |t|
