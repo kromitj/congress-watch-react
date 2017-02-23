@@ -6,6 +6,7 @@ class App extends React.Component {
         this.state = {
             action: "dashboard",
             bodyContent: null,
+            groups: [],
             contentSortedBy: "lastname"
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
@@ -13,10 +14,11 @@ class App extends React.Component {
     };
 
     render() {
+      navProps = this.packNavProps()
       bodyProps = this.packBodyProps()
         return(
              <div id="wrapper">
-                <Nav requestSegue={this.prepareForSegue} />
+                <Nav {...navProps} />
                 <BodyContainer {...bodyProps}/>
             </div>
         )
@@ -30,11 +32,13 @@ class App extends React.Component {
       })
     };  
 
-    packHeaderProps() {
+    packNavProps() {
       return {
-        appName: this.appName, isMobile: this.state.isMobile
+        prepareForSegue: this.prepareForSegue, 
+        groups: this.state.groups
       }
     }
+
     packBodyProps() {
       return {
         dataType: this.state.action,
@@ -83,8 +87,12 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        that.setState({bodyContent: data.legislators});
-        console.log(data)
+        that.setState(
+          {
+            bodyContent: data.legislators,
+            groups: data.groups
+          }
+        );
       }.bind(that),
       error: function(xhr, status, err) {
         console.error(that.props.url, status, err.toString());
@@ -92,18 +100,35 @@ const actions = {
     });           
   },
   repShow: function(that) {
-     $.ajax({
+    $.ajax({
       url: "/legislators",
       data: {branch: "rep"},
       dataType: 'json',
       cache: false,
       success: function(data) {
-        that.setState({bodyContent: data.legislators});
+        that.setState({bodyContent: data.legislators,
+          groups: data.groups
+        });
         console.log(data)
       }.bind(that),
       error: function(xhr, status, err) {
         console.error(that.props.url, status, err.toString());
       }.bind(that)
     });           
+  },
+  addGroup: function(that) {
+    // $.ajax({
+    //   url: "/groups/new",
+    //   data: {branch: "default", group_type: "senator"},
+    //   dataType: 'json',
+    //   cache: false,
+    //   success: function(data) {
+    //     that.setState({groups: data.groups});
+    //   }.bind(that),
+    //   error: function(xhr, status, err) {
+    //     console.error(that.props.url, status, err.toString());
+    //   }.bind(that)
+    // });
+    // that.setState({groups: "yo"});
   }
 }

@@ -13,7 +13,6 @@ class LegislatorsController < ApplicationController
 	def show 
 	end
 
-
 	private
 
 	def search_by(search_params)

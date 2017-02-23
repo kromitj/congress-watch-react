@@ -6,18 +6,21 @@ class GroupSideBar extends React.Component {
         }
     };
     render() {
+        groupCount = this.groupCount();
         return(
             <li>
-                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i className="fa fa-fw fa-arrows-v"></i> Groups<i className="fa fa-fw fa-caret-down"></i></a>
-                <ul id="demo" className="collapse">
-                    <li>
-                        <a href="#">Dropdown Item</a>
-                    </li>
-                    <li>
-                        <a href="#">Dropdown Item</a>
-                    </li>
-                </ul>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i className="fa fa-fw fa-arrows-v"></i> Groups {groupCount}<i className="fa fa-fw fa-caret-down"></i></a>
+                <GroupList {...this.props} />
             </li>
         )
+    }
+
+    groupCount() {
+        const count = this.props.groups.length
+        if (count > 0){
+            return count
+        } else {
+            return null
+        }
     }
 }
