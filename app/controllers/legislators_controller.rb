@@ -2,9 +2,9 @@ class LegislatorsController < ApplicationController
 	def index
 		branch = params[:branch]
 		@legislators = pack_legislator_list_item(branch)
-
+		@legislator_groups = pack_legislator_groups(branch)
 		if request.xhr?
-      		render json: @legislators
+      		render json: {legislators: @legislators, groups: @legislator_groups}
     	else
       		render 'new'
     	end
@@ -38,7 +38,6 @@ class LegislatorsController < ApplicationController
 	end
 
 	def pack_senators
-		puts "inside pack_senators"
 		Role.where({current: true, role_type: "senator"}).map do |senator|
 			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type}
 		end
@@ -49,6 +48,18 @@ class LegislatorsController < ApplicationController
 		Role.where({current: true, role_type: "representative"}).map do |senator|
 			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type}
 		end
+	end
+
+	def pack_legislator_groups(role_type)
+		role_type == "senator" ? pack_senator_groups : pack_rep_groups
+	end
+
+	def pack_rep_groups
+		Group.rep_groups
+	end
+
+	def pack_senator_groups
+		Group.senator_groups
 	end
 
 end	
