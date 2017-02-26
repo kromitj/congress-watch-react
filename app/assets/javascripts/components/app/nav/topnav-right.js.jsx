@@ -4,13 +4,14 @@ class TopNavRight extends React.Component {
         this.state = {
 
         }
+
     };
 
     render() {
         return (
             <ul className="nav navbar-right top-nav">
                 <Alert />
-               <User />
+               <User {...this.props}/>
             </ul>
         )
     }

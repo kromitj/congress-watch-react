@@ -8,10 +8,11 @@ class Nav extends React.Component {
 
     render() {
         const navSidebarProps = this.packNavSideBarProps()
+        const navUpperRIghtProps = this.packUpperRight();
         return (
             <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <NavbarHeader />
-                <TopNavRight />
+                <TopNavRight {...navUpperRIghtProps}/>
 
                 <NavSidebar {...navSidebarProps}/>
             </nav>
@@ -21,6 +22,13 @@ class Nav extends React.Component {
         return {
             requestSegue: this.props.prepareForSegue,
             groups: this.props.groups
+        }
+    }
+
+    packUpperRight() {
+        return {
+            requestSegue: this.props.prepareForSegue,
+            username: this.props.username
         }
     }
 }

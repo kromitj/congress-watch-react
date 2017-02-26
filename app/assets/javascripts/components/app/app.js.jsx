@@ -7,7 +7,8 @@ class App extends React.Component {
             action: "dashboard",
             bodyContent: null,
             groups: [],
-            contentSortedBy: "lastname"
+            contentSortedBy: "lastname",
+            username: 'Sign-In'
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
@@ -24,18 +25,20 @@ class App extends React.Component {
         )
     }
 
-    prepareForSegue(segue) {
+    prepareForSegue(segue, params=null) {
       if (segue == this.state.action) { return false }
-      var response = actions[segue](this)
+      var response = actions[segue](this, params)
       this.setState({
         action: segue
       })
-    };  
+    }
+
 
     packNavProps() {
       return {
         prepareForSegue: this.prepareForSegue, 
-        groups: this.state.groups
+        groups: this.state.groups,
+        username: this.state.username
       }
     }
 
@@ -43,17 +46,16 @@ class App extends React.Component {
       return {
         dataType: this.state.action,
         data: this.state.bodyContent,
-        sortData: this.sortData
+        sortData: this.sortData,
+        prepareForSegue: this.prepareForSegue
       }
     }
 
     sortData(sortBy) {
       if (sortBy == this.state.contentSortedBy) { 
-        console.log("already sorted by that....")
         return false 
       }
-      var contentCopy = Array.from(this.state.bodyContent)
-      console.log(contentCopy[0].firstname)
+      let contentCopy = Array.from(this.state.bodyContent)
       contentCopy.sort(function(a, b) {
                 if (a[sortBy] < b[sortBy]) {
                   return -1;
@@ -77,9 +79,37 @@ class App extends React.Component {
     }
 }
 
-
-
 const actions = {
+  signUp: function(that) {
+    that.setState({action: "signUp"}) 
+  }
+  ,
+  logIn: function(that) {
+    that.setState({action: "logIn"}) 
+  },
+  userNew: function(that, params) {
+    const data = {user: params};
+    console.log(data)
+    $.ajax({
+      url: "/users",
+      type: 'POST',
+      data: data,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        that.setState({bodyContent: null,
+          action: "dashboard", username: data.username
+        });
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });        
+  }
+  ,
+  SessionNew: function(that) {
+    that.setState({action: "logIn"}) 
+  },
   senatorShow: function(that) {
      $.ajax({
       url: "/legislators",

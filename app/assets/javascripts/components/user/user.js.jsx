@@ -9,14 +9,10 @@ class User extends React.Component {
     render() {
         return (
              <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user"></i> Sign-In<b className="caret"></b></a>
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user"></i> {this.props.username}<b className="caret"></b></a>
                 <ul className="dropdown-menu">
-                    <li>
-                        <a href="#"><i className="fa fa-fw fa-user"></i> Sign-In</a>
-                    </li>
-                    <li>
-                        <a href="#"><i className="fa fa-fw fa-gear"></i> Sign-Up</a>
-                    </li>
+                    <LogIn {...this.props} />
+                    <SignUp {...this.props} />
                     <li className="divider"></li>
                     <li>
                         <a href="#"><i className="fa fa-fw fa-power-off"></i> ...</a>
