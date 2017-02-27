@@ -2,15 +2,44 @@ class SessionNew extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            formData: {                
+                username: 'janeDoe111',
+                password: 'password'
+            }
         }
+        this.updateInput = this.updateInput.bind(this);
+        this.submit = this.submit.bind(this)
     };
 
     render() {
         
         return (
-            <h1>Log In!!!!!</h1>
+            <div className="form-group">
+                  <form onSubmit={this.submit}>
+                    <label for="userName">Username</label>
+                    <input value={this.state.formData.username} onChange={this.updateInput} type="text" className="form-control" id="username" placeholder="janeDoe111"></input>
+                  
+                    <label for="password">Password</label>
+                    <input value={this.state.formData.password} onChange={this.updateInput} type="password" className="form-control" id="password" placeholder="********"></input>
+                    <input type="submit" value="Register" className="btn btn-info btn-block"></input>
+                  </form>
+            </div>
         )
+    }
+    updateInput(ev) {
+        const field = $(ev.target).attr('id')
+        console.log(field)
+        let newFormData = Object.assign({}, this.state.formData);
+        newFormData[field] = ev.target.value
+        console.log(newFormData)
+        this.setState({ formData: newFormData } );
+    }
+
+    submit(ev) {
+        const formData = Object.assign({}, this.state.formData)
+        console.log(formData)
+        ev.preventDefault(); 
+        this.props.requestSegue("sessionNew", formData);
     }
     
 }

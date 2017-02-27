@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       #create session cookie
       session[:user_id] = @user.id
       if request.xhr?
-        render :json => {:user_id => @user.id, :status => true, :username => @user.username}
+        render :json => {:userId => @user.id, :status => true, :username => @user.username}
       else
         # redirect_to "/users/#{@user.id}"
         redirect_to "/"

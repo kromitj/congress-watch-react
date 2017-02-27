@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SessionController < ApplicationController
   # respond_to :json, :html
   # skip_before_action :redirect_visitors, only: [ :create, :new]
   def new
@@ -15,9 +15,8 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(user_params[:password])
       #create session cookie
       session[:user_id] = @user.id
-      # log_in(@user)
       if request.xhr?
-       render :json => {:user_id => @user.id}
+       render :json => {:status => true, :user_id => @user.id, :username => @user.username}
       else
         # redirect_to user_path(@user)
         redirect_to root_path
@@ -33,13 +32,15 @@ class SessionsController < ApplicationController
   end
 
   def logout
-    log_out
-    redirect_to root_path
+    user = params[:userId]
+    puts session
+    session.delete(user)
+    render :json => {:status => true}
   end
 
   def destroy
     session.clear
-    redirect_to root_path
+    render :json => {:status => true}
   end
 
 private

@@ -76,8 +76,10 @@ class BodyContainer extends React.Component {
     }
 
     packBody(dataType, content) {
+        console.log("datatype----------")
+        console.log(dataType)
         props = actionDefaults[dataType]
-        if ((dataType != "signUp") || (dataType != "logIn") | (dataType != "userNew")) { props.content = content }        
+        if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }        
         return props
     }
 

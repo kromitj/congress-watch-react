@@ -13,6 +13,7 @@ class User extends React.Component {
                 <ul className="dropdown-menu">
                     <LogIn {...this.props} />
                     <SignUp {...this.props} />
+                    <LogOut {...this.props} />
                     <li className="divider"></li>
                     <li>
                         <a href="#"><i className="fa fa-fw fa-power-off"></i> ...</a>
