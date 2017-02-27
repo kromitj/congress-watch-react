@@ -15,8 +15,10 @@ class SessionController < ApplicationController
     if @user && @user.authenticate(user_params[:password])
       #create session cookie
       session[:user_id] = @user.id
+      @groups = @user.get_groups
       if request.xhr?
-       render :json => {:status => true, :user_id => @user.id, :username => @user.username}
+
+       render :json => {:status => true, :userId => @user.id, :username => @user.username, :groups => @groups}
       else
         # redirect_to user_path(@user)
         redirect_to root_path

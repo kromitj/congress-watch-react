@@ -9,5 +9,9 @@ class User < ApplicationRecord
 
   has_many :groups
 
+  def get_groups
+  	groups
+  end
+
  
 end

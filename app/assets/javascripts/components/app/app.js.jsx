@@ -9,7 +9,8 @@ class App extends React.Component {
             groups: [],
             contentSortedBy: "lastname",
             username: 'Guest',
-            userId: null
+            userId: null,
+            history: []
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
@@ -28,10 +29,21 @@ class App extends React.Component {
 
     prepareForSegue(segue, params=null) {
       if (segue == this.state.action) { return false }
+      this.historyNew();
       var response = actions[segue](this, params)
       this.setState({
         action: segue
       })
+    }
+
+    historyNew() {
+      let newHistory = Object.assign([], this.state.history)      
+      newHistory.push(this.state)
+      delete newHistory[newHistory.length-1].history
+      delete newHistory[newHistory.length-1].bodyContent
+      console.log("new History")
+      console.log(newHistory)
+      this.setState({history: newHistory})
     }
 
 
@@ -81,6 +93,10 @@ class App extends React.Component {
 }
 
 const actions = {
+  
+  dashboard: function(that) {
+    that.setState({action: "dashboard"})
+  },
   signUp: function(that) {
     that.setState({action: "signUp"}) 
   },
@@ -99,7 +115,7 @@ const actions = {
       success: function(data) {
         console.log(data)
         that.setState({bodyContent: null,
-          action: "dashboard", username: "Guest", userId: null
+          action: "dashboard", username: "Guest", userId: null, history: [], groups: []
         });
       }.bind(that),
       error: function(xhr, status, err) {
@@ -138,16 +154,13 @@ const actions = {
       cache: false,
       success: function(data) {
         that.setState({bodyContent: null,
-          action: "dashboard", username: data.username
+          action: "dashboard", username: data.username, userId: data.userId, groups: data.groups
         });
       }.bind(that),
       error: function(xhr, status, err) {
         console.error(that.props.url, status, err.toString());
       }.bind(that)
     });        
-  },
-  SessionNew: function(that) {
-    that.setState({action: "logIn"}) 
   },
   senatorShow: function(that) {
      $.ajax({
@@ -158,8 +171,7 @@ const actions = {
       success: function(data) {
         that.setState(
           {
-            bodyContent: data.legislators,
-            groups: data.groups
+            bodyContent: data.legislators
           }
         );
       }.bind(that),
@@ -175,8 +187,7 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        that.setState({bodyContent: data.legislators,
-          groups: data.groups
+        that.setState({bodyContent: data.legislators
         });
         console.log(data)
       }.bind(that),
@@ -185,19 +196,24 @@ const actions = {
       }.bind(that)
     });           
   },
-  addGroup: function(that) {
-    // $.ajax({
-    //   url: "/groups/new",
-    //   data: {branch: "default", group_type: "senator"},
-    //   dataType: 'json',
-    //   cache: false,
-    //   success: function(data) {
-    //     that.setState({groups: data.groups});
-    //   }.bind(that),
-    //   error: function(xhr, status, err) {
-    //     console.error(that.props.url, status, err.toString());
-    //   }.bind(that)
-    // });
-    // that.setState({groups: "yo"});
+  groupNew: function(that, params) {
+    that.setState({action: "groupNew"})
+  },
+  groupCreate: function(that, params) {
+    const url = "users/" + that.state.userId + "/groups"
+    const data = {name: params.name, group_type: params.groupType, user_id: that.state.userId}
+    $.ajax({
+      url: url,
+      data: {group: data},
+      type: 'POST',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        that.setState({groups: data.groups, action: "dashboard"});
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });
   }
 }

@@ -2,7 +2,6 @@ class UserNew extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        	firstName: '',
         	formData: {
         		f_name: 'Jane',
         		l_name: 'Doe',
@@ -10,7 +9,6 @@ class UserNew extends React.Component {
         		username: 'janeDoe111',
         		password: 'password'
         	}
-
         }
         this.updateInput = this.updateInput.bind(this);
         this.submit = this.submit.bind(this)

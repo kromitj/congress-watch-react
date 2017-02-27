@@ -23,6 +23,11 @@ const actionDefaults = {
         header: "Log In",
         subHeader: "Enter Info",
         cookieCrumb: "Log In"
+    },
+    groupNew: {
+        header: "Create Group",
+        subHeader: "Easly Track Only What You Want To",
+        cookieCrumb: "Create Group"
     }
 }
 
@@ -58,6 +63,9 @@ class BodyContainer extends React.Component {
              case "userNew":
                 return this.dispatchSessionNew()
                 break;
+            case "groupNew":
+                return this.dispatchGroupNew()
+                break;
             default:
                 return null
 
@@ -75,6 +83,9 @@ class BodyContainer extends React.Component {
         return <SessionNew requestSegue={this.props.prepareForSegue} />
     }
 
+    dispatchGroupNew() {
+        return <GroupNew requestSegue={this.props.prepareForSegue} />
+    }
     packBody(dataType, content) {
         console.log("datatype----------")
         console.log(dataType)

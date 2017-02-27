@@ -15,7 +15,7 @@ class GroupAddBtn extends React.Component {
 
     onNewGroupClick(ev) {
         ev.preventDefault();   
-        this.props.requestSegue("addGroup");
+        this.props.requestSegue("groupNew");
     }
 
     
