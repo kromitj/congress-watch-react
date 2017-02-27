@@ -68,3 +68,12 @@ current_legislator_ids.each do |legislator_id|
   print "person seeded: #{count}"
   count+=1
 end
+
+
+
+
+user = User.create(f_name: "Mitch", l_name: "Kroska", username: "kromitj", email: "kromitj@gmail.com", password: "password", profile_picture: "http://lorempixel.com/200/200/people/")
+
+
+Group(name: Dems, user_id: user.id, group_type: "Senator")
+

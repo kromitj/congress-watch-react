@@ -9,9 +9,7 @@ class LogOut extends React.Component {
 
     render() {
         return (
-             <li>
-	            <a href="#" onClick={this.onSignOut}><i className="fa fa-fw fa-user"></i>Log-Out</a>
-	        </li>
+	            <li><a href="#" onClick={this.onSignOut}><i className="fa fa-fw fa-user"></i>Log-Out</a></li>
         )
     }
     onSignOut(ev) {

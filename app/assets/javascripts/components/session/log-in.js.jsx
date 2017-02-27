@@ -9,9 +9,7 @@ class LogIn extends React.Component {
 
     render() {
         return (
-             <li>
-	            <a href="#" onClick={this.onSignIn}><i className="fa fa-fw fa-user"></i> Sign-In</a>
-	        </li>
+	           <li><a href="#" onClick={this.onSignIn}><i className="fa fa-fw fa-user"></i> Sign-In</a></li>
         )
     }
     onSignIn(ev) {

@@ -7,5 +7,7 @@ class User < ApplicationRecord
   validates :username, :email, uniqueness: true
   validates :password, length: {minimum: 8}
 
+  has_many :groups
+
  
 end
