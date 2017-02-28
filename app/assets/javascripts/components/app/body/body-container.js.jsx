@@ -87,14 +87,12 @@ class BodyContainer extends React.Component {
         return <GroupNew requestSegue={this.props.prepareForSegue} />
     }
     packBody(dataType, content) {
-        console.log("datatype----------")
-        console.log(dataType)
         props = actionDefaults[dataType]
         if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }        
         return props
     }
 
     packList(items, sortData) {
-        return {roleItems: items, sortBy: sortData}
+        return {roleItems: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue, yo: "YO"}
     }
 }

@@ -18,6 +18,8 @@ def isolate_person(legislator)
   person[:sortname] = legislator["sortname"]
   person[:twitterid] = legislator["twitterid"]
   person[:youtubeid] = legislator["youtubeid"]
+  person[:img_sm] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/#{legislator["bioguideid"]}.jpg"
+  person[:img_lg] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/#{legislator["bioguideid"]}.jpg"
   
   return person
 end

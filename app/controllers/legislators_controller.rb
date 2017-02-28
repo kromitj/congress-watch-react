@@ -11,6 +11,8 @@ class LegislatorsController < ApplicationController
 	end
 
 	def show 
+		@role = Role.find_by(role_id: params[:id])
+		render json: {:status => true, role: @role}
 	end
 
 	private
@@ -38,14 +40,14 @@ class LegislatorsController < ApplicationController
 
 	def pack_senators
 		Role.where({current: true, role_type: "senator"}).map do |senator|
-			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type}
+			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type, img: senator.person.img_sm}
 		end
 	end
 
 	def pack_reps
 		puts "inside pack_reps"
 		Role.where({current: true, role_type: "representative"}).map do |senator|
-			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type}
+			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type, img: senator.person.img_sm}
 		end
 	end
 

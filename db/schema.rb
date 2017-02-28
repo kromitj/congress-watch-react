@@ -101,6 +101,8 @@ ActiveRecord::Schema.define(version: 20170225230834) do
     t.string   "sortname"
     t.string   "twitterid"
     t.string   "youtubeid"
+    t.string   "img_sm"
+    t.string   "img_lg"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end

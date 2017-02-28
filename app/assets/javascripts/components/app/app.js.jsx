@@ -162,6 +162,24 @@ const actions = {
       }.bind(that)
     });        
   },
+  roleShow(that, roleId) {
+    $.ajax({
+      url: "/legislators/" + roleId,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        console.log(data)
+        that.setState(
+          {
+            // action: "dashboard"
+          }
+        );
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });     
+  },
   senatorShow: function(that) {
      $.ajax({
       url: "/legislators",
