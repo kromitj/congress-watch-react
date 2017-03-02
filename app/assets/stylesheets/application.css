@@ -17,3 +17,54 @@
  *= require font-awesome
  
  */
+.sort-by {
+	margin-bottom:10px;
+}
+
+.info-block-Democrat
+{
+    border-right:5px solid #0055a5;margin-bottom:10px
+}
+.info-block-Republican
+{
+    border-right:5px solid #EE3523;margin-bottom:10px
+}
+.info-block-Independent
+{
+    border-right:5px solid #DDDDDD;margin-bottom:10px
+}
+.role-item {
+	border-bottom:1px solid #DDDDDD;
+	margin-bottom:10px;
+}
+.role-list {
+	color: #333333;
+}
+.role-item-fullname {
+ font-size: 24px;
+}
+.role-item-desc {
+	font-size: 18px;
+}
+
+.sort-by-btn {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.sort-by-btn:first-child {
+	padding-left: 15px;
+}
+.sort-by-btn:last-child {
+	padding-right: 15px;
+}
+
+.square-box
+{
+    padding-right:50px;
+    text-align:center!important
+}
+.info-block.block-info
+{
+    border-color:#20819e
+}

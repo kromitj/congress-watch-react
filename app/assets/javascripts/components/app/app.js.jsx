@@ -10,7 +10,6 @@ class App extends React.Component {
             contentSortedBy: "lastname",
             username: 'Guest',
             userId: null,
-            history: []
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
@@ -29,21 +28,10 @@ class App extends React.Component {
 
     prepareForSegue(segue, params=null) {
       if (segue == this.state.action) { return false }
-      this.historyNew();
       var response = actions[segue](this, params)
       this.setState({
         action: segue
       })
-    }
-
-    historyNew() {
-      let newHistory = Object.assign([], this.state.history)      
-      newHistory.push(this.state)
-      delete newHistory[newHistory.length-1].history
-      delete newHistory[newHistory.length-1].bodyContent
-      console.log("new History")
-      console.log(newHistory)
-      this.setState({history: newHistory})
     }
 
 
@@ -58,7 +46,7 @@ class App extends React.Component {
     packBodyProps() {
       return {
         dataType: this.state.action,
-        data: this.state.bodyContent,
+        data: this.state.bodyContentFilter,
         sortData: this.sortData,
         prepareForSegue: this.prepareForSegue
       }
@@ -86,14 +74,26 @@ class App extends React.Component {
               });
 
       this.setState({
-        bodyContent: contentCopy,
+        bodyContentFilter: contentCopy,
         contentSortedBy: sortBy
       })
     }
 }
 
 const actions = {
-  
+  filterRoles: function(that, filterParams) {
+  //   const params = filterParams.split(" ")  
+  //   let filteredCopy = Object.assign([], that.state.bodyContentFilter)
+  //   console.log(filteredCopy)
+  //   params.forEach(function(param, filteredCopy) {
+  //     const regex = new RegExp(param)
+  //     filteredCopy.filter(function (el) {
+  //       console.log(regex.test(el.lastname))
+  //       regex.test(el.lastname) == true
+  //     });
+  //   })
+    // that.setState({bodyContentFilter: filteredCopy})
+  },
   dashboard: function(that) {
     that.setState({action: "dashboard"})
   },
@@ -162,7 +162,7 @@ const actions = {
       }.bind(that)
     });        
   },
-  roleShow(that, roleId) {
+  roleShow: function(that, roleId) {
     $.ajax({
       url: "/legislators/" + roleId,
       dataType: 'json',
@@ -171,7 +171,7 @@ const actions = {
         console.log(data)
         that.setState(
           {
-            // action: "dashboard"
+            action: "roleShow", itemData: data.role
           }
         );
       }.bind(that),
@@ -180,39 +180,54 @@ const actions = {
       }.bind(that)
     });     
   },
-  senatorShow: function(that) {
-     $.ajax({
-      url: "/legislators",
-      data: {branch: "senator"},
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        that.setState(
-          {
-            bodyContent: data.legislators
-          }
-        );
-      }.bind(that),
-      error: function(xhr, status, err) {
-        console.error(that.props.url, status, err.toString());
-      }.bind(that)
-    });           
+  senatorIndex: function(that) {
+     // checks if data is already in state, need to know if
+     // current list is rep or senate
+     if ((that.state.action == "roleShow") && (that.state.bodyContentType == "senator")) { 
+       that.setState({action: "senatorIndex"})
+     } else {
+       $.ajax({
+        url: "/legislators",
+        data: {branch: "senator"},
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          that.setState(
+            {
+              bodyContentType: "senator",
+              bodyContent: data.legislators,
+              bodyContentFilter: Object.assign([], data.legislators)
+            }
+          );
+        }.bind(that),
+        error: function(xhr, status, err) {
+          console.error(that.props.url, status, err.toString());
+        }.bind(that)
+      });           
+      
+    }
   },
-  repShow: function(that) {
-    $.ajax({
-      url: "/legislators",
-      data: {branch: "rep"},
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        that.setState({bodyContent: data.legislators
-        });
-        console.log(data)
-      }.bind(that),
-      error: function(xhr, status, err) {
-        console.error(that.props.url, status, err.toString());
-      }.bind(that)
-    });           
+  repIndex: function(that) {
+     if ((that.state.action == "roleShow") && (that.state.bodyContentType == "rep")) { 
+       alert("YO")
+       that.setState({action: "repIndex"})
+     } else {
+        $.ajax({
+          url: "/legislators",
+          data: {branch: "rep"},
+          dataType: 'json',
+          cache: false,
+          success: function(data) {
+            that.setState({bodyContent: data.legislators,
+                bodyContentFilter: Object.assign([], data.legislators)
+            });
+            console.log(data)
+          }.bind(that),
+          error: function(xhr, status, err) {
+            console.error(that.props.url, status, err.toString());
+          }.bind(that)
+        }); 
+    }          
   },
   groupNew: function(that, params) {
     that.setState({action: "groupNew"})

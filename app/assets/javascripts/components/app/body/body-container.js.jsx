@@ -4,30 +4,35 @@ const actionDefaults = {
         subHeader: "HomeBase",
         cookieCrumb: "DashBoard"
     },
-    senatorShow: {
-        header: "Legislator",
-        subHeader: "Senator",
-        cookieCrumb: "Senator"
-    },
-    repShow: {
-        header: "Legislator",
-        subHeader: "Representative",
-        cookieCrumb: "Representative"
-    },
-    signUp: {
-        header: "Sign Up",
-        subHeader: "Enter Info",
-        cookieCrumb: "Sign Up"
+    groupNew: {
+        header: "Create Group",
+        subHeader: "Easly Track Only What You Want To",
+        cookieCrumb: "Create Group"
     },
     logIn: {
         header: "Log In",
         subHeader: "Enter Info",
         cookieCrumb: "Log In"
     },
-    groupNew: {
-        header: "Create Group",
-        subHeader: "Easly Track Only What You Want To",
-        cookieCrumb: "Create Group"
+    repIndex: {
+        header: "Legislator",
+        subHeader: "Representative",
+        cookieCrumb: "Representative"
+    },
+    roleShow: {
+        header: "Legislator",
+        subHeader: "Show Details...",
+        cookieCrumb: "Representative"
+    },
+    senatorIndex: {
+        header: "Legislator",
+        subHeader: "Senator",
+        cookieCrumb: "Senator"
+    },
+    signUp: {
+        header: "Sign Up",
+        subHeader: "Enter Info",
+        cookieCrumb: "Sign Up"
     }
 }
 
@@ -48,10 +53,10 @@ class BodyContainer extends React.Component {
 
     dispatchData(dataType, data) {
         switch(dataType) {
-            case "senatorShow":
+            case "senatorIndex":
                 return this.dispatchSenatorList(data)
                 break;
-            case "repShow":
+            case "repIndex":
                 return this.dispatchSenatorList(data)
                 break;
             case "signUp":
@@ -65,6 +70,9 @@ class BodyContainer extends React.Component {
                 break;
             case "groupNew":
                 return this.dispatchGroupNew()
+                break;
+            case "roleShow":
+                return this.dispatchRoleShow()
                 break;
             default:
                 return null
@@ -86,6 +94,9 @@ class BodyContainer extends React.Component {
     dispatchGroupNew() {
         return <GroupNew requestSegue={this.props.prepareForSegue} />
     }
+    dispatchRoleShow() {
+        return <RoleShow requestSegue={this.props.prepareForSegue} />
+    }
     packBody(dataType, content) {
         props = actionDefaults[dataType]
         if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }        
@@ -93,6 +104,6 @@ class BodyContainer extends React.Component {
     }
 
     packList(items, sortData) {
-        return {roleItems: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue, yo: "YO"}
+        return {roleItems: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue}
     }
 }

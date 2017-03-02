@@ -15,4 +15,8 @@ class Role < ApplicationRecord
             "#{person.firstname} #{person.lastname}"
         end
     end
+
+    def search_query
+        "#{person.firstname}+#{person.lastname}+#{role_type}"
+    end
 end

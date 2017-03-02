@@ -13,10 +13,10 @@ class RoleSideBar extends React.Component {
                 <a href="javascript:;" data-toggle="collapse" data-target="#legislator-drop"><i className="fa fa-fw fa-arrows-v"></i> Legislators<i className="fa fa-fw fa-caret-down"></i></a>
                 <ul id="legislator-drop" className="collapse">
                     <li>
-                        <a href="#" className="senatorShow"  onClick={this.onSenatorClick}>Sentors</a>
+                        <a href="#" className="senatorIndex"  onClick={this.onSenatorClick}>Sentors</a>
                     </li>
                     <li>
-                        <a href="#" className="repShow"  onClick={this.onRepClick}>Representatives</a>
+                        <a href="#" className="repIndex"  onClick={this.onRepClick}>Representatives</a>
                     </li>
                 </ul>
             </li>
@@ -25,11 +25,11 @@ class RoleSideBar extends React.Component {
 
     onSenatorClick(ev) {
         ev.preventDefault();   
-        this.props.requestSegue("senatorShow");
+        this.props.requestSegue("senatorIndex");
     }
     onRepClick(ev) {
         ev.preventDefault();    
-        this.props.requestSegue("repShow");
+        this.props.requestSegue("repIndex");
     }
 }
 

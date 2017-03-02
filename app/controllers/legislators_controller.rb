@@ -1,3 +1,6 @@
+require "#{Rails.root}/lib/assets/article-parser/article.rb"
+require "#{Rails.root}/lib/assets/article-parser/article-parser.rb"
+
 class LegislatorsController < ApplicationController		
 	def index
 		branch = params[:branch]
@@ -12,6 +15,9 @@ class LegislatorsController < ApplicationController
 
 	def show 
 		@role = Role.find_by(role_id: params[:id])
+		@role_search_query = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDvLI9dqOZmtpGuW186JTOkb60-Ipcu8A8&cx=013241849023744786939:iozbzo9xq2y&q=#{@role.search_query}"
+		@articles = ArticleParser.new(@role_search_query)
+		puts @articles
 		render json: {:status => true, role: @role}
 	end
 
@@ -40,14 +46,14 @@ class LegislatorsController < ApplicationController
 
 	def pack_senators
 		Role.where({current: true, role_type: "senator"}).map do |senator|
-			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type, img: senator.person.img_sm}
+			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
 		end
 	end
 
 	def pack_reps
 		puts "inside pack_reps"
 		Role.where({current: true, role_type: "representative"}).map do |senator|
-			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, role_type: senator.role_type, img: senator.person.img_sm}
+			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, img: senator.person.img_sm}
 		end
 	end
 
