@@ -9,6 +9,7 @@ class RoleShow extends React.Component {
   }
 
   render() {
+    const website = this
     const party = "info-block-" + this.props.role.party + " block-info clearfix"
     return (
     <div className="row">
@@ -29,7 +30,7 @@ class RoleShow extends React.Component {
             </ul>
             <div className="panel panel-default">
                 <div className="panel-heading">Website <i className="fa fa-link fa-1x"></i></div>
-                <div className="panel-body"><a href="http://bootply.com" className="">{this.props.role.website}</a></div>
+                <div className="panel-body"><a href={this.props.role.website}className="">personal website</a></div>
             </div>
             <div className="panel panel-default">
                 <div className="panel-heading">Social Media</div>

@@ -1,7 +1,7 @@
 const actionDefaults = {
     dashboard: {
         header: "DashBoard",
-        subHeader: "HomeBase",
+        subHeader: "Ignorance is Bliss?",
         cookieCrumb: "DashBoard"
     },
     groupNew: {
@@ -106,4 +106,4 @@ class BodyContainer extends React.Component {
     packList(items, sortData) {
         return {roleItems: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue}
     }
-}
+} 

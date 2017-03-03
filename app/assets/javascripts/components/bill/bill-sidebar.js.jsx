@@ -7,8 +7,8 @@ class BillSideBar extends React.Component {
     };
     render() {
         return(
-            <li>
-                <a href="tables.html"><i className="fa fa-fw fa-table"></i> Bills</a>
+            <li className="disabled">
+                <a><i className="fa fa-fw fa-table"></i> Bills</a>
             </li>
         )
     }
