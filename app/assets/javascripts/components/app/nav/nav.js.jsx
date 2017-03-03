@@ -11,7 +11,7 @@ class Nav extends React.Component {
         const navUpperRIghtProps = this.packUpperRight();
         return (
             <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                <NavbarHeader />
+                <NavbarHeader prepareForSegue={this.props.prepareForSegue}/>
                 <TopNavRight {...navUpperRIghtProps}/>
 
                 <NavSidebar {...navSidebarProps}/>

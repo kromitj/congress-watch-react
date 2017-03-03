@@ -55,8 +55,16 @@ current_legislator_ids.each do |legislator_id|
   # get JSON data for current legislator using id as parameter
   api_call_uri = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
   legislator_response = HTTParty.get(api_call_uri)
-  wiki_url = "https://en.wikipedia.org/wiki/#{legislator_response["firstname"]}_#{legislator_response["lastname"]}" 
-  wiki_intro = WikiParser.new(wiki_url).intro
+  if legislator_response["firstname"] != "Robert"
+    if (legislator_response["lastname"] == "Sasse") 
+      wiki_url = "https://en.wikipedia.org/wiki/Ben_Sasse" 
+    else
+      puts "#{legislator_response["firstname"]} #{legislator_response["lastname"]}"
+      wiki_url = "https://en.wikipedia.org/wiki/#{legislator_response["firstname"]}_#{legislator_response["lastname"]}" 
+      wiki_intro = WikiParser.new(wiki_url).intro
+    end
+  end
+  
   # Parse person data from JSON response
   person = isolate_person(legislator_response)
   person[:wiki_intro] = wiki_intro

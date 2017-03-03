@@ -31,7 +31,7 @@ class LegislatorsController < ApplicationController
 		
 
 
-		render json: {:status => true, role: @role, articles: @articles}
+		render json: {:status => true, role: @role}
 	end
 
 	private

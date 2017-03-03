@@ -10,8 +10,9 @@ class NavbarHeader extends React.Component {
         return (
             <div className="navbar-header">
                 <SideBarHamburger />
-                <Header />
+                <Header subcribeToDispatcher={this.props.prepareForSegue}/>
             </div>
         )
     }
+    
 }

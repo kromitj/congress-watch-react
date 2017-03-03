@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225230834) do
+ActiveRecord::Schema.define(version: 20170303034140) do
+
+  create_table "articles", force: :cascade do |t|
+    t.string   "title"
+    t.string   "link"
+    t.string   "snippet"
+    t.string   "thumbnail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "committee_legislators", id: false, force: :cascade do |t|
     t.integer  "committee_id"

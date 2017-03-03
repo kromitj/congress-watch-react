@@ -17,6 +17,7 @@ class Role < ApplicationRecord
     end
 
     def pack_role_show
+        @state = description.split(" ")[-1]
         {
             name: name("fullname"),
             desc: description,
@@ -24,11 +25,11 @@ class Role < ApplicationRecord
             address: address,
             party: party,
             role: role_type_label,
-            state: state,
+            state: @state,
             website: website,
             birthday: person.birthday,
             wiki_intro: person.wiki_intro,
-            img: person.img_lg
+            img: person.img_sm
         }
 
     end

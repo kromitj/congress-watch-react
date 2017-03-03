@@ -18,7 +18,7 @@ class RoleListRow extends React.Component {
           </div>
           <p className="role-item-fullname">{ fullname }</p>
           <p className="role-item-desc">{ this.props.role.desc}</p>
-          <p>{this.props.role.party} {this.props.role.state}</p>
+          <p>{this.props.role.party}</p>
           <span></span>
         </div>
       </div>

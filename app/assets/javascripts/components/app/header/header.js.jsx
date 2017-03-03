@@ -4,12 +4,17 @@ class Header extends React.Component {
         this.state = {
 
         };
+        this.onLogoClick = this.onLogoClick.bind(this)
     };
     render() {
         return (
             <div>
-                <a className="navbar-brand" href="index.html">Congress Observer</a>
+                <a className="navbar-brand" href="#" onClick={this.onLogoClick}>Congress Observer</a>
             </ div>
             )
-    };
+    }
+     onLogoClick(ev) {
+        ev.preventDefault();   
+        this.props.subcribeToDispatcher("dashboard");
+    }
 }
