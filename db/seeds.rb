@@ -1,6 +1,7 @@
 
 require_relative './seed_helper_methods.rb'
 require_relative './SeedCollection.rb'
+require "#{Rails.root}/lib/assets/article-parser/wiki-parser.rb"
 #gems
 require 'httparty' 
 
@@ -54,9 +55,11 @@ current_legislator_ids.each do |legislator_id|
   # get JSON data for current legislator using id as parameter
   api_call_uri = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
   legislator_response = HTTParty.get(api_call_uri)
-
+  wiki_url = "https://en.wikipedia.org/wiki/#{legislator_response["firstname"]}_#{legislator_response["lastname"]}" 
+  wiki_intro = WikiParser.new(wiki_url).intro
   # Parse person data from JSON response
   person = isolate_person(legislator_response)
+  person[:wiki_intro] = wiki_intro
   Person.create(person)
 
   # Parse role data from JSON(api_call)

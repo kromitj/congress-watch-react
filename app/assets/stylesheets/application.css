@@ -17,6 +17,12 @@
  *= require font-awesome
  
  */
+.article-thumbnail {
+    overflow:hidden;
+    width: 100%;
+    height: 150px;
+}
+ 
 .sort-by {
 	margin-bottom:10px;
 }

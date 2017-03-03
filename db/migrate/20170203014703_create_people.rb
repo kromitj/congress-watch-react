@@ -21,6 +21,7 @@ class CreatePeople < ActiveRecord::Migration[5.0]
 		 t.string :youtubeid
 		 t.string :img_sm
 		 t.string :img_lg
+		 t.string :wiki_intro
 
      	 t.timestamps
     end

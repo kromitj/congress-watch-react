@@ -16,7 +16,20 @@ class Role < ApplicationRecord
         end
     end
 
-    def search_query
-        "#{person.firstname}+#{person.lastname}+#{role_type}"
+    def pack_role_show
+        {
+            name: name("fullname"),
+            desc: description,
+            assumed_office: startdate,
+            address: address,
+            party: party,
+            role: role_type_label,
+            state: state,
+            website: website,
+            birthday: person.birthday,
+            wiki_intro: person.wiki_intro,
+            img: person.img_lg
+        }
+
     end
 end

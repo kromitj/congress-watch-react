@@ -95,7 +95,7 @@ class BodyContainer extends React.Component {
         return <GroupNew requestSegue={this.props.prepareForSegue} />
     }
     dispatchRoleShow() {
-        return <RoleShow requestSegue={this.props.prepareForSegue} />
+        return <RoleShow {...{requestSegue: this.props.prepareForSegue, role: this.props.data}} />
     }
     packBody(dataType, content) {
         props = actionDefaults[dataType]

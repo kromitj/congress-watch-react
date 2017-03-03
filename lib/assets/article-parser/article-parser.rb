@@ -8,6 +8,7 @@ class ArticleParser
 	attr_reader :articles
 	def initialize(search_query)
 		@response = HTTParty.get(search_query)
+		puts @response
 		@response_json = @response.parsed_response
 		@articles_json = @response_json["items"]
 		@articles = populate_articles

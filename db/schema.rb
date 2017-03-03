@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20170225230834) do
     t.string   "youtubeid"
     t.string   "img_sm"
     t.string   "img_lg"
+    t.string   "wiki_intro"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end

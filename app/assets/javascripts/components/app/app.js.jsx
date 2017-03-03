@@ -29,9 +29,7 @@ class App extends React.Component {
     prepareForSegue(segue, params=null) {
       if (segue == this.state.action) { return false }
       var response = actions[segue](this, params)
-      this.setState({
-        action: segue
-      })
+      console.log(response)      
     }
 
 
@@ -44,9 +42,10 @@ class App extends React.Component {
     }
 
     packBodyProps() {
+      console.log("packing body" + this.state.bodyContent)
       return {
         dataType: this.state.action,
-        data: this.state.bodyContentFilter,
+        data: this.state.bodyContent,
         sortData: this.sortData,
         prepareForSegue: this.prepareForSegue
       }
@@ -74,7 +73,7 @@ class App extends React.Component {
               });
 
       this.setState({
-        bodyContentFilter: contentCopy,
+        bodyContent: contentCopy,
         contentSortedBy: sortBy
       })
     }
@@ -83,7 +82,7 @@ class App extends React.Component {
 const actions = {
   filterRoles: function(that, filterParams) {
   //   const params = filterParams.split(" ")  
-  //   let filteredCopy = Object.assign([], that.state.bodyContentFilter)
+  //   let filteredCopy = Object.assign([], that.state.bodyContent)
   //   console.log(filteredCopy)
   //   params.forEach(function(param, filteredCopy) {
   //     const regex = new RegExp(param)
@@ -92,7 +91,7 @@ const actions = {
   //       regex.test(el.lastname) == true
   //     });
   //   })
-    // that.setState({bodyContentFilter: filteredCopy})
+    // that.setState({bodyContent: filteredCopy})
   },
   dashboard: function(that) {
     that.setState({action: "dashboard"})
@@ -171,7 +170,7 @@ const actions = {
         console.log(data)
         that.setState(
           {
-            action: "roleShow", itemData: data.role
+            action: "roleShow", bodyContent: data.role
           }
         );
       }.bind(that),
@@ -181,37 +180,25 @@ const actions = {
     });     
   },
   senatorIndex: function(that) {
-     // checks if data is already in state, need to know if
-     // current list is rep or senate
-     if ((that.state.action == "roleShow") && (that.state.bodyContentType == "senator")) { 
-       that.setState({action: "senatorIndex"})
-     } else {
        $.ajax({
         url: "/legislators",
         data: {branch: "senator"},
         dataType: 'json',
         cache: false,
         success: function(data) {
+          console.log(data)
           that.setState(
             {
-              bodyContentType: "senator",
-              bodyContent: data.legislators,
-              bodyContentFilter: Object.assign([], data.legislators)
+              bodyContent: data.legislators, action: "senatorIndex"
             }
           );
         }.bind(that),
         error: function(xhr, status, err) {
           console.error(that.props.url, status, err.toString());
         }.bind(that)
-      });           
-      
-    }
+      });   
   },
   repIndex: function(that) {
-     if ((that.state.action == "roleShow") && (that.state.bodyContentType == "rep")) { 
-       alert("YO")
-       that.setState({action: "repIndex"})
-     } else {
         $.ajax({
           url: "/legislators",
           data: {branch: "rep"},
@@ -219,15 +206,14 @@ const actions = {
           cache: false,
           success: function(data) {
             that.setState({bodyContent: data.legislators,
-                bodyContentFilter: Object.assign([], data.legislators)
+                bodyContent: data.legislators, action: "repIndex"
             });
             console.log(data)
           }.bind(that),
           error: function(xhr, status, err) {
             console.error(that.props.url, status, err.toString());
           }.bind(that)
-        }); 
-    }          
+        });           
   },
   groupNew: function(that, params) {
     that.setState({action: "groupNew"})
