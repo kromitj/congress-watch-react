@@ -14,6 +14,7 @@ class LegislatorsController < ApplicationController
 	end
 
 	def show 
+		puts params[:id]
 		@role = Role.find_by(role_id: params[:id]).pack_role_show
 		# @yek_ipa = ENV["CONGRESS_GOOGLE"]
 		# @role_search_query = "https://www.googleapis.com/customsearch/v1?key=#{@yek_ipa}&cx=013241849023744786939:iozbzo9xq2y&q=#{@role.search_query}"
@@ -66,7 +67,7 @@ class LegislatorsController < ApplicationController
 	def pack_reps
 		puts "inside pack_reps"
 		Role.where({current: true, role_type: "representative"}).map do |senator|
-			{firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, img: senator.person.img_sm}
+			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
 		end
 	end
 
