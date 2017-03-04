@@ -37146,31 +37146,6 @@ var UserContainer = (function (_React$Component) {
 
     return UserContainer;
 })(React.Component);
-// var EventEmitter = require('events').EventEmitter;
-// var emitter = new EventEmitter();
- 
-// var listItems = [];
- 
-
-
-// module.exports = {
-//   getItems: function() {
-//     return listItems.concat();
-//   },
- 
-//   subscribe: function(callback) {
-//     emitter.addListener('update', callback);
-//   },
- 
-//   unsubscribe: function(callback) {
-//     emitter.removeListener('update', callback);
-//   },
- 
-//   newItem: function(item) {
-//     listItems.push(item);
-//     emitter.emit('update');
-//   }
-// };
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -37439,38 +37414,6 @@ var GroupSideBar = (function (_React$Component) {
     }]);
 
     return GroupSideBar;
-})(React.Component);
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var RoleAvatar = (function (_React$Component) {
-  _inherits(RoleAvatar, _React$Component);
-
-  function RoleAvatar(props) {
-    _classCallCheck(this, RoleAvatar);
-
-    _get(Object.getPrototypeOf(RoleAvatar.prototype), "constructor", this).call(this);
-    this.state = {};
-  }
-
-  _createClass(RoleAvatar, [{
-    key: "render",
-    value: function render() {
-
-      return React.createElement(
-        "span",
-        null,
-        React.createElement("img", { "class": "media-object", src: "{this.props.url}", alt: "..." })
-      );
-    }
-  }]);
-
-  return RoleAvatar;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -38225,33 +38168,6 @@ var RoleSideBar = (function (_React$Component) {
 
     return RoleSideBar;
 })(React.Component);
-// class Role extends React.Component {
-//   constructor(props) {
-//     super();
-//     this.fields = ["Img", "firstname", "lastname", "state", "party"];
-//     this.state = {
-
-//     }
-//     this.onRoleShow = this.onRoleShow.bind(this)
-//   }
-
-//   render() {
-//      let roleRow = this.fields.map((field) =>
-//         <ItemField {...{value: this.props.role[field], title: field}} />
-//     )
-//      roleRow[0] = <a href="#" onClick={this.onRoleShow}><img height="75" src={this.props.role.img} alt="Scott Stevens" class="img-responsive img-circle" /></a>
-//     return (
-//       <tr >
-//         {roleRow }    
-//       </tr>
-//     );
-//   }
-
-//   onRoleShow(ev) {
-//     ev.preventDefault();  
-//     this.props.subscribeToDispatcher("roleShow", this.props.role.id);
-//   }
-// };
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -38631,64 +38547,6 @@ var SearchByBar = (function (_React$Component) {
 
   return SearchByBar;
 })(React.Component);
-// ACTIONS 
-SHOW_SENATORS
-SHOW_REPS
-SHOW_BILLS
-SHOW_COMMITTEES
-SHOW_GROUP
-
-
-SHOW_SENATOR
-SHOW_REP
-SHOW_BILL
-SHOW_COMMITTEE
-
-CREATE_GROUP
-REMOVE_GROUP
-ADD_TO_GROUP
-REMOVE_FROM_GROUP
-
-SIGN_UP
-SIGN_IN
-LOG_OUT
-
-
-SET_VISABILITY_FILTER
-
-
-{
-    type: "SHOW_SENATORS",
-}
-{
-    type: "SET_VISABILITY_FILTER",
-    filter: "STATE",
-    filter_value: "Ca"
-}
-
-function showSenators() {
-  return {
-    type: SHOW_SENATORS
-  }
-}
-
-const senators = (state = [], action) => {
-    switch (action.type) {
-    case 'SHOW_SENATORS':
-      return [
-        ...state,
-        senator(undefined, action)
-      ]
-    case 'TOGGLE_TODO':
-}
-
-const senator = (state = [], action) => {
-
-}
-
-
-const boundShowSenators = () => dispatch(showSenators())
-;
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
