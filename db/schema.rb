@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170303034140) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "articles", force: :cascade do |t|
     t.string   "title"
     t.string   "link"
@@ -52,7 +55,7 @@ ActiveRecord::Schema.define(version: 20170303034140) do
     t.integer  "groupable_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.index ["groupable_type", "groupable_id"], name: "index_group_items_on_groupable_type_and_groupable_id"
+    t.index ["groupable_type", "groupable_id"], name: "index_group_items_on_groupable_type_and_groupable_id", using: :btree
   end
 
   create_table "groups", force: :cascade do |t|
@@ -72,7 +75,7 @@ ActiveRecord::Schema.define(version: 20170303034140) do
     t.string   "party"
     t.string   "twitter_account"
     t.string   "facebook_account"
-    t.integer  "facebook_id",          limit: 8
+    t.bigint   "facebook_id"
     t.string   "google_entity_id"
     t.string   "url"
     t.string   "rss_url"
@@ -88,8 +91,8 @@ ActiveRecord::Schema.define(version: 20170303034140) do
     t.string   "district"
     t.float    "missed_votes_pct"
     t.float    "votes_with_party_pct"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "people", primary_key: "person_id", force: :cascade do |t|
