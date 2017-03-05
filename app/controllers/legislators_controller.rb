@@ -59,9 +59,10 @@ class LegislatorsController < ApplicationController
 	end
 
 	def pack_senators
-		Role.where({current: true, role_type: "senator"}).map do |senator|
+		@role = Role.where({current: true, role_type: "senator"}).map do |senator|
 			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
 		end
+		@role.sort { |a,b| a[:lastname] <=> b[:lastname] }
 	end
 
 	def pack_reps
