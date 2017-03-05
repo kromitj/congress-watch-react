@@ -35895,7 +35895,6 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
-        console.log(data);
         that.setState({ bodyContent: null,
           action: "dashboard", username: "Guest", userId: null, groups: []
         });
@@ -35915,7 +35914,6 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
-        console.log(data);
         that.setState({ bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId
         });
@@ -35950,7 +35948,6 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
-        console.log(data);
         that.setState({
           action: "roleShow", bodyContent: data.role
         });
@@ -36008,6 +36005,21 @@ var actions = {
       cache: false,
       success: (function (data) {
         that.setState({ groups: data.groups, action: "dashboard" });
+      }).bind(that),
+      error: (function (xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }).bind(that)
+    });
+  },
+  groupShow: function (that, groupId) {
+    var url = "/users/" + that.state.userId + "/groups/" + groupId;
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+      cache: false,
+      success: (function (data) {
+        that.setState({ bodyContent: data.group, action: "groupShow" });
       }).bind(that),
       error: (function (xhr, status, err) {
         console.error(that.props.url, status, err.toString());
@@ -37001,6 +37013,11 @@ var actionDefaults = {
         subHeader: "Easly Track Only What You Want To",
         cookieCrumb: "Create Group"
     },
+    groupShow: {
+        header: "Group Show",
+        subHeader: "Here Ya Go",
+        cookieCrumb: "Group"
+    },
     logIn: {
         header: "Log In",
         subHeader: "Enter Info",
@@ -37067,6 +37084,9 @@ var BodyContainer = (function (_React$Component) {
                 case "groupNew":
                     return this.dispatchGroupNew();
                     break;
+                case "groupShow":
+                    return this.dispatchGroupShow(data);
+                    break;
                 case "roleShow":
                     return this.dispatchRoleShow();
                     break;
@@ -37095,6 +37115,12 @@ var BodyContainer = (function (_React$Component) {
         key: "dispatchGroupNew",
         value: function dispatchGroupNew() {
             return React.createElement(GroupNew, { subscribeToDispatcher: this.props.prepareForSegue });
+        }
+    }, {
+        key: "dispatchGroupShow",
+        value: function dispatchGroupShow(data) {
+            props = this.packList(data.group_items, this.props.sortData);
+            return React.createElement(GroupShow, { subscribeToDispatcher: this.props.prepareForSegue, groupItemProps: props });
         }
     }, {
         key: "dispatchRoleShow",
@@ -37277,6 +37303,51 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var GroupListItem = (function (_React$Component) {
+    _inherits(GroupListItem, _React$Component);
+
+    function GroupListItem(props) {
+        _classCallCheck(this, GroupListItem);
+
+        _get(Object.getPrototypeOf(GroupListItem.prototype), "constructor", this).call(this);
+        this.state = {};
+        this.onGroupClick = this.onGroupClick.bind(this);
+    }
+
+    _createClass(GroupListItem, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(
+                "li",
+                null,
+                React.createElement(
+                    "a",
+                    { href: "#", onClick: this.onGroupClick },
+                    this.props.name
+                )
+            );
+        }
+    }, {
+        key: "onGroupClick",
+        value: function onGroupClick(ev) {
+            ev.preventDefault();
+            this.props.subscribeToDispatcher("groupShow", this.props.keyProp);
+        }
+    }]);
+
+    return GroupListItem;
+})(React.Component);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var GroupList = (function (_React$Component) {
     _inherits(GroupList, _React$Component);
 
@@ -37290,17 +37361,10 @@ var GroupList = (function (_React$Component) {
     _createClass(GroupList, [{
         key: "render",
         value: function render() {
-            console.log("group list: " + this.props.groups);
+            var subscribeToDispatcher = this.props.requestSegue;
             var groupList = this.props.groups.map(function (group) {
-                return React.createElement(
-                    "li",
-                    null,
-                    React.createElement(
-                        "a",
-                        { href: "#" },
-                        group.name
-                    )
-                );
+                var listItemProps = { subscribeToDispatcher: subscribeToDispatcher, keyProp: group.id, name: group.name };
+                return React.createElement(GroupListItem, _extends({ key: group.id }, listItemProps));
             });
 
             return React.createElement(
@@ -37388,6 +37452,34 @@ var GroupNew = (function (_React$Component) {
     }]);
 
     return GroupNew;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GroupShow = (function (_React$Component) {
+    _inherits(GroupShow, _React$Component);
+
+    function GroupShow(props) {
+        _classCallCheck(this, GroupShow);
+
+        _get(Object.getPrototypeOf(GroupShow.prototype), "constructor", this).call(this);
+        this.state = {};
+    }
+
+    _createClass(GroupShow, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(RoleList, this.props.groupItemProps);
+        }
+    }]);
+
+    return GroupShow;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
