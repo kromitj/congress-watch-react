@@ -34,4 +34,8 @@ class Role < ApplicationRecord
         }
 
     end
+
+    def pack_group_show
+        {id: id, firstname: person.firstname, lastname: person.lastname, state: state, party: party, desc: description, img: person.img_sm}
+    end
 end

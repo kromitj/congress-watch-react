@@ -26,6 +26,12 @@ class GroupsController < ApplicationController
 	    end
 	end
 
+	def show
+		@user = User.find(params[:user_id])
+		@group = @user.groups.find(params[:id])
+		render :json => {status: true, group: @group.pack_group_show}
+	end
+
 	private
 
 	def group_params

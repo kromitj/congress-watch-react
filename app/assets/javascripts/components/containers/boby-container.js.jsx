@@ -9,6 +9,11 @@ const actionDefaults = {
         subHeader: "Easly Track Only What You Want To",
         cookieCrumb: "Create Group"
     },
+    groupShow: {
+        header: "Group Show",
+        subHeader: "Here Ya Go",
+        cookieCrumb: "Group"
+    },
     logIn: {
         header: "Log In",
         subHeader: "Enter Info",
@@ -71,6 +76,9 @@ class BodyContainer extends React.Component {
             case "groupNew":
                 return this.dispatchGroupNew()
                 break;
+            case "groupShow":
+                return this.dispatchGroupShow(data)
+                break;
             case "roleShow":
                 return this.dispatchRoleShow()
                 break;
@@ -90,9 +98,12 @@ class BodyContainer extends React.Component {
     dispatchSessionNew() {
         return <SessionNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
     }
-
     dispatchGroupNew() {
         return <GroupNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
+    }
+    dispatchGroupShow(data) {
+        props = this.packList(data.group_items, this.props.sortData)
+        return <GroupShow  {...{subscribeToDispatcher: this.props.prepareForSegue, groupItemProps: props}}/>
     }
     dispatchRoleShow() {
         return <RoleShow {...{role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups}} />

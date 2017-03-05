@@ -129,7 +129,6 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        console.log(data)
         that.setState({bodyContent: null,
           action: "dashboard", username: "Guest", userId: null, groups: []
         });
@@ -149,7 +148,6 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        console.log(data)
         that.setState({bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId
         });
@@ -184,7 +182,6 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
-        console.log(data)
         that.setState(
           {
             action: "roleShow", bodyContent: data.role
@@ -246,6 +243,21 @@ const actions = {
       cache: false,
       success: function(data) {
         that.setState({groups: data.groups, action: "dashboard"});
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });
+  },
+  groupShow: function(that, groupId) {
+    const url = "/users/"+ that.state.userId + "/groups/" + groupId
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {        
+        that.setState({bodyContent: data.group, action: "groupShow"});
       }.bind(that),
       error: function(xhr, status, err) {
         console.error(that.props.url, status, err.toString());

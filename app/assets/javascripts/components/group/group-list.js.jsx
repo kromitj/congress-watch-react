@@ -6,9 +6,10 @@ class GroupList extends React.Component {
         }
     };
     render() {
-        console.log("group list: " + this.props.groups)
+        const subscribeToDispatcher = this.props.requestSegue
         const groupList = this.props.groups.map(function(group) {
-            return <li><a href="#">{group.name}</a></li>;
+            const listItemProps = {subscribeToDispatcher: subscribeToDispatcher, keyProp: group.id, name: group.name}
+            return <GroupListItem key={group.id} {...listItemProps} />;
         });
         
         return(

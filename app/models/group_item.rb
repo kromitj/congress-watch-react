@@ -9,4 +9,8 @@ class GroupItem < ApplicationRecord
     def item_name
     	groupable.name
     end
+
+    def pack_group_show    	
+    	groupable.pack_group_show
+    end
 end
