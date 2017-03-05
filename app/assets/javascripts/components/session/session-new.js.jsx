@@ -39,7 +39,7 @@ class SessionNew extends React.Component {
         const formData = Object.assign({}, this.state.formData)
         console.log(formData)
         ev.preventDefault(); 
-        this.props.requestSegue("sessionNew", formData);
+        this.props.subscribeToDispatcher("sessionNew", formData);
     }
     
 }

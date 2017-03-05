@@ -85,21 +85,22 @@ class BodyContainer extends React.Component {
         return <RoleList {...props} />
     }
     dispatchUserNew() {
-        return <UserNew requestSegue={this.props.prepareForSegue} />
+        return <UserNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
     }
     dispatchSessionNew() {
-        return <SessionNew requestSegue={this.props.prepareForSegue} />
+        return <SessionNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
     }
 
     dispatchGroupNew() {
-        return <GroupNew requestSegue={this.props.prepareForSegue} />
+        return <GroupNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
     }
     dispatchRoleShow() {
-        return <RoleShow {...{requestSegue: this.props.prepareForSegue, role: this.props.data}} />
+        return <RoleShow {...{role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups}} />
     }
     packBody(dataType, content) {
         props = actionDefaults[dataType]
-        if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }        
+        if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }
+        props.prepareForSegue = this.props.prepareForSegue        
         return props
     }
 

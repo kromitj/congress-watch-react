@@ -44,7 +44,7 @@ class GroupNew extends React.Component {
         const formData = Object.assign({}, this.state.formData)
         console.log(formData)
         ev.preventDefault(); 
-        this.props.requestSegue("groupCreate", formData);
+        this.props.subscribeToDispatcher("groupCreate", formData);
     }
 
     

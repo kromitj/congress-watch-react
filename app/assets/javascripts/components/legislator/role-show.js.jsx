@@ -4,18 +4,29 @@ class RoleShow extends React.Component {
     this.state = {
 
     }
+    this.onAddToGroup = this.onAddToGroup.bind(this)
+    this.groupList = this.groupList.bind(this)
   }
 
   render() {
     const website = this
     const party = "info-block-" + this.props.role.party + " block-info clearfix"
+    const groupList = this.groupList(this)
     return (
     <div className="row">
         <div className="col-md-12 col-lg-4">
             <div className={party}><img title="profile image" className="img-circle img-responsive center-block" src={this.props.role.img}></img></div>
             <h1 className="text-center">{this.props.role.name}</h1>
             <h3 className="text-center">{this.props.role.desc}</h3>
-           <div className="row"><div className="col-xs-offset-3 col-xs-9"><button type="button" className="btn btn-success">+ Group</button>  <button type="button" className="btn btn-info">Follow</button></div></div>
+           <div className="row"><div className="col-xs-offset-3 col-xs-9">
+               <button className="btn btn-default" type="button">+ Group</button>
+                <button data-toggle="dropdown" className="btn btn-default dropdown-toggle" type="button"><span className="caret"></span>
+                </button>
+                <ul className="dropdown-menu">
+                  { groupList }
+                </ul>
+                          <button type="button" className="btn btn-info">Follow</button>
+            </div></div>
             <br></br>
             <br></br>
             <ul className="list-group">
@@ -40,7 +51,7 @@ class RoleShow extends React.Component {
         
         <div className="col-md-12 col-lg-8">
             <div className="panel panel-default">
-                <div className="panel-heading">{this.props.role.name}'s Bio</div>
+                <div className="panel-heading">{this.props.role.name}&#39;s Bio</div>
                 <div className="panel-body">{this.props.role.wiki_intro}</div>
             </div>
             
@@ -52,7 +63,7 @@ class RoleShow extends React.Component {
                     <div className="thumbnail">
                       <div className="article-thumbnail"><img className="center-block" alt="300x200" width="300" src="http://i2.cdn.cnn.com/cnnnext/dam/assets/121103050436-stock-tammy-baldwin-story-top.jpg"></img></div>
                       <div className="caption">
-                        <h4>Wisconsin's Tammy Baldwin is first openly gay person elected to ...</h4>
+                        <h4>Wisconsin&#39;s Tammy Baldwin is first openly gay person elected to ...</h4>
                         <p>Nov 7, 2012 ... Tammy Baldwin made history Tuesday night -- twice. ... the first openly gay \npolitician, and first Wisconsin woman, elected to the U.S. Senate.</p>
                         <p></p>
                       </div>
@@ -62,7 +73,7 @@ class RoleShow extends React.Component {
                     <div className="thumbnail">
                       <div className="article-thumbnail"><img className="center-block" alt="300x200" width="300" src="http://img.huffingtonpost.com/asset/2000_1000/5890eed01b0000250004d971.jpeg?cache=jg9bxlqcxn"></img></div>
                       <div className="caption">
-                        <h4>Tammy Baldwin's Sexual Orientation Attacked By Group Trying To ...e</h4>
+                        <h4>Tammy Baldwin&#39;s Sexual Orientation Attacked By Group Trying To ...e</h4>
                         <p>Jan 31, 2017 ... A super PAC trying to draft Milwaukee County Sheriff David Clarke for a Senate \nbid is attacking the sexual orientation of Sen. Tammy Baldwin...</p>
                         <p></p>
                       </div>
@@ -73,7 +84,7 @@ class RoleShow extends React.Component {
                       <div className="article-thumbnail"><img className="center-block" alt="300x200" width="300" src="http://i.huffpost.com/gen/836250/images/o-TAMMY-BALDWIN-ELECTION-RESULTS-facebook.jpg"></img></div>
                       <div className="caption">
                         <h4>Tammy Baldwin Election Results: Democrat Becomes First Openly ...e</h4>
-                        <p>Nov 7, 2012 ... Tammy Baldwin (D-Wis.) beat Republican Tommy Thompson for Wisconsin's \nopen U.S. Senate seat on Tuesday, becoming the nation's first op.</p>
+                        <p>Nov 7, 2012 ... Tammy Baldwin (D-Wis.) beat Republican Tommy Thompson for Wisconsin&#39;s \nopen U.S. Senate seat on Tuesday, becoming the nation&#39;s first op.</p>
                         <p></p>
                       </div>
                     </div>
@@ -85,6 +96,18 @@ class RoleShow extends React.Component {
     </div>
  
     )
+  }
+
+  onAddToGroup(ev) {
+    ev.preventDefault();
+    const groupId = ev.target.attributes.getNamedItem("data").value
+    this.props.subscribeToDispatcher("groupableNew", {groupId: groupId, groupableId: this.props.role.id});
+  }
+
+  groupList(that) {
+    return roles = this.props.groups.map(function(group) {            
+            return <li key={group.id} keyProp={group.id}><a href="#" onClick={that.onAddToGroup} data={group.id}>{group.name}</a></li>;
+        });
   }
   
 }

@@ -18,7 +18,8 @@ class Role < ApplicationRecord
 
     def pack_role_show
         @state = description.split(" ")[-1]
-        {
+        { 
+            id: id,
             name: name("fullname"),
             desc: description,
             assumed_office: startdate,

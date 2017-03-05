@@ -35809,6 +35809,7 @@ var App = (function (_React$Component) {
       return {
         dataType: this.state.action,
         data: this.state.bodyContent,
+        groups: this.state.groups,
         sortData: this.sortData,
         prepareForSegue: this.prepareForSegue
       };
@@ -35847,6 +35848,21 @@ var App = (function (_React$Component) {
 })(React.Component);
 
 var actions = {
+  groupableNew: function (that, groupParams) {
+    var data = { userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId };
+    var url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items";
+    $.ajax({
+      url: url,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      cache: false,
+      success: (function (data) {}).bind(that),
+      error: (function (xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }).bind(that)
+    });
+  },
   filterRoles: function (that, filterParams) {
     //   const params = filterParams.split(" ") 
     //   let filteredCopy = Object.assign([], that.state.bodyContent)
@@ -35881,7 +35897,7 @@ var actions = {
       success: (function (data) {
         console.log(data);
         that.setState({ bodyContent: null,
-          action: "dashboard", username: "Guest", userId: null, history: [], groups: []
+          action: "dashboard", username: "Guest", userId: null, groups: []
         });
       }).bind(that),
       error: (function (xhr, status, err) {
@@ -36157,6 +36173,7 @@ var Body = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(Body.prototype), "constructor", this).call(this);
         this.state = {};
+        this.onAlertClick = this.onAlertClick.bind(this);
     }
 
     _createClass(Body, [{
@@ -36223,7 +36240,7 @@ var Body = (function (_React$Component) {
                                 " ",
                                 React.createElement(
                                     "a",
-                                    { href: "http://startbootstrap.com/template-overviews/sb-admin-2", className: "alert-link" },
+                                    { href: "#", className: "alert-link", onClick: this.onAlertClick },
                                     "Sign-up"
                                 ),
                                 " now and gain the ability to create groups and recieve updates on bills, committees and legislators"
@@ -36241,6 +36258,12 @@ var Body = (function (_React$Component) {
                     )
                 )
             );
+        }
+    }, {
+        key: "onAlertClick",
+        value: function onAlertClick(ev) {
+            ev.preventDefault();
+            this.props.prepareForSegue("signUp");
         }
     }]);
 
@@ -37061,22 +37084,22 @@ var BodyContainer = (function (_React$Component) {
     }, {
         key: "dispatchUserNew",
         value: function dispatchUserNew() {
-            return React.createElement(UserNew, { requestSegue: this.props.prepareForSegue });
+            return React.createElement(UserNew, { subscribeToDispatcher: this.props.prepareForSegue });
         }
     }, {
         key: "dispatchSessionNew",
         value: function dispatchSessionNew() {
-            return React.createElement(SessionNew, { requestSegue: this.props.prepareForSegue });
+            return React.createElement(SessionNew, { subscribeToDispatcher: this.props.prepareForSegue });
         }
     }, {
         key: "dispatchGroupNew",
         value: function dispatchGroupNew() {
-            return React.createElement(GroupNew, { requestSegue: this.props.prepareForSegue });
+            return React.createElement(GroupNew, { subscribeToDispatcher: this.props.prepareForSegue });
         }
     }, {
         key: "dispatchRoleShow",
         value: function dispatchRoleShow() {
-            return React.createElement(RoleShow, { requestSegue: this.props.prepareForSegue, role: this.props.data });
+            return React.createElement(RoleShow, { role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups });
         }
     }, {
         key: "packBody",
@@ -37085,6 +37108,7 @@ var BodyContainer = (function (_React$Component) {
             if (dataType != "signUp" || dataType != "logIn" || dataType != "userNew") {
                 props.content = content;
             }
+            props.prepareForSegue = this.props.prepareForSegue;
             return props;
         }
     }, {
@@ -37359,7 +37383,7 @@ var GroupNew = (function (_React$Component) {
             var formData = Object.assign({}, this.state.formData);
             console.log(formData);
             ev.preventDefault();
-            this.props.requestSegue("groupCreate", formData);
+            this.props.subscribeToDispatcher("groupCreate", formData);
         }
     }]);
 
@@ -37796,6 +37820,8 @@ var RoleShow = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(RoleShow.prototype), "constructor", this).call(this);
     this.state = {};
+    this.onAddToGroup = this.onAddToGroup.bind(this);
+    this.groupList = this.groupList.bind(this);
   }
 
   _createClass(RoleShow, [{
@@ -37803,6 +37829,7 @@ var RoleShow = (function (_React$Component) {
     value: function render() {
       var website = this;
       var party = "info-block-" + this.props.role.party + " block-info clearfix";
+      var groupList = this.groupList(this);
       return React.createElement(
         "div",
         { className: "row" },
@@ -37832,10 +37859,19 @@ var RoleShow = (function (_React$Component) {
               { className: "col-xs-offset-3 col-xs-9" },
               React.createElement(
                 "button",
-                { type: "button", className: "btn btn-success" },
+                { className: "btn btn-default", type: "button" },
                 "+ Group"
               ),
-              "  ",
+              React.createElement(
+                "button",
+                { "data-toggle": "dropdown", className: "btn btn-default dropdown-toggle", type: "button" },
+                React.createElement("span", { className: "caret" })
+              ),
+              React.createElement(
+                "ul",
+                { className: "dropdown-menu" },
+                groupList
+              ),
               React.createElement(
                 "button",
                 { type: "button", className: "btn btn-info" },
@@ -38088,6 +38124,28 @@ var RoleShow = (function (_React$Component) {
         )
       );
     }
+  }, {
+    key: "onAddToGroup",
+    value: function onAddToGroup(ev) {
+      ev.preventDefault();
+      var groupId = ev.target.attributes.getNamedItem("data").value;
+      this.props.subscribeToDispatcher("groupableNew", { groupId: groupId, groupableId: this.props.role.id });
+    }
+  }, {
+    key: "groupList",
+    value: function groupList(that) {
+      return roles = this.props.groups.map(function (group) {
+        return React.createElement(
+          "li",
+          { key: group.id, keyProp: group.id },
+          React.createElement(
+            "a",
+            { href: "#", onClick: that.onAddToGroup, data: group.id },
+            group.name
+          )
+        );
+      });
+    }
   }]);
 
   return RoleShow;
@@ -38318,7 +38376,7 @@ var SessionNew = (function (_React$Component) {
             var formData = Object.assign({}, this.state.formData);
             console.log(formData);
             ev.preventDefault();
-            this.props.requestSegue("sessionNew", formData);
+            this.props.subscribeToDispatcher("sessionNew", formData);
         }
     }]);
 
@@ -38504,7 +38562,7 @@ var UserNew = (function (_React$Component) {
       var formData = Object.assign({}, this.state.formData);
       console.log(formData);
       ev.preventDefault();
-      this.props.requestSegue("userNew", formData);
+      this.props.subscribeToDispatcher("userNew", formData);
     }
   }]);
 
@@ -39192,6 +39250,10 @@ $( document ).ready(function() {
   this.App || (this.App = {});
 
   App.cable = ActionCable.createConsumer();
+
+}).call(this);
+(function() {
+
 
 }).call(this);
 (function() {

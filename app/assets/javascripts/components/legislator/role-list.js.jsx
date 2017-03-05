@@ -9,7 +9,7 @@ class RoleList extends React.Component {
     };
     render() {
         const subscribeToDispatcher = this.props.subscribeToDispatcher
-        var roles = this.props.roleItems.map(function(role) {
+        const roles = this.props.roleItems.map(function(role) {
             const roleProps = {role: role, subscribeToDispatcher: subscribeToDispatcher}
             return <RoleListRow key={role.id}  {...roleProps}/>;
         });

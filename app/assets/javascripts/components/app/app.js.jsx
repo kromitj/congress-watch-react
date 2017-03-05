@@ -46,6 +46,7 @@ class App extends React.Component {
       return {
         dataType: this.state.action,
         data: this.state.bodyContent,
+        groups: this.state.groups,
         sortData: this.sortData,
         prepareForSegue: this.prepareForSegue
       }
@@ -80,6 +81,22 @@ class App extends React.Component {
 }
 
 const actions = {
+  groupableNew: function(that, groupParams) {
+    const data = {userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId}
+    const url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items"
+    $.ajax({
+      url: url,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      cache: false,
+      success: function(data) {
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });        
+  },
   filterRoles: function(that, filterParams) {
   //   const params = filterParams.split(" ")  
   //   let filteredCopy = Object.assign([], that.state.bodyContent)
@@ -114,7 +131,7 @@ const actions = {
       success: function(data) {
         console.log(data)
         that.setState({bodyContent: null,
-          action: "dashboard", username: "Guest", userId: null, history: [], groups: []
+          action: "dashboard", username: "Guest", userId: null, groups: []
         });
       }.bind(that),
       error: function(xhr, status, err) {

@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   get 'main/index'
   root 'main#index'
   resources :users do 
-  	resources :groups
+  	resources :groups do
+  		resources :group_items
+  	end
   end
   resources :legislators
   resources :session, except: [:destroy]

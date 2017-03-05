@@ -4,6 +4,7 @@ class Body extends React.Component {
         this.state = {
 
         }
+        this.onAlertClick = this.onAlertClick.bind(this)
     };
     render() {
         return(
@@ -28,7 +29,7 @@ class Body extends React.Component {
                         <div className="col-lg-12">
                             <div className="alert alert-info alert-dismissable">
                                 <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <i className="fa fa-info-circle"></i>  <strong>Like Congress Observer?</strong> <a href="http://startbootstrap.com/template-overviews/sb-admin-2" className="alert-link">Sign-up</a> now and gain the ability to create groups and recieve updates on bills, committees and legislators
+                                <i className="fa fa-info-circle"></i>  <strong>Like Congress Observer?</strong> <a href="#" className="alert-link" onClick={this.onAlertClick}>Sign-up</a> now and gain the ability to create groups and recieve updates on bills, committees and legislators
                             </div>
                         </div>
                     </div>
@@ -41,5 +42,9 @@ class Body extends React.Component {
                 </div>
             </div>
         )
+    }
+    onAlertClick(ev) {
+        ev.preventDefault();   
+        this.props.prepareForSegue("signUp");
     }
 }

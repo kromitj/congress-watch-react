@@ -52,7 +52,7 @@ class UserNew extends React.Component {
     	const formData = Object.assign({}, this.state.formData)
     	console.log(formData)
     	ev.preventDefault(); 
-        this.props.requestSegue("userNew", formData);
+        this.props.subscribeToDispatcher("userNew", formData);
     }
     
 }
