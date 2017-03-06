@@ -5,6 +5,7 @@ class App extends React.Component {
         super();
         this.state = {
             action: "dashboard",
+            error: null,
             bodyContent: null,
             groups: [],
             contentSortedBy: "lastname",
@@ -151,10 +152,11 @@ const actions = {
       cache: false,
       success: function(data) {
         that.setState({bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId
+          action: "dashboard", username: data.username, userId: data.userId, error: null
         });
       }.bind(that),
-      error: function(xhr, status, err) {
+      error: function(data) {
+        that.setState({error: data.responseJSON.error})
         console.error(that.props.url, status, err.toString());
       }.bind(that)
     });        

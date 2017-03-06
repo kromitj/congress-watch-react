@@ -11,9 +11,8 @@ class SessionController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username: user_params[:username])
+    @user = User.find(username: user_params[:username])
     if @user && @user.authenticate(user_params[:password])
-      
       #create session cookie
       session[:user_id] = @user.id
       @groups = @user.get_groups

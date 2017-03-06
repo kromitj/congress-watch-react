@@ -35861,6 +35861,7 @@ var App = (function (_React$Component) {
     _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this);
     this.state = {
       action: "dashboard",
+      error: null,
       bodyContent: null,
       groups: [],
       contentSortedBy: "lastname",
@@ -36018,10 +36019,11 @@ var actions = {
       cache: false,
       success: (function (data) {
         that.setState({ bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId
+          action: "dashboard", username: data.username, userId: data.userId, error: null
         });
       }).bind(that),
-      error: (function (xhr, status, err) {
+      error: (function (data) {
+        that.setState({ error: data.responseJSON.error });
         console.error(that.props.url, status, err.toString());
       }).bind(that)
     });
@@ -37178,7 +37180,7 @@ var BodyContainer = (function (_React$Component) {
     }, {
         key: "dispatchUserNew",
         value: function dispatchUserNew() {
-            return React.createElement(UserNew, { subscribeToDispatcher: this.props.prepareForSegue });
+            return React.createElement(UserNew, { subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error });
         }
     }, {
         key: "dispatchSessionNew",
@@ -38719,6 +38721,7 @@ var UserNew = (function (_React$Component) {
       return React.createElement(
         'div',
         { className: 'form-group' },
+        React.createElement(ErrorAlert, { error: this.props.error }),
         React.createElement(
           'form',
           { onSubmit: this.submit },

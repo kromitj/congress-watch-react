@@ -93,7 +93,7 @@ class BodyContainer extends React.Component {
         return <RoleList {...props} />
     }
     dispatchUserNew() {
-        return <UserNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
+        return <UserNew  {...{subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error}}/>
     }
     dispatchSessionNew() {
         return <SessionNew  {...{subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error}}/>

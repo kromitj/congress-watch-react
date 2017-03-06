@@ -32,9 +32,9 @@ class UsersController < ApplicationController
       end
     else
       if request.xhr?
-       render :json => {:error => "Invalid user credentials"}, :status => 422
+       render :json => {:error => @user.errors.full_messages.join(", ")}, :status => 422
       else
-        @errors = @user.errors.full_messages
+        @error = @user.errors.full_messages
         render 'new'
       end
     end

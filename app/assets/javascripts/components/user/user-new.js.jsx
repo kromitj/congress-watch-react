@@ -18,6 +18,7 @@ class UserNew extends React.Component {
         
         return (
             <div className="form-group">
+                        <ErrorAlert error={this.props.error} />
 			          <form onSubmit={this.submit}>
 			          	<label for="firstName">First Name</label>
 					    <input value={this.state.formData.f_name} onChange={this.updateInput} type="text" className="form-control" id="f_name" placeholder="Jane"></input>
