@@ -1,3 +1,11 @@
+TODO: 
+<ul>
+	<li>Have website be in Beta</li>
+	<li>Have option when sign-Up to be partisipate in UX survey</li>
+	<li>Create a SurveyQuestion component that askes questions pertaining to actions taken</li>
+	<li>After each action have a SurveyQuestion appear that correspones to action taken; dynamic to whether it was successful or not, e.g. successfully signing in or not will throw two differant SurveyQuestion objects</li>
+</ul>
+
 <ul>
 	<li>First Initial response</li>
 	<li>How would you describe <website / product> in one or more words?</li>
