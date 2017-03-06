@@ -1,6 +1,7 @@
 require "#{Rails.root}/lib/assets/article-parser/article.rb"
 require "#{Rails.root}/lib/assets/article-parser/article-parser.rb"
 
+
 class LegislatorsController < ApplicationController		
 	def index
 		branch = params[:branch]
@@ -14,7 +15,6 @@ class LegislatorsController < ApplicationController
 	end
 
 	def show 
-		puts params[:id]
 		@role = Role.find_by(role_id: params[:id]).pack_role_show
 		# @yek_ipa = ENV["CONGRESS_GOOGLE"]
 		# @role_search_query = "https://www.googleapis.com/customsearch/v1?key=#{@yek_ipa}&cx=013241849023744786939:iozbzo9xq2y&q=#{@role.search_query}"

@@ -44,11 +44,13 @@ class App extends React.Component {
     packBodyProps() {
       console.log("packing body" + this.state.bodyContent)
       return {
+        user: this.state.userId,
         dataType: this.state.action,
         data: this.state.bodyContent,
         groups: this.state.groups,
         sortData: this.sortData,
-        prepareForSegue: this.prepareForSegue
+        prepareForSegue: this.prepareForSegue,
+        error: this.state.error
       }
     }
 
@@ -168,10 +170,11 @@ const actions = {
       cache: false,
       success: function(data) {
         that.setState({bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId, groups: data.groups
+          action: "dashboard", username: data.username, userId: data.userId, groups: data.groups, error: null
         });
       }.bind(that),
-      error: function(xhr, status, err) {
+      error: function(data) {
+        that.setState({error: data.responseJSON.error})
         console.error(that.props.url, status, err.toString());
       }.bind(that)
     });        

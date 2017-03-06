@@ -13,11 +13,11 @@ class SessionController < ApplicationController
   def create
     @user = User.find_by(username: user_params[:username])
     if @user && @user.authenticate(user_params[:password])
+      
       #create session cookie
       session[:user_id] = @user.id
       @groups = @user.get_groups
       if request.xhr?
-
        render :json => {:status => true, :userId => @user.id, :username => @user.username, :groups => @groups}
       else
         # redirect_to user_path(@user)

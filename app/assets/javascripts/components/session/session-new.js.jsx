@@ -15,6 +15,7 @@ class SessionNew extends React.Component {
         
         return (
             <div className="form-group">
+                    <ErrorAlert error={this.props.error} />
                   <form onSubmit={this.submit}>
                     <label for="userName">Username</label>
                     <input value={this.state.formData.username} onChange={this.updateInput} type="text" className="form-control" id="username" placeholder="janeDoe111"></input>

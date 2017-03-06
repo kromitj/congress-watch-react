@@ -26,7 +26,7 @@ class RoleShow extends React.Component {
                   { groupList }
                 </ul>
                           <button type="button" className="btn btn-info">Follow</button>
-            </div></div>
+            </div></div>            
             <br></br>
             <br></br>
             <ul className="list-group">
@@ -54,7 +54,10 @@ class RoleShow extends React.Component {
                 <div className="panel-heading">{this.props.role.name}&#39;s Bio</div>
                 <div className="panel-body">{this.props.role.wiki_intro}</div>
             </div>
-            
+            <div className="panel panel-default">
+                <div className="panel-heading">{this.props.role.name}&#39;s Latest Tweet</div>
+                <div className="panel-body"><RoleTweet tweet={this.props.role.last_tweet} /></div>
+            </div>            
             <div className="panel panel-default target">
               <div className="panel-heading" >Recent News</div>
               <div className="panel-body">

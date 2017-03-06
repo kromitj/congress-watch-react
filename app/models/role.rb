@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/assets/tweet-getter/tweet-getter.rb"
+
 class Role < ApplicationRecord
 	belongs_to :person, foreign_key: :person_id
     has_many :group_items, as: :groupable
@@ -18,6 +20,7 @@ class Role < ApplicationRecord
 
     def pack_role_show
         @state = description.split(" ")[-1]
+        @last_tweet_html = TweetGetter.new(person.twitterid).html
         { 
             id: id,
             name: name("fullname"),
@@ -30,7 +33,8 @@ class Role < ApplicationRecord
             website: website,
             birthday: person.birthday,
             wiki_intro: person.wiki_intro,
-            img: person.img_sm
+            img: person.img_sm,
+            last_tweet: @last_tweet_html
         }
 
     end

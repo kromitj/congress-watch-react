@@ -96,7 +96,7 @@ class BodyContainer extends React.Component {
         return <UserNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
     }
     dispatchSessionNew() {
-        return <SessionNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
+        return <SessionNew  {...{subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error}}/>
     }
     dispatchGroupNew() {
         return <GroupNew  {...{subscribeToDispatcher: this.props.prepareForSegue}}/>
@@ -110,6 +110,7 @@ class BodyContainer extends React.Component {
     }
     packBody(dataType, content) {
         props = actionDefaults[dataType]
+        props.user = this.props.user
         if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }
         props.prepareForSegue = this.props.prepareForSegue        
         return props

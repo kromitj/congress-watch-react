@@ -35743,6 +35743,107 @@ var Alert = (function (_React$Component) {
 ;
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ErrorAlert = (function (_React$Component) {
+    _inherits(ErrorAlert, _React$Component);
+
+    function ErrorAlert(props) {
+        _classCallCheck(this, ErrorAlert);
+
+        _get(Object.getPrototypeOf(ErrorAlert.prototype), "constructor", this).call(this);
+        this.state = {};
+    }
+
+    _createClass(ErrorAlert, [{
+        key: "render",
+        value: function render() {
+            if (this.props.error != null) {
+                return React.createElement(
+                    "div",
+                    { className: "row", id: "error-alert" },
+                    React.createElement(
+                        "div",
+                        { className: "col-lg-12" },
+                        React.createElement(
+                            "div",
+                            { className: "alert alert-danger" },
+                            React.createElement("span", { className: "glyphicon glyphicon-exclamation-sign" }),
+                            " ",
+                            this.props.error
+                        )
+                    )
+                );
+            } else {
+                return React.createElement("div", { id: "error-alert" });
+            }
+        }
+    }]);
+
+    return ErrorAlert;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SignUpAlert = (function (_React$Component) {
+    _inherits(SignUpAlert, _React$Component);
+
+    function SignUpAlert(props) {
+        _classCallCheck(this, SignUpAlert);
+
+        _get(Object.getPrototypeOf(SignUpAlert.prototype), "constructor", this).call(this);
+        this.state = {};
+    }
+
+    _createClass(SignUpAlert, [{
+        key: "render",
+        value: function render() {
+            if (this.props.user == null) {
+                return React.createElement(
+                    "div",
+                    { className: "row" },
+                    React.createElement(
+                        "div",
+                        { className: "col-lg-12" },
+                        React.createElement(
+                            "div",
+                            { className: "alert alert-info alert-dismissable" },
+                            React.createElement("i", { className: "fa fa-info-circle" }),
+                            "  ",
+                            React.createElement(
+                                "strong",
+                                null,
+                                "Like Congress Observer?"
+                            ),
+                            " ",
+                            React.createElement(
+                                "a",
+                                { href: "#", className: "alert-link", onClick: this.onAlertClick },
+                                "Sign-up"
+                            ),
+                            " now and gain the ability to create groups and recieve updates on bills, committees and legislators"
+                        )
+                    )
+                );
+            } else {
+                return React.createElement("div", null);
+            }
+        }
+    }]);
+
+    return SignUpAlert;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35807,11 +35908,13 @@ var App = (function (_React$Component) {
     value: function packBodyProps() {
       console.log("packing body" + this.state.bodyContent);
       return {
+        user: this.state.userId,
         dataType: this.state.action,
         data: this.state.bodyContent,
         groups: this.state.groups,
         sortData: this.sortData,
-        prepareForSegue: this.prepareForSegue
+        prepareForSegue: this.prepareForSegue,
+        error: this.state.error
       };
     }
   }, {
@@ -35934,10 +36037,11 @@ var actions = {
       cache: false,
       success: (function (data) {
         that.setState({ bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId, groups: data.groups
+          action: "dashboard", username: data.username, userId: data.userId, groups: data.groups, error: null
         });
       }).bind(that),
-      error: (function (xhr, status, err) {
+      error: (function (data) {
+        that.setState({ error: data.responseJSON.error });
         console.error(that.props.url, status, err.toString());
       }).bind(that)
     });
@@ -36228,37 +36332,7 @@ var Body = (function (_React$Component) {
                             )
                         )
                     ),
-                    React.createElement(
-                        "div",
-                        { className: "row" },
-                        React.createElement(
-                            "div",
-                            { className: "col-lg-12" },
-                            React.createElement(
-                                "div",
-                                { className: "alert alert-info alert-dismissable" },
-                                React.createElement(
-                                    "button",
-                                    { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" },
-                                    "×"
-                                ),
-                                React.createElement("i", { className: "fa fa-info-circle" }),
-                                "  ",
-                                React.createElement(
-                                    "strong",
-                                    null,
-                                    "Like Congress Observer?"
-                                ),
-                                " ",
-                                React.createElement(
-                                    "a",
-                                    { href: "#", className: "alert-link", onClick: this.onAlertClick },
-                                    "Sign-up"
-                                ),
-                                " now and gain the ability to create groups and recieve updates on bills, committees and legislators"
-                            )
-                        )
-                    ),
+                    React.createElement(SignUpAlert, { user: this.props.user }),
                     React.createElement(
                         "div",
                         { className: "row" },
@@ -37109,7 +37183,7 @@ var BodyContainer = (function (_React$Component) {
     }, {
         key: "dispatchSessionNew",
         value: function dispatchSessionNew() {
-            return React.createElement(SessionNew, { subscribeToDispatcher: this.props.prepareForSegue });
+            return React.createElement(SessionNew, { subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error });
         }
     }, {
         key: "dispatchGroupNew",
@@ -37131,6 +37205,7 @@ var BodyContainer = (function (_React$Component) {
         key: "packBody",
         value: function packBody(dataType, content) {
             props = actionDefaults[dataType];
+            props.user = this.props.user;
             if (dataType != "signUp" || dataType != "logIn" || dataType != "userNew") {
                 props.content = content;
             }
@@ -38114,6 +38189,21 @@ var RoleShow = (function (_React$Component) {
           ),
           React.createElement(
             "div",
+            { className: "panel panel-default" },
+            React.createElement(
+              "div",
+              { className: "panel-heading" },
+              this.props.role.name,
+              "'s Latest Tweet"
+            ),
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              React.createElement(RoleTweet, { tweet: this.props.role.last_tweet })
+            )
+          ),
+          React.createElement(
+            "div",
             { className: "panel panel-default target" },
             React.createElement(
               "div",
@@ -38323,6 +38413,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var RoleTweet = (function (_React$Component) {
+  _inherits(RoleTweet, _React$Component);
+
+  function RoleTweet(props) {
+    _classCallCheck(this, RoleTweet);
+
+    _get(Object.getPrototypeOf(RoleTweet.prototype), "constructor", this).call(this);
+    this.state = {};
+  }
+
+  _createClass(RoleTweet, [{
+    key: "render",
+    value: function render() {
+      return React.createElement("div", { dangerouslySetInnerHTML: { __html: this.props.tweet } });
+    }
+  }]);
+
+  return RoleTweet;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var LogIn = (function (_React$Component) {
     _inherits(LogIn, _React$Component);
 
@@ -38433,6 +38550,7 @@ var SessionNew = (function (_React$Component) {
             return React.createElement(
                 'div',
                 { className: 'form-group' },
+                React.createElement(ErrorAlert, { error: this.props.error }),
                 React.createElement(
                     'form',
                     { onSubmit: this.submit },
