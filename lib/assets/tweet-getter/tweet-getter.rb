@@ -10,16 +10,26 @@ class TweetGetter
 			config.access_token        = ENV["TWITTER_ACC_TOK"]
 			config.access_token_secret = ENV["TWITTER_ACC_TOK_SEC"]
 		end
-		@html = generate_html(handle)
+		@tweet = get_last_tweet(handle)
+		@html = tweet_html
 	end
 
-	def generate_html(handle)
+	private
+	def get_last_tweet(handle)
+		@tweets = @client.user_timeline(handle, count: 10)
+		@tweets.each do |tweet|
+			unless tweet.retweet? 
+				return tweet
+			end
+		end
+	end
+
+	def tweet_html
 		@resource_url = "https://publish.twitter.com/oembed"
-		@tweet = @client.user_timeline(handle, count: 1).first
 		@tweet_url = @tweet.url
 		@tweet_url_path = @tweet_url.site + @tweet_url.path
 		@full_resource_url = @resource_url + "?url=" + @tweet_url_path
 
-		HTTParty.get(@full_resource_url)["html"]
+		HTTParty.get(@full_resource_url)["html"]		
 	end
 end
