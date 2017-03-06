@@ -106,7 +106,7 @@ class BodyContainer extends React.Component {
         return <GroupShow  {...{subscribeToDispatcher: this.props.prepareForSegue, groupItemProps: props}}/>
     }
     dispatchRoleShow() {
-        return <RoleShow {...{role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups}} />
+        return <RoleShow {...{role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups, user: this.props.user}} />
     }
     packBody(dataType, content) {
         props = actionDefaults[dataType]

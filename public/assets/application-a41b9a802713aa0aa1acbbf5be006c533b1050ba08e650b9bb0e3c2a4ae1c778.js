@@ -35802,6 +35802,7 @@ var SignUpAlert = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(SignUpAlert.prototype), "constructor", this).call(this);
         this.state = {};
+        this.onAlertClick = this.onAlertClick.bind(this);
     }
 
     _createClass(SignUpAlert, [{
@@ -35817,6 +35818,11 @@ var SignUpAlert = (function (_React$Component) {
                         React.createElement(
                             "div",
                             { className: "alert alert-info alert-dismissable" },
+                            React.createElement(
+                                "button",
+                                { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" },
+                                "×"
+                            ),
                             React.createElement("i", { className: "fa fa-info-circle" }),
                             "  ",
                             React.createElement(
@@ -35837,6 +35843,12 @@ var SignUpAlert = (function (_React$Component) {
             } else {
                 return React.createElement("div", null);
             }
+        }
+    }, {
+        key: "onAlertClick",
+        value: function onAlertClick(ev) {
+            ev.preventDefault();
+            this.props.subscribeToDispatcher("signUp");
         }
     }]);
 
@@ -35889,7 +35901,8 @@ var App = (function (_React$Component) {
     value: function prepareForSegue(segue) {
       var params = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-      if (segue == this.state.action) {
+      this.setState({ error: null });
+      if (this.state.action != "groupShow" && segue == this.state.action) {
         return false;
       }
       var response = actions[segue](this, params);
@@ -35981,13 +35994,15 @@ var actions = {
     // that.setState({bodyContent: filteredCopy})
   },
   dashboard: function (that) {
+    window.scrollTo(0, 0);
     that.setState({ action: "dashboard" });
   },
   signUp: function (that) {
+    window.scrollTo(0, 0);
     that.setState({ action: "signUp" });
   },
   logIn: function (that) {
-    console.log("inside login");
+    window.scrollTo(0, 0);
     that.setState({ action: "logIn" });
   },
   logOut: function (that) {
@@ -35999,6 +36014,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ bodyContent: null,
           action: "dashboard", username: "Guest", userId: null, groups: []
         });
@@ -36018,6 +36034,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId, error: null
         });
@@ -36038,6 +36055,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId, groups: data.groups, error: null
         });
@@ -36054,6 +36072,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({
           action: "roleShow", bodyContent: data.role
         });
@@ -36070,7 +36089,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
-        console.log(data);
+        window.scrollTo(0, 0);
         that.setState({
           bodyContent: data.legislators, action: "senatorIndex"
         });
@@ -36087,6 +36106,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ bodyContent: data.legislators,
           bodyContent: data.legislators, action: "repIndex"
         });
@@ -36098,11 +36118,16 @@ var actions = {
     });
   },
   groupNew: function (that, params) {
-    that.setState({ action: "groupNew" });
+    if (that.state.userId == null) {
+      window.scrollTo(0, 0);
+      that.setState({ action: "signUp", error: "Log-in or sign-Up to gain the ability to create groups" });
+    } else {
+      that.setState({ action: "groupNew" });
+    }
   },
   groupCreate: function (that, params) {
     var url = "users/" + that.state.userId + "/groups";
-    var data = { name: params.name, group_type: params.groupType, user_id: that.state.userId };
+    var data = { name: params.name, user_id: that.state.userId };
     $.ajax({
       url: url,
       data: { group: data },
@@ -36110,6 +36135,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ groups: data.groups, action: "dashboard" });
       }).bind(that),
       error: (function (xhr, status, err) {
@@ -36125,6 +36151,7 @@ var actions = {
       dataType: 'json',
       cache: false,
       success: (function (data) {
+        window.scrollTo(0, 0);
         that.setState({ bodyContent: data.group, action: "groupShow" });
       }).bind(that),
       error: (function (xhr, status, err) {
@@ -36291,7 +36318,6 @@ var Body = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(Body.prototype), "constructor", this).call(this);
         this.state = {};
-        this.onAlertClick = this.onAlertClick.bind(this);
     }
 
     _createClass(Body, [{
@@ -36334,7 +36360,7 @@ var Body = (function (_React$Component) {
                             )
                         )
                     ),
-                    React.createElement(SignUpAlert, { user: this.props.user }),
+                    React.createElement(SignUpAlert, { user: this.props.user, subscribeToDispatcher: this.props.prepareForSegue }),
                     React.createElement(
                         "div",
                         { className: "row" },
@@ -36346,12 +36372,6 @@ var Body = (function (_React$Component) {
                     )
                 )
             );
-        }
-    }, {
-        key: "onAlertClick",
-        value: function onAlertClick(ev) {
-            ev.preventDefault();
-            this.props.prepareForSegue("signUp");
         }
     }]);
 
@@ -37201,7 +37221,7 @@ var BodyContainer = (function (_React$Component) {
     }, {
         key: "dispatchRoleShow",
         value: function dispatchRoleShow() {
-            return React.createElement(RoleShow, { role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups });
+            return React.createElement(RoleShow, { role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups, user: this.props.user });
         }
     }, {
         key: "packBody",
@@ -37472,8 +37492,7 @@ var GroupNew = (function (_React$Component) {
         _get(Object.getPrototypeOf(GroupNew.prototype), "constructor", this).call(this);
         this.state = {
             formData: {
-                name: "",
-                groupType: ""
+                name: ""
             }
         };
         this.updateInput = this.updateInput.bind(this);
@@ -37486,7 +37505,7 @@ var GroupNew = (function (_React$Component) {
 
             return React.createElement(
                 "div",
-                { className: "form-group" },
+                { className: "form-group col-sm-12 col-md-offset-2 col-md-8" },
                 React.createElement(
                     "form",
                     { onSubmit: this.submit },
@@ -37496,16 +37515,6 @@ var GroupNew = (function (_React$Component) {
                         "Group Name"
                     ),
                     React.createElement("input", { value: this.state.formData.name, onChange: this.updateInput, type: "text", className: "form-control", id: "name", placeholder: "Demirats" }),
-                    React.createElement(
-                        "label",
-                        { "for": "lastName" },
-                        "Group Type"
-                    ),
-                    React.createElement("input", { value: this.state.formData.groupType, onChange: this.updateInput, type: "text", className: "form-control", id: "groupType", placeholder: "Senators" }),
-                    React.createElement("input", { onClick: this.updateInput, className: "btn btn-primary", id: "groupType", type: "button", value: "Senators" }),
-                    React.createElement("input", { onClick: this.updateInput, className: "btn btn-primary", id: "groupType", type: "button", value: "Representative" }),
-                    React.createElement("input", { onClick: this.updateInput, className: "btn btn-primary", id: "groupType", type: "button", value: "Bills" }),
-                    React.createElement("input", { onClick: this.updateInput, className: "btn btn-primary", id: "groupType", type: "button", value: "Committees" }),
                     React.createElement("input", { type: "submit", value: "Register", className: "btn btn-info btn-block" })
                 )
             );
@@ -37999,6 +38008,12 @@ var RoleShow = (function (_React$Component) {
       var website = this;
       var party = "info-block-" + this.props.role.party + " block-info clearfix";
       var groupList = this.groupList(this);
+      var groupBtn = "btn btn-default";
+      var groupBtnDropDown = "btn btn-default dropdown-toggle";
+      if (this.props.user == null) {
+        groupBtn = groupBtn + " disabled";
+        groupBtnDropDown = groupBtnDropDown + " disabled";
+      }
       return React.createElement(
         "div",
         { className: "row" },
@@ -38028,12 +38043,12 @@ var RoleShow = (function (_React$Component) {
               { className: "col-xs-offset-3 col-xs-9" },
               React.createElement(
                 "button",
-                { className: "btn btn-default", type: "button" },
+                { className: groupBtn, type: "button" },
                 "+ Group"
               ),
               React.createElement(
                 "button",
-                { "data-toggle": "dropdown", className: "btn btn-default dropdown-toggle", type: "button" },
+                { "data-toggle": "dropdown", className: groupBtnDropDown, type: "button" },
                 React.createElement("span", { className: "caret" })
               ),
               React.createElement(
@@ -38551,7 +38566,7 @@ var SessionNew = (function (_React$Component) {
 
             return React.createElement(
                 'div',
-                { className: 'form-group' },
+                { className: 'form-group col-sm-12 col-md-offset-2 col-md-8' },
                 React.createElement(ErrorAlert, { error: this.props.error }),
                 React.createElement(
                     'form',
@@ -38703,11 +38718,11 @@ var UserNew = (function (_React$Component) {
     _get(Object.getPrototypeOf(UserNew.prototype), 'constructor', this).call(this, props);
     this.state = {
       formData: {
-        f_name: 'Jane',
-        l_name: 'Doe',
-        email: 'janeDoe111@gmail.com',
-        username: 'janeDoe111',
-        password: 'password'
+        f_name: '',
+        l_name: '',
+        email: '',
+        username: '',
+        password: ''
       }
     };
     this.updateInput = this.updateInput.bind(this);
@@ -38720,7 +38735,7 @@ var UserNew = (function (_React$Component) {
 
       return React.createElement(
         'div',
-        { className: 'form-group' },
+        { className: 'form-group col-sm-12 col-md-offset-2 col-md-8' },
         React.createElement(ErrorAlert, { error: this.props.error }),
         React.createElement(
           'form',

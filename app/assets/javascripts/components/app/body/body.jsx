@@ -3,8 +3,7 @@ class Body extends React.Component {
         super();
         this.state = {
 
-        }
-        this.onAlertClick = this.onAlertClick.bind(this)
+        }        
     };
     render() {
         return(
@@ -25,7 +24,7 @@ class Body extends React.Component {
                         </div>
                     </div>
 
-                   <SignUpAlert user={this.props.user}/>
+                   <SignUpAlert {...{user:this.props.user, subscribeToDispatcher: this.props.prepareForSegue}} />
 
                     <div className="row">
                         <div className="col-lg-12">
@@ -35,9 +34,5 @@ class Body extends React.Component {
                 </div>
             </div>
         )
-    }
-    onAlertClick(ev) {
-        ev.preventDefault();   
-        this.props.prepareForSegue("signUp");
     }
 }

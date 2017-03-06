@@ -14,7 +14,7 @@ class SessionNew extends React.Component {
     render() {
         
         return (
-            <div className="form-group">
+            <div className="form-group col-sm-12 col-md-offset-2 col-md-8">
                     <ErrorAlert error={this.props.error} />
                   <form onSubmit={this.submit}>
                     <label for="userName">Username</label>

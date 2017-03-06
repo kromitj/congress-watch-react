@@ -12,6 +12,12 @@ class RoleShow extends React.Component {
     const website = this
     const party = "info-block-" + this.props.role.party + " block-info clearfix"
     const groupList = this.groupList(this)
+    let groupBtn = "btn btn-default"
+    let groupBtnDropDown = "btn btn-default dropdown-toggle"
+    if (this.props.user == null) {
+      groupBtn = groupBtn + " disabled"
+      groupBtnDropDown = groupBtnDropDown + " disabled"
+    } 
     return (
     <div className="row">
         <div className="col-md-12 col-lg-4">
@@ -19,8 +25,8 @@ class RoleShow extends React.Component {
             <h1 className="text-center">{this.props.role.name}</h1>
             <h3 className="text-center">{this.props.role.desc}</h3>
            <div className="row"><div className="col-xs-offset-3 col-xs-9">
-               <button className="btn btn-default" type="button">+ Group</button>
-                <button data-toggle="dropdown" className="btn btn-default dropdown-toggle" type="button"><span className="caret"></span>
+               <button className={groupBtn} type="button">+ Group</button>
+                <button data-toggle="dropdown" className={groupBtnDropDown} type="button"><span className="caret"></span>
                 </button>
                 <ul className="dropdown-menu">
                   { groupList }

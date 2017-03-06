@@ -28,7 +28,8 @@ class App extends React.Component {
     }
 
     prepareForSegue(segue, params=null) {
-      if (segue == this.state.action) { return false }
+      this.setState({error: null})
+      if ((this.state.action != "groupShow") && (segue == this.state.action)) { return false }
       var response = actions[segue](this, params)
       console.log(response)      
     }
@@ -114,13 +115,15 @@ const actions = {
     // that.setState({bodyContent: filteredCopy})
   },
   dashboard: function(that) {
+    window.scrollTo(0,0)
     that.setState({action: "dashboard"})
   },
   signUp: function(that) {
+    window.scrollTo(0,0)
     that.setState({action: "signUp"}) 
   },
   logIn: function(that) {
-    console.log("inside login")
+    window.scrollTo(0,0)
     that.setState({action: "logIn"}) 
   },
   logOut: function(that) {
@@ -132,6 +135,7 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
+        window.scrollTo(0,0)
         that.setState({bodyContent: null,
           action: "dashboard", username: "Guest", userId: null, groups: []
         });
@@ -151,6 +155,7 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
+        window.scrollTo(0,0)
         that.setState({bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId, error: null
         });
@@ -171,6 +176,7 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
+        window.scrollTo(0,0)
         that.setState({bodyContent: null,
           action: "dashboard", username: data.username, userId: data.userId, groups: data.groups, error: null
         });
@@ -181,12 +187,13 @@ const actions = {
       }.bind(that)
     });        
   },
-  roleShow: function(that, roleId) {
+  roleShow: function(that, roleId) {    
     $.ajax({
       url: "/legislators/" + roleId,
       dataType: 'json',
       cache: false,
       success: function(data) {
+        window.scrollTo(0,0)
         that.setState(
           {
             action: "roleShow", bodyContent: data.role
@@ -205,7 +212,7 @@ const actions = {
         dataType: 'json',
         cache: false,
         success: function(data) {
-          console.log(data)
+          window.scrollTo(0,0)
           that.setState(
             {
               bodyContent: data.legislators, action: "senatorIndex"
@@ -224,6 +231,7 @@ const actions = {
           dataType: 'json',
           cache: false,
           success: function(data) {
+            window.scrollTo(0,0)
             that.setState({bodyContent: data.legislators,
                 bodyContent: data.legislators, action: "repIndex"
             });
@@ -235,11 +243,14 @@ const actions = {
         });           
   },
   groupNew: function(that, params) {
-    that.setState({action: "groupNew"})
+    if (that.state.userId == null) {
+      window.scrollTo(0,0)
+      that.setState({action: "signUp", error: "Log-in or sign-Up to gain the ability to create groups"})
+    } else { that.setState({action: "groupNew"}) }    
   },
   groupCreate: function(that, params) {
     const url = "users/" + that.state.userId + "/groups"
-    const data = {name: params.name, group_type: params.groupType, user_id: that.state.userId}
+    const data = {name: params.name, user_id: that.state.userId}
     $.ajax({
       url: url,
       data: {group: data},
@@ -247,6 +258,7 @@ const actions = {
       dataType: 'json',
       cache: false,
       success: function(data) {
+        window.scrollTo(0,0)
         that.setState({groups: data.groups, action: "dashboard"});
       }.bind(that),
       error: function(xhr, status, err) {
@@ -261,7 +273,8 @@ const actions = {
       type: 'GET',
       dataType: 'json',
       cache: false,
-      success: function(data) {        
+      success: function(data) { 
+      window.scrollTo(0,0)      
         that.setState({bodyContent: data.group, action: "groupShow"});
       }.bind(that),
       error: function(xhr, status, err) {

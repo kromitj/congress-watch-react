@@ -3,11 +3,11 @@ class UserNew extends React.Component {
         super(props);
         this.state = {
         	formData: {
-        		f_name: 'Jane',
-        		l_name: 'Doe',
-        		email: 'janeDoe111@gmail.com',
-        		username: 'janeDoe111',
-        		password: 'password'
+        		f_name: '',
+        		l_name: '',
+        		email: '',
+        		username: '',
+        		password: ''
         	}
         }
         this.updateInput = this.updateInput.bind(this);
@@ -17,7 +17,7 @@ class UserNew extends React.Component {
     render() {
         
         return (
-            <div className="form-group">
+            <div className="form-group col-sm-12 col-md-offset-2 col-md-8">
                         <ErrorAlert error={this.props.error} />
 			          <form onSubmit={this.submit}>
 			          	<label for="firstName">First Name</label>

@@ -3,8 +3,7 @@ class GroupNew extends React.Component {
         super();
         this.state = {
             formData: {
-                name: "",
-                groupType: ""
+                name: ""
             }
         }
         this.updateInput = this.updateInput.bind(this);
@@ -13,20 +12,11 @@ class GroupNew extends React.Component {
     render() {
         
         return(
-             <div className="form-group">
+             <div className="form-group col-sm-12 col-md-offset-2 col-md-8">
               <form onSubmit={this.submit}>
                 <label for="firstName">Group Name</label>
                 <input value={this.state.formData.name} onChange={this.updateInput} type="text" className="form-control" id="name" placeholder="Demirats"></input>
              
-                <label for="lastName">Group Type</label>
-                <input value={this.state.formData.groupType} onChange={this.updateInput} type="text" className="form-control" id="groupType" placeholder="Senators"></input>
-                
-                <input onClick={this.updateInput} className="btn btn-primary" id="groupType" type="button" value="Senators"></input>
-                <input onClick={this.updateInput} className="btn btn-primary" id="groupType" type="button" value="Representative"></input>
-                <input onClick={this.updateInput} className="btn btn-primary" id="groupType" type="button" value="Bills"></input>
-                <input onClick={this.updateInput} className="btn btn-primary" id="groupType" type="button" value="Committees"></input>
-
-
                 <input type="submit" value="Register" className="btn btn-info btn-block"></input>
               </form>
             </div>
