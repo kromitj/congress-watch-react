@@ -1,4 +1,4 @@
-TODO: 
+<h3>.TODO:</h3>h3> 
 <ul>
 	<li>Have website be in Beta</li>
 	<li>Have option when sign-Up to be partisipate in UX survey</li>
@@ -6,6 +6,7 @@ TODO:
 	<li>After each action have a SurveyQuestion appear that correspones to action taken; dynamic to whether it was successful or not, e.g. successfully signing in or not will throw two differant SurveyQuestion objects</li>
 </ul>
 
+<h3>Final Survey Questions: </h3>
 <ul>
 	<li>First Initial response</li>
 	<li>How would you describe <website / product> in one or more words?</li>
@@ -22,8 +23,20 @@ TODO:
 </ul>
 
 
+<h3>SurveyQuestion Component: </h3>
+	<ul>
+	<li>Design Rating</li>
+	<li>Clearness off expectations</li>
+	<li>Bugs Experienced</li>
+	<li>Things Liked</li>
+	<li>Unessary Things</li>
+	<li>Need To Haves</li>
+	<li>Would Have Likeds</li>
+	<li>Ideas</li>
+	</ul>
 
-sources:
+
+<h3>sources:</h3>
 <ul>
 	<li>http://www.uxforthemasses.com/online-survey-questions/</li>
 </ul>
