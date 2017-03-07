@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303034140) do
+ActiveRecord::Schema.define(version: 20170306231602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,27 @@ ActiveRecord::Schema.define(version: 20170303034140) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "survey_questions", force: :cascade do |t|
+    t.integer  "survey_id"
+    t.string   "question"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string   "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_survey_responses", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "survey_question_id"
+    t.string   "response"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "f_name"
     t.string   "l_name"
@@ -157,8 +178,9 @@ ActiveRecord::Schema.define(version: 20170303034140) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "profile_picture"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "survey_participant"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
 end

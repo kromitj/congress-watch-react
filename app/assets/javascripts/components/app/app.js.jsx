@@ -11,17 +11,21 @@ class App extends React.Component {
             contentSortedBy: "lastname",
             username: 'Guest',
             userId: null,
+            survey: null
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
     };
 
     render() {
-      navProps = this.packNavProps()
-      bodyProps = this.packBodyProps()
+      const navProps = this.packNavProps()
+      const bodyProps = this.packBodyProps()
+      const survey = this.state.survey
+
         return(
              <div id="wrapper">
                 <Nav {...navProps} />
+                <SurveyContainer {...{survey: survey, userId: this.state.userId}} />
                 <BodyContainer {...bodyProps}/>
             </div>
         )
@@ -52,7 +56,7 @@ class App extends React.Component {
         groups: this.state.groups,
         sortData: this.sortData,
         prepareForSegue: this.prepareForSegue,
-        error: this.state.error
+        error: this.state.error,
       }
     }
 
@@ -157,7 +161,7 @@ const actions = {
       success: function(data) {
         window.scrollTo(0,0)
         that.setState({bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId, error: null
+          action: "dashboard", username: data.username, userId: data.userId, survey: data.survey, error: null
         });
       }.bind(that),
       error: function(data) {

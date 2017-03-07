@@ -25,7 +25,8 @@ class UsersController < ApplicationController
       #create session cookie
       session[:user_id] = @user.id
       if request.xhr?
-        render :json => {:userId => @user.id, :status => true, :username => @user.username}
+        @user.survey_participant ? @survey = Survey.find_by(action: "dashboard").pack_survey : @survey = nil
+        render :json => {:userId => @user.id, :status => true, :username => @user.username, :survey => @survey}
       else
         # redirect_to "/users/#{@user.id}"
         redirect_to "/"
@@ -69,7 +70,7 @@ class UsersController < ApplicationController
 # private
 
   def user_params
-    params.require(:user).permit(:f_name, :l_name, :username, :email, :password)
+    params.require(:user).permit(:f_name, :l_name, :username, :email, :password, :survey_participant)
   end
 
 end

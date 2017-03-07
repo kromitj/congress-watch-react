@@ -25,7 +25,6 @@ class Body extends React.Component {
                     </div>
 
                    <SignUpAlert {...{user:this.props.user, subscribeToDispatcher: this.props.prepareForSegue}} />
-
                     <div className="row">
                         <div className="col-lg-12">
                             { this.props.content }

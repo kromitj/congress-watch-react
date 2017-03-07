@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :password, length: {minimum: 8}
 
   has_many :groups
+  has_many :user_survey_responses
+
 
   def get_groups
   	groups

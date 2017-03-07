@@ -7,7 +7,8 @@ class UserNew extends React.Component {
         		l_name: '',
         		email: '',
         		username: '',
-        		password: ''
+        		password: '',
+                survey_participant: false
         	}
         }
         this.updateInput = this.updateInput.bind(this);
@@ -34,6 +35,14 @@ class UserNew extends React.Component {
 			          
 			          	<label for="password">Password</label>
 					    <input value={this.state.formData.password} onChange={this.updateInput} type="password" className="form-control" id="password" placeholder="********"></input>
+
+                        <label for="password">Do you want to participate in a User-Experience Survey</label>
+                        <div className="checkbox">
+                            <label>
+                              <input value={this.state.formData.password} onChange={this.updateInput} type="checkbox" id="survey_participant"></input>
+                            </label>
+                          </div>
+
 					    <input type="submit" value="Register" className="btn btn-info btn-block"></input>
 			          </form>
 			</div>
@@ -41,18 +50,18 @@ class UserNew extends React.Component {
     }
 
     updateInput(ev) {
-    	const field = $(ev.target).attr('id')
-    	console.log(field)
+        const target = ev.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = $(ev.target).attr('id')
     	let newFormData = Object.assign({}, this.state.formData);
-    	newFormData[field] = ev.target.value
-    	console.log(newFormData)
+    	newFormData[name] = value
     	this.setState({ formData: newFormData } );
     }
 
     submit(ev) {
-    	const formData = Object.assign({}, this.state.formData)
-    	console.log(formData)
     	ev.preventDefault(); 
+        const formData = Object.assign({}, this.state.formData)
+        console.log(formData)
         this.props.subscribeToDispatcher("userNew", formData);
     }
     
