@@ -43,7 +43,10 @@ require 'httparty'
 # seed.seed_data
 
 
-# #files
+User.create(f_name: "Mitch", l_name: "Kroska", username: "kromitj", email: "kromitj@gmail.com", password: "password", profile_picture: "http://lorempixel.com/200/200/people/", survey_participant: true)
+
+survey = Survey.create(action: "dashboard")
+survey.survey_questions.create(question: "What is your initial impression of the website")
 
 # # get IDs for all current Legislators
 current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?current=true&limit=1000')["objects"].map { |legislator| legislator["person"]["id"]}
