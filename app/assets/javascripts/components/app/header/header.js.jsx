@@ -9,7 +9,7 @@ class Header extends React.Component {
     render() {
         return (
             <div>
-                <a className="navbar-brand" href="#" onClick={this.onLogoClick}>Congress Observer</a>
+                <a className="navbar-brand" href="#" onClick={this.onLogoClick}>Congress Observer <i>Beta</i></a>
             </ div>
             )
     }

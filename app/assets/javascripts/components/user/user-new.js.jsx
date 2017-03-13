@@ -1,6 +1,7 @@
 class UserNew extends React.Component {
     constructor(props) {
         super(props);
+        this.errorClasses = {true: "has-success", false: "has-error"}
         this.state = {
         	formData: {
         		f_name: '',
@@ -8,15 +9,18 @@ class UserNew extends React.Component {
         		email: '',
         		username: '',
         		password: '',
+                rePassword: '',
                 survey_participant: false
         	}
         }
         this.updateInput = this.updateInput.bind(this);
         this.submit = this.submit.bind(this)
+        this.onChange = this.onChange.bind(this)
     };
 
     render() {
-        
+            const passwordErrorClass = this.passwordIsValid(this.state.formData.password);
+            console.log(passwordErrorClass)
         return (
             <div className="form-group col-sm-12 col-md-offset-2 col-md-8">
                         <ErrorAlert error={this.props.error} />
@@ -30,13 +34,12 @@ class UserNew extends React.Component {
 			            <label for="email">Email</label>
 					    <input value={this.state.formData.email} onChange={this.updateInput} type="email" className="form-control" id="email" placeholder="janeDoe111@gmail.com"></input>
 
-			          	<label for="userName">Username</label>
-					    <input value={this.state.formData.username} onChange={this.updateInput} type="text" className="form-control" id="username" placeholder="janeDoe111"></input>
-			          
-			          	<label for="password">Password</label>
-					    <input value={this.state.formData.password} onChange={this.updateInput} type="password" className="form-control" id="password" placeholder="********"></input>
+                        <UsernameField {...{value: this.state.formData.username, onChange: this.onChange, errorClasses: this.errorClasses}}/>
+			            
+                        <PasswordField {...{value: this.state.formData.password, onChange: this.onChange, errorClasses: this.errorClasses}}/>
+                        <PasswordCopyField {...{value: this.state.formData.rePassword, passwordValue: this.state.formData.password, onChange: this.onChange, errorClasses: this.errorClasses}}/>
 
-                        <label for="password">Do you want to participate in a User-Experience Survey</label>
+                        <label for="survey">Do you want to participate in a User-Experience Survey</label>
                         <div className="checkbox">
                             <label>
                               <input value={this.state.formData.password} onChange={this.updateInput} type="checkbox" id="survey_participant"></input>
@@ -54,8 +57,16 @@ class UserNew extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = $(ev.target).attr('id')
     	let newFormData = Object.assign({}, this.state.formData);
+        const fieldIsValid = this.fieldIsValid(name, value)
     	newFormData[name] = value
     	this.setState({ formData: newFormData } );
+    }
+
+    onChange(field, value) {
+        let newFormData = Object.assign({}, this.state.formData);
+
+        newFormData[field] = value
+        this.setState({ formData: newFormData } );
     }
 
     submit(ev) {
@@ -63,6 +74,33 @@ class UserNew extends React.Component {
         const formData = Object.assign({}, this.state.formData)
         console.log(formData)
         this.props.subscribeToDispatcher("userNew", formData);
+    }
+
+    fieldIsValid(fieldName, fieldValue) {
+        switch(fieldName) {
+            case "password":
+                return this.passwordIsValid(fieldValue)
+                break;
+             case "username":
+                return this.usernameIsValid(fieldValue)
+                break;   
+            default:
+                return false
+        }
+    }
+
+    usernameIsValid(fieldValue) {
+        const cantContain = /[&=+<>,]/
+        const errorClasses = {true: "has-success", false: "has-error"}
+        const doesntContainSpecialChar = cantContain.test(fieldValue)
+        alert(errorClasses[doesntContainSpecialChar])
+        return this.errorClasses[doesntContainSpecialChar]
+
+    }
+
+    passwordIsValid(fieldValue) {
+       const isValid = fieldValue.length >= 8 
+       return this.errorClasses[isValid]
     }
     
 }

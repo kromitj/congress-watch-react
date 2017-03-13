@@ -91,7 +91,8 @@ class App extends React.Component {
 const actions = {
   groupableNew: function(that, groupParams) {
     const data = {userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId}
-    const url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items"
+    const url = `/user/${that.state.userId}/groups/${groupParams.groupId}/group_items` 
+    // const url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items"
     $.ajax({
       url: url,
       type: 'POST',

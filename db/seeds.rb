@@ -47,6 +47,7 @@ User.create(f_name: "Mitch", l_name: "Kroska", username: "kromitj", email: "krom
 
 survey = Survey.create(action: "dashboard")
 survey.survey_questions.create(question: "What is your initial impression of the website")
+survey.survey_questions.create(question: "How would you describe this website in one or more words?")
 
 # # get IDs for all current Legislators
 current_legislator_ids = HTTParty.get('https://www.govtrack.us/api/v2/role?current=true&limit=1000')["objects"].map { |legislator| legislator["person"]["id"]}
