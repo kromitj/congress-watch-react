@@ -4,6 +4,31 @@ class App extends React.Component {
     constructor(props) {
         super();
         this.state = {
+            store: Immutable.fromJS({
+              action: "dashboard",
+              stateHistory: {
+                historyIndex: 0,
+                dataHistory: []
+              },
+              user: {
+                id: null,
+                userName: "Guest",
+                groups: []
+              },
+              legislator: {
+                senatorsStore: {
+                  senators: [],
+                  sortBy: "lastName",
+                  filters: []
+                },
+                representativesStore: {
+                  representatives: [],
+                  sortBy: "lastName",
+                  filters: []
+                },
+                legislatorShow: {}
+              }
+            }),
             action: "dashboard",
             error: null,
             bodyContent: null,

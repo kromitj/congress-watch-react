@@ -8,6 +8,7 @@ class RoleList extends React.Component {
         this.filterQuery = this.filterQuery.bind(this)
     };
     render() {
+        console.log(this.props)
         const subscribeToDispatcher = this.props.subscribeToDispatcher
         const roles = this.props.roleItems.map(function(role) {
             const roleProps = {role: role, subscribeToDispatcher: subscribeToDispatcher}

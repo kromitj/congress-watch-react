@@ -25,12 +25,12 @@ class PasswordCopyField extends React.Component {
         )
     };
 
-  updateInput(ev) {
-    const newValue = ev.target.value
-    this.fieldIsValid(newValue)    
-  }
+    updateInput(ev) {
+        const newValue = ev.target.value
+        this.fieldIsValid(newValue)    
+    }
 
-      errorClass() {
+    errorClass() {
         const isValid = this.state.errorMessages
             .filter((validation) => validation.throwError == true)
 
@@ -47,7 +47,6 @@ class PasswordCopyField extends React.Component {
     }
 
     bothMatch(fieldValue) {
-    	console.log(`${fieldValue}: ${this.props.passwordValue}`)
         return fieldValue != this.props.passwordValue
     }
 

@@ -49,6 +49,7 @@ class BodyContainer extends React.Component {
     };
 
     render() {
+        console.log(`data: ${this.props.data}`)
         content = this.dispatchData(this.props.dataType, this.props.data)
         props = this.packBody(this.props.dataType, content)
         return(
