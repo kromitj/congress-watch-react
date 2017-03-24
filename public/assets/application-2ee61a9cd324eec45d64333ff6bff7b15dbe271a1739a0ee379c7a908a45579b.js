@@ -35898,13 +35898,13 @@ var App = (function (_React$Component) {
         }
       }),
       action: "dashboard",
-      error: null,
       bodyContent: null,
-      groups: [],
       contentSortedBy: "lastname",
+      error: null,
+      groups: [],
+      survey: null,
       username: 'Guest',
-      userId: null,
-      survey: null
+      userId: null
     };
     this.prepareForSegue = this.prepareForSegue.bind(this);
     this.sortData = this.sortData.bind(this);
@@ -38011,6 +38011,59 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var Panel = (function (_React$Component) {
+		_inherits(Panel, _React$Component);
+
+		function Panel(props) {
+				_classCallCheck(this, Panel);
+
+				_get(Object.getPrototypeOf(Panel.prototype), "constructor", this).call(this);
+				this.state = {};
+		}
+
+		_createClass(Panel, [{
+				key: "render",
+				value: function render() {
+						return React.createElement(
+								"div",
+								{ className: "panel panel-default target" },
+								React.createElement(
+										"div",
+										{ className: "panel-heading" },
+										"Recent News"
+								),
+								React.createElement(
+										"div",
+										{ className: "panel-body" },
+										React.createElement(
+												"div",
+												{ className: "row" },
+												React.createElement(
+														"div",
+														{ className: "col-md-6" },
+														React.createElement(
+																"div",
+																{ className: "thumbnail" },
+																React.createElement("div", { className: "article-thumbnail" }),
+																React.createElement("div", { className: "caption" })
+														)
+												)
+										)
+								)
+						);
+				}
+		}]);
+
+		return Panel;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var RoleArticleList = (function (_React$Component) {
   _inherits(RoleArticleList, _React$Component);
 
@@ -38074,40 +38127,107 @@ var RoleArticle = (function (_React$Component) {
 
       return React.createElement(
         "div",
-        { className: "col-md-3" },
+        { className: "thumbnail" },
         React.createElement(
           "div",
-          { className: "thumbnail" },
-          React.createElement("img", { src: this.props.article.thumbnail, alt: "ALT NAME", className: "img-responsive" }),
+          { className: "article-thumbnail" },
           React.createElement(
-            "div",
-            { className: "caption" },
-            React.createElement(
-              "h4",
-              null,
-              this.props.article.title
-            ),
-            React.createElement(
-              "p",
-              null,
-              this.props.article.snippet
-            ),
-            React.createElement(
-              "p",
-              { align: "center" },
-              React.createElement(
-                "a",
-                { href: this.props.article.link, className: "btn btn-primary btn-block" },
-                "Open"
-              )
-            )
+            "a",
+            { href: "http://www.cnn.com/2012/11/07/politics/wisconsin-tammy-baldwin-senate/", target: "_blank" },
+            React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i2.cdn.cnn.com/cnnnext/dam/assets/121103050436-stock-tammy-baldwin-story-top.jpg" })
           )
+        ),
+        React.createElement(
+          "div",
+          { className: "caption" },
+          React.createElement(
+            "h4",
+            null,
+            "Wisconsin's Tammy Baldwin is first openly gay person elected to ..."
+          ),
+          React.createElement(
+            "p",
+            null,
+            "Nov 7, 2012 ... Tammy Baldwin made history Tuesday night -- twice. ... the first openly gay \\npolitician, and first Wisconsin woman, elected to the U.S. Senate."
+          ),
+          React.createElement("p", null)
         )
       );
     }
   }]);
 
   return RoleArticle;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RoleArticleCarousel = (function (_React$Component) {
+  _inherits(RoleArticleCarousel, _React$Component);
+
+  function RoleArticleCarousel(props) {
+    _classCallCheck(this, RoleArticleCarousel);
+
+    _get(Object.getPrototypeOf(RoleArticleCarousel.prototype), "constructor", this).call(this);
+    this.state = {};
+  }
+
+  _createClass(RoleArticleCarousel, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { id: "carousel-example-generic", className: "carousel slide", "data-ride": "carousel" },
+        React.createElement(
+          "ol",
+          { className: "carousel-indicators" },
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "0", className: "active" }),
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "1" }),
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "2" })
+        ),
+        React.createElement(
+          "div",
+          { className: "carousel-inner", role: "listbox" },
+          React.createElement(
+            "div",
+            { className: "item active" },
+            React.createElement(RoleArticle, null)
+          ),
+          React.createElement(
+            "div",
+            { className: "item" },
+            React.createElement(RoleArticle, null)
+          )
+        ),
+        React.createElement(
+          "a",
+          { className: "left carousel-control", href: "#carousel-example-generic", role: "button", "data-slide": "prev" },
+          React.createElement("span", { className: "glyphicon glyphicon-chevron-left", "aria-hidden": "true" }),
+          React.createElement(
+            "span",
+            { className: "sr-only" },
+            "Previous"
+          )
+        ),
+        React.createElement(
+          "a",
+          { className: "right carousel-control", href: "#carousel-example-generic", role: "button", "data-slide": "next" },
+          React.createElement("span", { className: "glyphicon glyphicon-chevron-right", "aria-hidden": "true" }),
+          React.createElement(
+            "span",
+            { className: "sr-only" },
+            "Next"
+          )
+        )
+      );
+    }
+  }]);
+
+  return RoleArticleCarousel;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -38452,145 +38572,11 @@ var RoleShow = (function (_React$Component) {
           ),
           React.createElement("br", null),
           React.createElement("br", null),
-          React.createElement(
-            "ul",
-            { className: "list-group" },
-            React.createElement(
-              "li",
-              { className: "list-group-item text-muted" },
-              "Profile"
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Role"
-                )
-              ),
-              this.props.role.role
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "State"
-                )
-              ),
-              this.props.role.state
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Party"
-                )
-              ),
-              this.props.role.party
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Assumed Office"
-                )
-              ),
-              this.props.role.assumed_office
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Adress"
-                )
-              ),
-              this.props.role.address
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              "Website ",
-              React.createElement("i", { className: "fa fa-link fa-1x" })
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              React.createElement(
-                "a",
-                { href: this.props.role.website, className: "" },
-                "personal website"
-              )
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              "Social Media"
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              "  ",
-              React.createElement("i", { className: "fa fa-facebook fa-2x" }),
-              "  ",
-              React.createElement("i", { className: "fa fa-github fa-2x" }),
-              React.createElement("i", { className: "fa fa-twitter fa-2x" }),
-              " ",
-              React.createElement("i", { className: "fa fa-pinterest fa-2x" }),
-              "  ",
-              React.createElement("i", { className: "fa fa-google-plus fa-2x" })
-            )
-          )
+          React.createElement(RoleSocialMediaList, { website: this.props.role.website, twitter: this.props.role.twitterid, address: this.props.role.address })
         ),
         React.createElement(
           "div",
           { className: "col-md-12 col-lg-8" },
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              this.props.role.name,
-              "'s Bio"
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              this.props.role.wiki_intro
-            )
-          ),
           React.createElement(
             "div",
             { className: "panel panel-default" },
@@ -38620,91 +38606,23 @@ var RoleShow = (function (_React$Component) {
               React.createElement(
                 "div",
                 { className: "row" },
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i2.cdn.cnn.com/cnnnext/dam/assets/121103050436-stock-tammy-baldwin-story-top.jpg" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Wisconsin's Tammy Baldwin is first openly gay person elected to ..."
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Nov 7, 2012 ... Tammy Baldwin made history Tuesday night -- twice. ... the first openly gay \\npolitician, and first Wisconsin woman, elected to the U.S. Senate."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://img.huffingtonpost.com/asset/2000_1000/5890eed01b0000250004d971.jpeg?cache=jg9bxlqcxn" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Tammy Baldwin's Sexual Orientation Attacked By Group Trying To ...e"
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Jan 31, 2017 ... A super PAC trying to draft Milwaukee County Sheriff David Clarke for a Senate \\nbid is attacking the sexual orientation of Sen. Tammy Baldwin..."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i.huffpost.com/gen/836250/images/o-TAMMY-BALDWIN-ELECTION-RESULTS-facebook.jpg" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Tammy Baldwin Election Results: Democrat Becomes First Openly ...e"
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Nov 7, 2012 ... Tammy Baldwin (D-Wis.) beat Republican Tommy Thompson for Wisconsin's \\nopen U.S. Senate seat on Tuesday, becoming the nation's first op."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                )
+                React.createElement(RoleArticleCarousel, null)
               )
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "panel panel-default" },
+            React.createElement(
+              "div",
+              { className: "panel-heading" },
+              this.props.role.name,
+              "'s Bio"
+            ),
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              this.props.role.wiki_intro
             )
           )
         )
@@ -38808,6 +38726,58 @@ var RoleSideBar = (function (_React$Component) {
     }]);
 
     return RoleSideBar;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RoleSocialMediaList = (function (_React$Component) {
+  _inherits(RoleSocialMediaList, _React$Component);
+
+  function RoleSocialMediaList(props) {
+    _classCallCheck(this, RoleSocialMediaList);
+
+    _get(Object.getPrototypeOf(RoleSocialMediaList.prototype), "constructor", this).call(this);
+    this.state = {};
+  }
+
+  _createClass(RoleSocialMediaList, [{
+    key: "render",
+    value: function render() {
+      var twitterURL = "https://www.twitter.com/" + this.props.twitter;
+      return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+          "div",
+          { className: "panel-heading" },
+          "Social Media"
+        ),
+        React.createElement(
+          "div",
+          { className: "panel-body" },
+          React.createElement(
+            "a",
+            { href: this.props.website, target: "_blank" },
+            " ",
+            React.createElement("i", { className: "fa fa-tv fa-2x" })
+          ),
+          React.createElement(
+            "a",
+            { href: twitterURL, target: "_blank" },
+            React.createElement("i", { className: "fa fa-twitter fa-2x" })
+          ),
+          React.createElement("i", { className: "fa fa-address-card fa-2x", "data-toggle": "tooltip", title: this.props.address })
+        )
+      );
+    }
+  }]);
+
+  return RoleSocialMediaList;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
