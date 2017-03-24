@@ -28,10 +28,8 @@ class Role < ApplicationRecord
             assumed_office: startdate,
             address: address,
             party: party,
-            role: role_type_label,
-            state: @state,
+            twitterid: person.twitterid,
             website: website,
-            birthday: person.birthday,
             wiki_intro: person.wiki_intro,
             img: person.img_sm,
             last_tweet: @last_tweet_html

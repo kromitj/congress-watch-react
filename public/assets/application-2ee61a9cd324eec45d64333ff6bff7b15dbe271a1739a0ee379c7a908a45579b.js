@@ -35872,11 +35872,37 @@ var App = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this);
     this.state = {
+      store: Immutable.fromJS({
+        action: "dashboard",
+        stateHistory: {
+          historyIndex: 0,
+          dataHistory: []
+        },
+        user: {
+          id: null,
+          userName: "Guest",
+          groups: []
+        },
+        legislator: {
+          senatorsStore: {
+            senators: [],
+            sortBy: "lastName",
+            filters: []
+          },
+          representativesStore: {
+            representatives: [],
+            sortBy: "lastName",
+            filters: []
+          },
+          legislatorShow: {}
+        }
+      }),
       action: "dashboard",
-      error: null,
       bodyContent: null,
-      groups: [],
       contentSortedBy: "lastname",
+      error: null,
+      groups: [],
+      survey: null,
       username: 'Guest',
       userId: null
     };
@@ -35887,12 +35913,15 @@ var App = (function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      navProps = this.packNavProps();
-      bodyProps = this.packBodyProps();
+      var navProps = this.packNavProps();
+      var bodyProps = this.packBodyProps();
+      var survey = this.state.survey;
+
       return React.createElement(
         "div",
         { id: "wrapper" },
         React.createElement(Nav, navProps),
+        React.createElement(SurveyContainer, { survey: survey, userId: this.state.userId }),
         React.createElement(BodyContainer, bodyProps)
       );
     }
@@ -35967,7 +35996,8 @@ var App = (function (_React$Component) {
 var actions = {
   groupableNew: function (that, groupParams) {
     var data = { userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId };
-    var url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items";
+    var url = "/user/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items";
+    // const url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items"
     $.ajax({
       url: url,
       type: 'POST',
@@ -36036,7 +36066,7 @@ var actions = {
       success: (function (data) {
         window.scrollTo(0, 0);
         that.setState({ bodyContent: null,
-          action: "dashboard", username: data.username, userId: data.userId, error: null
+          action: "dashboard", username: data.username, userId: data.userId, survey: data.survey, error: null
         });
       }).bind(that),
       error: (function (data) {
@@ -36547,7 +36577,12 @@ var Header = (function (_React$Component) {
                 React.createElement(
                     "a",
                     { className: "navbar-brand", href: "#", onClick: this.onLogoClick },
-                    "Congress Observer"
+                    "Congress Observer ",
+                    React.createElement(
+                        "i",
+                        null,
+                        "Beta"
+                    )
                 )
             );
         }
@@ -37154,6 +37189,7 @@ var BodyContainer = (function (_React$Component) {
     _createClass(BodyContainer, [{
         key: "render",
         value: function render() {
+            console.log("data: " + this.props.data);
             content = this.dispatchData(this.props.dataType, this.props.data);
             props = this.packBody(this.props.dataType, content);
             return React.createElement(Body, props);
@@ -37301,6 +37337,228 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var PasswordCopyField = (function (_React$Component) {
+    _inherits(PasswordCopyField, _React$Component);
+
+    function PasswordCopyField(props) {
+        _classCallCheck(this, PasswordCopyField);
+
+        _get(Object.getPrototypeOf(PasswordCopyField.prototype), "constructor", this).call(this);
+        this.state = {
+            errorMessages: [{
+                throwError: true,
+                errorMessage: "The passwords you entered don't match"
+            }]
+        };
+
+        this.updateInput = this.updateInput.bind(this);
+    }
+
+    _createClass(PasswordCopyField, [{
+        key: "render",
+        value: function render() {
+            var errorClass = this.errorClass();
+            var errorString = this.ValidationErrorsToString();
+            return React.createElement(
+                "div",
+                { className: "form-group " + this.props.errorClasses[errorClass] },
+                React.createElement(
+                    "label",
+                    { "for": "password" },
+                    "Password"
+                ),
+                React.createElement("input", { value: this.props.value, onChange: this.updateInput, type: "password", className: "form-control", id: "password", placeholder: "********" }),
+                React.createElement(
+                    "small",
+                    { className: "form-text text-muted has-error" },
+                    errorString
+                )
+            );
+        }
+    }, {
+        key: "updateInput",
+        value: function updateInput(ev) {
+            var newValue = ev.target.value;
+            this.fieldIsValid(newValue);
+        }
+    }, {
+        key: "errorClass",
+        value: function errorClass() {
+            var isValid = this.state.errorMessages.filter(function (validation) {
+                return validation.throwError == true;
+            });
+
+            return isValid.length == 0;
+        }
+    }, {
+        key: "fieldIsValid",
+        value: function fieldIsValid(newValue) {
+            this.props.onChange("rePassword", newValue);
+            var matchesOther = this.bothMatch(newValue);
+            var newState = Object.assign([], this.state.errorMessages);
+            newState[0].throwError = matchesOther;
+
+            this.setState({ errorMessages: newState });
+        }
+    }, {
+        key: "bothMatch",
+        value: function bothMatch(fieldValue) {
+            return fieldValue != this.props.passwordValue;
+        }
+    }, {
+        key: "ValidationErrorsToString",
+        value: function ValidationErrorsToString() {
+            var errorString = this.state.errorMessages.filter(function (validation) {
+                return validation.throwError === true;
+            }).map(function (validation) {
+                return validation.errorMessage;
+            }).join(", ");
+            return errorString;
+        }
+    }]);
+
+    return PasswordCopyField;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PasswordField = (function (_React$Component) {
+  _inherits(PasswordField, _React$Component);
+
+  function PasswordField(props) {
+    _classCallCheck(this, PasswordField);
+
+    _get(Object.getPrototypeOf(PasswordField.prototype), "constructor", this).call(this);
+    this.state = {
+      errorMessages: [{
+        throwError: true,
+        error: "passwordHasMinLength",
+        errorMessage: "Must be at least 8 characters"
+      }, {
+        throwError: true,
+        error: "passwordHasLC",
+        errorMessage: "Must have one or more lower-case letter"
+      }, {
+        throwError: true,
+        error: "passwordHasUC",
+        errorMessage: "Must have one or more upper-case letter"
+      }, {
+        throwError: true,
+        error: "passwordHasLtr",
+        errorMessage: "Must have one or more number"
+      }]
+    };
+    this.updateInput = this.updateInput.bind(this);
+  }
+
+  _createClass(PasswordField, [{
+    key: "render",
+    value: function render() {
+      var errorClass = this.errorClass();
+      var errorString = this.ValidationErrorsToString();
+      return React.createElement(
+        "div",
+        { className: "form-group " + this.props.errorClasses[errorClass] },
+        React.createElement(
+          "label",
+          { "for": "password" },
+          "Password"
+        ),
+        React.createElement("input", { value: this.props.value, onChange: this.updateInput, type: "password", className: "form-control", id: "password", placeholder: "********" }),
+        React.createElement(
+          "small",
+          { className: "form-text text-muted has-error" },
+          errorString
+        )
+      );
+    }
+  }, {
+    key: "updateInput",
+    value: function updateInput(ev) {
+      var newValue = ev.target.value;
+      this.fieldIsValid(newValue);
+    }
+  }, {
+    key: "errorClass",
+    value: function errorClass() {
+      var isValid = this.state.errorMessages.filter(function (validation) {
+        return validation.throwError == true;
+      });
+      return isValid.length == 0;
+    }
+  }, {
+    key: "fieldIsValid",
+    value: function fieldIsValid(newValue) {
+      this.props.onChange("password", newValue);
+
+      var hasMinLength = this.isMinLength(newValue);
+      var hasOneLowerCase = this.hasOneLowerCase(newValue);
+      var hasOneUpperCase = this.hasOneUpperCase(newValue);
+      var hasOneNumber = this.hasOneNumber(newValue);
+
+      var newState = Object.assign([], this.state.errorMessages);
+
+      newState[0].throwError = hasMinLength;
+      newState[1].throwError = hasOneLowerCase;
+      newState[2].throwError = hasOneUpperCase;
+      newState[3].throwError = hasOneNumber;
+
+      this.setState({ errorMessages: newState });
+    }
+  }, {
+    key: "isMinLength",
+    value: function isMinLength(fieldValue) {
+      var minLength = 8;
+      return fieldValue.length < minLength;
+    }
+  }, {
+    key: "hasOneLowerCase",
+    value: function hasOneLowerCase(fieldValue) {
+      var lowerCases = /[a-z]/;
+      var hasLowerCase = lowerCases.test(fieldValue);
+      return !hasLowerCase;
+    }
+  }, {
+    key: "hasOneUpperCase",
+    value: function hasOneUpperCase(fieldValue) {
+      var upperCases = /[A-Z]/;
+      var hasUpperCase = upperCases.test(fieldValue);
+      return !hasUpperCase;
+    }
+  }, {
+    key: "hasOneNumber",
+    value: function hasOneNumber(fieldValue) {
+      var numbers = /\d/;
+      var hasNumber = numbers.test(fieldValue);
+      return !hasNumber;
+    }
+  }, {
+    key: "ValidationErrorsToString",
+    value: function ValidationErrorsToString() {
+      var errorString = this.state.errorMessages.filter(function (validation) {
+        return validation.throwError === true;
+      }).map(function (validation) {
+        return validation.errorMessage;
+      }).join(", ");
+      return errorString;
+    }
+  }]);
+
+  return PasswordField;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var SearchBar = (function (_React$Component) {
     _inherits(SearchBar, _React$Component);
 
@@ -37347,6 +37605,134 @@ var SearchBar = (function (_React$Component) {
     }]);
 
     return SearchBar;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UsernameField = (function (_React$Component) {
+    _inherits(UsernameField, _React$Component);
+
+    function UsernameField(props) {
+        _classCallCheck(this, UsernameField);
+
+        _get(Object.getPrototypeOf(UsernameField.prototype), "constructor", this).call(this);
+        this.state = {
+            errorMessages: [{
+                throwError: false,
+                errorMessage: "can't contain (&), (<), (>), (+), (=), (,)"
+            }, {
+                throwError: true,
+                errorMessage: "must be greater than 6 chars"
+            }, {
+                throwError: false,
+                errorMessage: "no more then one period in a row"
+            }, {
+                throwError: false,
+                errorMessage: "Can't start or end with a period"
+            }]
+        };
+
+        this.updateInput = this.updateInput.bind(this);
+    }
+
+    _createClass(UsernameField, [{
+        key: "render",
+        value: function render() {
+            var errorClass = this.errorClass();
+            var errorString = this.ValidationErrorsToString();
+            return React.createElement(
+                "div",
+                { className: "form-group " + this.props.errorClasses[errorClass] },
+                React.createElement(
+                    "label",
+                    { "for": "userName" },
+                    "Username "
+                ),
+                React.createElement("input", { value: this.props.value, onChange: this.updateInput, type: "text", className: "form-control", id: "username", placeholder: "janeJoe123" }),
+                React.createElement(
+                    "small",
+                    { className: "form-text text-muted has-error" },
+                    errorString
+                )
+            );
+        }
+    }, {
+        key: "updateInput",
+        value: function updateInput(ev) {
+            var newValue = ev.target.value;
+            this.fieldIsValid(newValue);
+        }
+    }, {
+        key: "fieldIsValid",
+        value: function fieldIsValid(newValue) {
+            this.props.onChange("username", newValue);
+            var specChars = this.devoidOfSpecialChars(newValue);
+            var minLength = this.isMinLength(newValue);
+            var periodsInRow = this.multiplePeriods(newValue);
+            var startOrEndPeriod = this.startOrEndWithPeriod(newValue);
+
+            var newState = Object.assign([], this.state.errorMessages);
+            newState[0].throwError = specChars;
+            newState[1].throwError = minLength;
+            newState[2].throwError = periodsInRow;
+            newState[3].throwError = startOrEndPeriod;
+
+            this.setState({ errorMessages: newState });
+        }
+    }, {
+        key: "devoidOfSpecialChars",
+        value: function devoidOfSpecialChars(fieldValue) {
+            var cantContain = /[&=+<>,]/;
+            var containsSpecChar = cantContain.test(fieldValue);
+            return containsSpecChar;
+        }
+    }, {
+        key: "errorClass",
+        value: function errorClass() {
+            var isValid = this.state.errorMessages.filter(function (validation) {
+                return validation.throwError == true;
+            });
+
+            return isValid.length == 0;
+        }
+    }, {
+        key: "isMinLength",
+        value: function isMinLength(fieldValue) {
+            var minLength = 6;
+            return fieldValue.length < minLength;
+        }
+    }, {
+        key: "multiplePeriods",
+        value: function multiplePeriods(fieldValue) {
+            var twoOrMorePeriods = /\.{2,}/;
+            var containsTwoOrMore = twoOrMorePeriods.test(fieldValue);
+            return containsTwoOrMore;
+        }
+    }, {
+        key: "startOrEndWithPeriod",
+        value: function startOrEndWithPeriod(fieldValue) {
+            var startOrEndWithPeriod = /[\A\.\Z\.]/;
+            var startsOrEnds = startOrEndWithPeriod.test(fieldValue);
+            return startsOrEnds;
+        }
+    }, {
+        key: "ValidationErrorsToString",
+        value: function ValidationErrorsToString() {
+            var errorString = this.state.errorMessages.filter(function (validation) {
+                return validation.throwError === true;
+            }).map(function (validation) {
+                return validation.errorMessage;
+            }).join(", ");
+            return errorString;
+        }
+    }]);
+
+    return UsernameField;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -37625,6 +38011,59 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var Panel = (function (_React$Component) {
+		_inherits(Panel, _React$Component);
+
+		function Panel(props) {
+				_classCallCheck(this, Panel);
+
+				_get(Object.getPrototypeOf(Panel.prototype), "constructor", this).call(this);
+				this.state = {};
+		}
+
+		_createClass(Panel, [{
+				key: "render",
+				value: function render() {
+						return React.createElement(
+								"div",
+								{ className: "panel panel-default target" },
+								React.createElement(
+										"div",
+										{ className: "panel-heading" },
+										"Recent News"
+								),
+								React.createElement(
+										"div",
+										{ className: "panel-body" },
+										React.createElement(
+												"div",
+												{ className: "row" },
+												React.createElement(
+														"div",
+														{ className: "col-md-6" },
+														React.createElement(
+																"div",
+																{ className: "thumbnail" },
+																React.createElement("div", { className: "article-thumbnail" }),
+																React.createElement("div", { className: "caption" })
+														)
+												)
+										)
+								)
+						);
+				}
+		}]);
+
+		return Panel;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var RoleArticleList = (function (_React$Component) {
   _inherits(RoleArticleList, _React$Component);
 
@@ -37688,40 +38127,107 @@ var RoleArticle = (function (_React$Component) {
 
       return React.createElement(
         "div",
-        { className: "col-md-3" },
+        { className: "thumbnail" },
         React.createElement(
           "div",
-          { className: "thumbnail" },
-          React.createElement("img", { src: this.props.article.thumbnail, alt: "ALT NAME", className: "img-responsive" }),
+          { className: "article-thumbnail" },
           React.createElement(
-            "div",
-            { className: "caption" },
-            React.createElement(
-              "h4",
-              null,
-              this.props.article.title
-            ),
-            React.createElement(
-              "p",
-              null,
-              this.props.article.snippet
-            ),
-            React.createElement(
-              "p",
-              { align: "center" },
-              React.createElement(
-                "a",
-                { href: this.props.article.link, className: "btn btn-primary btn-block" },
-                "Open"
-              )
-            )
+            "a",
+            { href: "http://www.cnn.com/2012/11/07/politics/wisconsin-tammy-baldwin-senate/", target: "_blank" },
+            React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i2.cdn.cnn.com/cnnnext/dam/assets/121103050436-stock-tammy-baldwin-story-top.jpg" })
           )
+        ),
+        React.createElement(
+          "div",
+          { className: "caption" },
+          React.createElement(
+            "h4",
+            null,
+            "Wisconsin's Tammy Baldwin is first openly gay person elected to ..."
+          ),
+          React.createElement(
+            "p",
+            null,
+            "Nov 7, 2012 ... Tammy Baldwin made history Tuesday night -- twice. ... the first openly gay \\npolitician, and first Wisconsin woman, elected to the U.S. Senate."
+          ),
+          React.createElement("p", null)
         )
       );
     }
   }]);
 
   return RoleArticle;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RoleArticleCarousel = (function (_React$Component) {
+  _inherits(RoleArticleCarousel, _React$Component);
+
+  function RoleArticleCarousel(props) {
+    _classCallCheck(this, RoleArticleCarousel);
+
+    _get(Object.getPrototypeOf(RoleArticleCarousel.prototype), "constructor", this).call(this);
+    this.state = {};
+  }
+
+  _createClass(RoleArticleCarousel, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { id: "carousel-example-generic", className: "carousel slide", "data-ride": "carousel" },
+        React.createElement(
+          "ol",
+          { className: "carousel-indicators" },
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "0", className: "active" }),
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "1" }),
+          React.createElement("li", { "data-target": "#carousel-example-generic", "data-slide-to": "2" })
+        ),
+        React.createElement(
+          "div",
+          { className: "carousel-inner", role: "listbox" },
+          React.createElement(
+            "div",
+            { className: "item active" },
+            React.createElement(RoleArticle, null)
+          ),
+          React.createElement(
+            "div",
+            { className: "item" },
+            React.createElement(RoleArticle, null)
+          )
+        ),
+        React.createElement(
+          "a",
+          { className: "left carousel-control", href: "#carousel-example-generic", role: "button", "data-slide": "prev" },
+          React.createElement("span", { className: "glyphicon glyphicon-chevron-left", "aria-hidden": "true" }),
+          React.createElement(
+            "span",
+            { className: "sr-only" },
+            "Previous"
+          )
+        ),
+        React.createElement(
+          "a",
+          { className: "right carousel-control", href: "#carousel-example-generic", role: "button", "data-slide": "next" },
+          React.createElement("span", { className: "glyphicon glyphicon-chevron-right", "aria-hidden": "true" }),
+          React.createElement(
+            "span",
+            { className: "sr-only" },
+            "Next"
+          )
+        )
+      );
+    }
+  }]);
+
+  return RoleArticleCarousel;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -37890,6 +38396,7 @@ var RoleList = (function (_React$Component) {
         value: function render() {
             var _this = this;
 
+            console.log(this.props);
             var subscribeToDispatcher = this.props.subscribeToDispatcher;
             var roles = this.props.roleItems.map(function (role) {
                 var roleProps = { role: role, subscribeToDispatcher: subscribeToDispatcher };
@@ -38065,145 +38572,11 @@ var RoleShow = (function (_React$Component) {
           ),
           React.createElement("br", null),
           React.createElement("br", null),
-          React.createElement(
-            "ul",
-            { className: "list-group" },
-            React.createElement(
-              "li",
-              { className: "list-group-item text-muted" },
-              "Profile"
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Role"
-                )
-              ),
-              this.props.role.role
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "State"
-                )
-              ),
-              this.props.role.state
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Party"
-                )
-              ),
-              this.props.role.party
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Assumed Office"
-                )
-              ),
-              this.props.role.assumed_office
-            ),
-            React.createElement(
-              "li",
-              { className: "list-group-item text-right" },
-              React.createElement(
-                "span",
-                { className: "pull-left" },
-                React.createElement(
-                  "strong",
-                  { className: "" },
-                  "Adress"
-                )
-              ),
-              this.props.role.address
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              "Website ",
-              React.createElement("i", { className: "fa fa-link fa-1x" })
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              React.createElement(
-                "a",
-                { href: this.props.role.website, className: "" },
-                "personal website"
-              )
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              "Social Media"
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              "  ",
-              React.createElement("i", { className: "fa fa-facebook fa-2x" }),
-              "  ",
-              React.createElement("i", { className: "fa fa-github fa-2x" }),
-              React.createElement("i", { className: "fa fa-twitter fa-2x" }),
-              " ",
-              React.createElement("i", { className: "fa fa-pinterest fa-2x" }),
-              "  ",
-              React.createElement("i", { className: "fa fa-google-plus fa-2x" })
-            )
-          )
+          React.createElement(RoleSocialMediaList, { website: this.props.role.website, twitter: this.props.role.twitterid, address: this.props.role.address })
         ),
         React.createElement(
           "div",
           { className: "col-md-12 col-lg-8" },
-          React.createElement(
-            "div",
-            { className: "panel panel-default" },
-            React.createElement(
-              "div",
-              { className: "panel-heading" },
-              this.props.role.name,
-              "'s Bio"
-            ),
-            React.createElement(
-              "div",
-              { className: "panel-body" },
-              this.props.role.wiki_intro
-            )
-          ),
           React.createElement(
             "div",
             { className: "panel panel-default" },
@@ -38233,91 +38606,23 @@ var RoleShow = (function (_React$Component) {
               React.createElement(
                 "div",
                 { className: "row" },
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i2.cdn.cnn.com/cnnnext/dam/assets/121103050436-stock-tammy-baldwin-story-top.jpg" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Wisconsin's Tammy Baldwin is first openly gay person elected to ..."
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Nov 7, 2012 ... Tammy Baldwin made history Tuesday night -- twice. ... the first openly gay \\npolitician, and first Wisconsin woman, elected to the U.S. Senate."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://img.huffingtonpost.com/asset/2000_1000/5890eed01b0000250004d971.jpeg?cache=jg9bxlqcxn" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Tammy Baldwin's Sexual Orientation Attacked By Group Trying To ...e"
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Jan 31, 2017 ... A super PAC trying to draft Milwaukee County Sheriff David Clarke for a Senate \\nbid is attacking the sexual orientation of Sen. Tammy Baldwin..."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "col-md-6" },
-                  React.createElement(
-                    "div",
-                    { className: "thumbnail" },
-                    React.createElement(
-                      "div",
-                      { className: "article-thumbnail" },
-                      React.createElement("img", { className: "center-block", alt: "300x200", width: "300", src: "http://i.huffpost.com/gen/836250/images/o-TAMMY-BALDWIN-ELECTION-RESULTS-facebook.jpg" })
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "caption" },
-                      React.createElement(
-                        "h4",
-                        null,
-                        "Tammy Baldwin Election Results: Democrat Becomes First Openly ...e"
-                      ),
-                      React.createElement(
-                        "p",
-                        null,
-                        "Nov 7, 2012 ... Tammy Baldwin (D-Wis.) beat Republican Tommy Thompson for Wisconsin's \\nopen U.S. Senate seat on Tuesday, becoming the nation's first op."
-                      ),
-                      React.createElement("p", null)
-                    )
-                  )
-                )
+                React.createElement(RoleArticleCarousel, null)
               )
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "panel panel-default" },
+            React.createElement(
+              "div",
+              { className: "panel-heading" },
+              this.props.role.name,
+              "'s Bio"
+            ),
+            React.createElement(
+              "div",
+              { className: "panel-body" },
+              this.props.role.wiki_intro
             )
           )
         )
@@ -38421,6 +38726,58 @@ var RoleSideBar = (function (_React$Component) {
     }]);
 
     return RoleSideBar;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RoleSocialMediaList = (function (_React$Component) {
+  _inherits(RoleSocialMediaList, _React$Component);
+
+  function RoleSocialMediaList(props) {
+    _classCallCheck(this, RoleSocialMediaList);
+
+    _get(Object.getPrototypeOf(RoleSocialMediaList.prototype), "constructor", this).call(this);
+    this.state = {};
+  }
+
+  _createClass(RoleSocialMediaList, [{
+    key: "render",
+    value: function render() {
+      var twitterURL = "https://www.twitter.com/" + this.props.twitter;
+      return React.createElement(
+        "div",
+        { className: "panel panel-default" },
+        React.createElement(
+          "div",
+          { className: "panel-heading" },
+          "Social Media"
+        ),
+        React.createElement(
+          "div",
+          { className: "panel-body" },
+          React.createElement(
+            "a",
+            { href: this.props.website, target: "_blank" },
+            " ",
+            React.createElement("i", { className: "fa fa-tv fa-2x" })
+          ),
+          React.createElement(
+            "a",
+            { href: twitterURL, target: "_blank" },
+            React.createElement("i", { className: "fa fa-twitter fa-2x" })
+          ),
+          React.createElement("i", { className: "fa fa-address-card fa-2x", "data-toggle": "tooltip", title: this.props.address })
+        )
+      );
+    }
+  }]);
+
+  return RoleSocialMediaList;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -38617,6 +38974,155 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var SurveyDashboard = (function (_React$Component) {
+    _inherits(SurveyDashboard, _React$Component);
+
+    function SurveyDashboard(props) {
+        _classCallCheck(this, SurveyDashboard);
+
+        _get(Object.getPrototypeOf(SurveyDashboard.prototype), "constructor", this).call(this);
+        this.state = {
+            userResponse: ""
+        };
+        this.updateResponse = this.updateResponse.bind(this);
+        this.submit = this.submit.bind(this);
+    }
+
+    _createClass(SurveyDashboard, [{
+        key: "render",
+        value: function render() {
+            var id = "question-" + this.props.question.id;
+            if (true) {
+                return React.createElement(
+                    "div",
+                    { className: "row" },
+                    React.createElement(
+                        "div",
+                        { className: "col-lg-12" },
+                        React.createElement(
+                            "div",
+                            { className: "alert alert-info alert-dismissable", id: id },
+                            React.createElement(
+                                "button",
+                                { type: "button", className: "close", "data-dismiss": "alert", "aria-hidden": "true" },
+                                "×"
+                            ),
+                            React.createElement(
+                                "form",
+                                { onSubmit: this.submit },
+                                React.createElement(
+                                    "label",
+                                    { "for": "firstName" },
+                                    React.createElement("i", { className: "fa fa-info-circle" }),
+                                    " Question 1 of 1"
+                                ),
+                                React.createElement(
+                                    "p",
+                                    null,
+                                    this.props.question.question
+                                ),
+                                React.createElement("textarea", { value: this.state.userResponse, onChange: this.updateResponse, className: "form-control", id: "exampleTextarea", rows: "3" }),
+                                React.createElement("input", { type: "submit", value: "Register", className: "btn btn-info btn-block" })
+                            )
+                        )
+                    )
+                );
+            } else {
+                return React.createElement("div", null);
+            }
+        }
+    }, {
+        key: "updateResponse",
+        value: function updateResponse(ev) {
+            var updatedResponse = String(ev.target.value);
+            this.setState({ userResponse: updatedResponse });
+        }
+    }, {
+        key: "submit",
+        value: function submit(ev) {
+            ev.preventDefault();
+            var userResponse = String(this.state.userResponse);
+            this.props.subcribeToSubmit(this.props.question.id, userResponse);
+        }
+    }]);
+
+    return SurveyDashboard;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SurveyContainer = (function (_React$Component) {
+    _inherits(SurveyContainer, _React$Component);
+
+    function SurveyContainer(props) {
+        _classCallCheck(this, SurveyContainer);
+
+        _get(Object.getPrototypeOf(SurveyContainer.prototype), 'constructor', this).call(this);
+        this.surveys = {
+            dashboard: function (that) {
+                return React.createElement(SurveyDashboard, { question: "yo", subcribeToSubmit: that.submitQuestion });
+            }
+        };
+        this.state = {};
+        this.submitQuestion = this.submitQuestion.bind(this);
+    }
+
+    _createClass(SurveyContainer, [{
+        key: 'render',
+        value: function render() {
+            var that = this;
+            if (this.props.survey != null) {
+                var surveyQuestions = this.props.survey.questions.map(function (question) {
+                    return React.createElement(SurveyDashboard, { question: question, subcribeToSubmit: that.submitQuestion });
+                });
+                return React.createElement(
+                    'div',
+                    null,
+                    surveyQuestions
+                );
+            } else {
+                return React.createElement('div', null);
+            }
+        }
+    }, {
+        key: 'submitQuestion',
+        value: function submitQuestion(questionId, userResponse) {
+            var that = this;
+            var userId = this.props.userId;
+            var surveyId = this.props.survey.id;
+            var url = 'users/' + userId + '/surveys/' + surveyId + '/survey_questions';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: { response: { user_id: userId, response: userResponse, survey_question_id: questionId } },
+                dataType: 'json',
+                cache: false,
+                success: (function (data) {
+                    $("#question-" + questionId).hide();
+                }).bind(that),
+                error: (function (data) {
+                    // that.setState({error: data.responseJSON.error})
+                    // console.error(this.props.url, status, err.toString());
+                }).bind(that)
+            });
+        }
+    }]);
+
+    return SurveyContainer;
+})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var SignupMessageAlert = (function (_React$Component) {
     _inherits(SignupMessageAlert, _React$Component);
 
@@ -38701,100 +39207,148 @@ var SignUp = (function (_React$Component) {
 
     return SignUp;
 })(React.Component);
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var UserNew = (function (_React$Component) {
-  _inherits(UserNew, _React$Component);
+    _inherits(UserNew, _React$Component);
 
-  function UserNew(props) {
-    _classCallCheck(this, UserNew);
+    function UserNew(props) {
+        _classCallCheck(this, UserNew);
 
-    _get(Object.getPrototypeOf(UserNew.prototype), 'constructor', this).call(this, props);
-    this.state = {
-      formData: {
-        f_name: '',
-        l_name: '',
-        email: '',
-        username: '',
-        password: ''
-      }
-    };
-    this.updateInput = this.updateInput.bind(this);
-    this.submit = this.submit.bind(this);
-  }
-
-  _createClass(UserNew, [{
-    key: 'render',
-    value: function render() {
-
-      return React.createElement(
-        'div',
-        { className: 'form-group col-sm-12 col-md-offset-2 col-md-8' },
-        React.createElement(ErrorAlert, { error: this.props.error }),
-        React.createElement(
-          'form',
-          { onSubmit: this.submit },
-          React.createElement(
-            'label',
-            { 'for': 'firstName' },
-            'First Name'
-          ),
-          React.createElement('input', { value: this.state.formData.f_name, onChange: this.updateInput, type: 'text', className: 'form-control', id: 'f_name', placeholder: 'Jane' }),
-          React.createElement(
-            'label',
-            { 'for': 'lastName' },
-            'Last Name'
-          ),
-          React.createElement('input', { value: this.state.formData.l_name, onChange: this.updateInput, type: 'text', className: 'form-control', id: 'l_name', placeholder: 'Doe' }),
-          React.createElement(
-            'label',
-            { 'for': 'email' },
-            'Email'
-          ),
-          React.createElement('input', { value: this.state.formData.email, onChange: this.updateInput, type: 'email', className: 'form-control', id: 'email', placeholder: 'janeDoe111@gmail.com' }),
-          React.createElement(
-            'label',
-            { 'for': 'userName' },
-            'Username'
-          ),
-          React.createElement('input', { value: this.state.formData.username, onChange: this.updateInput, type: 'text', className: 'form-control', id: 'username', placeholder: 'janeDoe111' }),
-          React.createElement(
-            'label',
-            { 'for': 'password' },
-            'Password'
-          ),
-          React.createElement('input', { value: this.state.formData.password, onChange: this.updateInput, type: 'password', className: 'form-control', id: 'password', placeholder: '********' }),
-          React.createElement('input', { type: 'submit', value: 'Register', className: 'btn btn-info btn-block' })
-        )
-      );
+        _get(Object.getPrototypeOf(UserNew.prototype), "constructor", this).call(this, props);
+        this.errorClasses = { "true": "has-success", "false": "has-error" };
+        this.state = {
+            formData: {
+                f_name: '',
+                l_name: '',
+                email: '',
+                username: '',
+                password: '',
+                rePassword: '',
+                survey_participant: false
+            }
+        };
+        this.updateInput = this.updateInput.bind(this);
+        this.submit = this.submit.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
-  }, {
-    key: 'updateInput',
-    value: function updateInput(ev) {
-      var field = $(ev.target).attr('id');
-      console.log(field);
-      var newFormData = Object.assign({}, this.state.formData);
-      newFormData[field] = ev.target.value;
-      console.log(newFormData);
-      this.setState({ formData: newFormData });
-    }
-  }, {
-    key: 'submit',
-    value: function submit(ev) {
-      var formData = Object.assign({}, this.state.formData);
-      console.log(formData);
-      ev.preventDefault();
-      this.props.subscribeToDispatcher("userNew", formData);
-    }
-  }]);
 
-  return UserNew;
+    _createClass(UserNew, [{
+        key: "render",
+        value: function render() {
+            var passwordErrorClass = this.passwordIsValid(this.state.formData.password);
+            console.log(passwordErrorClass);
+            return React.createElement(
+                "div",
+                { className: "form-group col-sm-12 col-md-offset-2 col-md-8" },
+                React.createElement(ErrorAlert, { error: this.props.error }),
+                React.createElement(
+                    "form",
+                    { onSubmit: this.submit },
+                    React.createElement(
+                        "label",
+                        { "for": "firstName" },
+                        "First Name"
+                    ),
+                    React.createElement("input", { value: this.state.formData.f_name, onChange: this.updateInput, type: "text", className: "form-control", id: "f_name", placeholder: "Jane" }),
+                    React.createElement(
+                        "label",
+                        { "for": "lastName" },
+                        "Last Name"
+                    ),
+                    React.createElement("input", { value: this.state.formData.l_name, onChange: this.updateInput, type: "text", className: "form-control", id: "l_name", placeholder: "Doe" }),
+                    React.createElement(
+                        "label",
+                        { "for": "email" },
+                        "Email"
+                    ),
+                    React.createElement("input", { value: this.state.formData.email, onChange: this.updateInput, type: "email", className: "form-control", id: "email", placeholder: "janeDoe111@gmail.com" }),
+                    React.createElement(UsernameField, { value: this.state.formData.username, onChange: this.onChange, errorClasses: this.errorClasses }),
+                    React.createElement(PasswordField, { value: this.state.formData.password, onChange: this.onChange, errorClasses: this.errorClasses }),
+                    React.createElement(PasswordCopyField, { value: this.state.formData.rePassword, passwordValue: this.state.formData.password, onChange: this.onChange, errorClasses: this.errorClasses }),
+                    React.createElement(
+                        "label",
+                        { "for": "survey" },
+                        "Do you want to participate in a User-Experience Survey"
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "checkbox" },
+                        React.createElement(
+                            "label",
+                            null,
+                            React.createElement("input", { value: this.state.formData.password, onChange: this.updateInput, type: "checkbox", id: "survey_participant" })
+                        )
+                    ),
+                    React.createElement("input", { type: "submit", value: "Register", className: "btn btn-info btn-block" })
+                )
+            );
+        }
+    }, {
+        key: "updateInput",
+        value: function updateInput(ev) {
+            var target = ev.target;
+            var value = target.type === 'checkbox' ? target.checked : target.value;
+            var name = $(ev.target).attr('id');
+            var newFormData = Object.assign({}, this.state.formData);
+            var fieldIsValid = this.fieldIsValid(name, value);
+            newFormData[name] = value;
+            this.setState({ formData: newFormData });
+        }
+    }, {
+        key: "onChange",
+        value: function onChange(field, value) {
+            var newFormData = Object.assign({}, this.state.formData);
+
+            newFormData[field] = value;
+            this.setState({ formData: newFormData });
+        }
+    }, {
+        key: "submit",
+        value: function submit(ev) {
+            ev.preventDefault();
+            var formData = Object.assign({}, this.state.formData);
+            console.log(formData);
+            this.props.subscribeToDispatcher("userNew", formData);
+        }
+    }, {
+        key: "fieldIsValid",
+        value: function fieldIsValid(fieldName, fieldValue) {
+            switch (fieldName) {
+                case "password":
+                    return this.passwordIsValid(fieldValue);
+                    break;
+                case "username":
+                    return this.usernameIsValid(fieldValue);
+                    break;
+                default:
+                    return false;
+            }
+        }
+    }, {
+        key: "usernameIsValid",
+        value: function usernameIsValid(fieldValue) {
+            var cantContain = /[&=+<>,]/;
+            var errorClasses = { "true": "has-success", "false": "has-error" };
+            var doesntContainSpecialChar = cantContain.test(fieldValue);
+            alert(errorClasses[doesntContainSpecialChar]);
+            return this.errorClasses[doesntContainSpecialChar];
+        }
+    }, {
+        key: "passwordIsValid",
+        value: function passwordIsValid(fieldValue) {
+            var isValid = fieldValue.length >= 8;
+            return this.errorClasses[isValid];
+        }
+    }]);
+
+    return UserNew;
 })(React.Component);
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -39525,6 +40079,14 @@ return this.pushAll(t)},Ye.prototype.shift=function(){return this.pop.apply(this
 return this.filter(tr(t),e)},findEntry:function(t,e,r){var n=r;return this.__iterate(function(r,i,o){return t.call(e,r,i,o)?(n=[i,r],!1):void 0}),n},findKey:function(t,e){var r=this.findEntry(t,e);return r&&r[0]},findLast:function(t,e,r){return this.toKeyedSeq().reverse().find(t,e,r)},findLastEntry:function(t,e,r){return this.toKeyedSeq().reverse().findEntry(t,e,r)},findLastKey:function(t,e){return this.toKeyedSeq().reverse().findKey(t,e)},first:function(){return this.find(d)},flatMap:function(t,e){return qe(this,ge(this,t,e))},flatten:function(t){return qe(this,me(this,t,!0))},fromEntrySeq:function(){return new se(this)},get:function(t,e){return this.find(function(e,r){return F(r,t)},void 0,e)},getIn:function(t,e){for(var r,n=this,i=Ae(t);!(r=i.next()).done;){var o=r.value;if(n=n&&n.get?n.get(o,dr):dr,n===dr)return e}return n},groupBy:function(t,e){return pe(this,t,e)},has:function(t){return this.get(t,dr)!==dr},hasIn:function(t){return this.getIn(t,dr)!==dr},isSubset:function(t){return t="function"==typeof t.includes?t:r(t),this.every(function(e){return t.includes(e)})},isSuperset:function(t){return t="function"==typeof t.isSubset?t:r(t),t.isSubset(this)},keyOf:function(t){return this.findKey(function(e){return F(e,t)})},keySeq:function(){return this.toSeq().map(Ze).toIndexedSeq()},last:function(){return this.toSeq().reverse().first()},lastKeyOf:function(t){return this.toKeyedSeq().reverse().keyOf(t)},max:function(t){return ze(this,t)},maxBy:function(t,e){return ze(this,e,t)},min:function(t){return ze(this,t?er(t):ir)},minBy:function(t,e){return ze(this,e?er(e):ir,t)},rest:function(){return this.slice(1)},skip:function(t){return this.slice(Math.max(0,t))},skipLast:function(t){return qe(this,this.toSeq().reverse().skip(t).reverse())},skipWhile:function(t,e){return qe(this,ye(this,t,e,!0))},skipUntil:function(t,e){return this.skipWhile(tr(t),e)},sortBy:function(t,e){return qe(this,Se(this,e,t))},take:function(t){return this.slice(0,Math.max(0,t))},takeLast:function(t){return qe(this,this.toSeq().reverse().take(t).reverse());
 },takeWhile:function(t,e){return qe(this,le(this,t,e))},takeUntil:function(t,e){return this.takeWhile(tr(t),e)},valueSeq:function(){return this.toIndexedSeq()},hashCode:function(){return this.__hash||(this.__hash=or(this))}});var an=r.prototype;an[hr]=!0,an[qr]=an.values,an.__toJS=an.toArray,an.__toStringMapper=rr,an.inspect=an.toSource=function(){return""+this},an.chain=an.flatMap,an.contains=an.includes,Ge(n,{flip:function(){return qe(this,ae(this))},mapEntries:function(t,e){var r=this,n=0;return qe(this,this.toSeq().map(function(i,o){return t.call(e,[o,i],n++,r)}).fromEntrySeq())},mapKeys:function(t,e){var r=this;return qe(this,this.toSeq().flip().map(function(n,i){return t.call(e,n,i,r)}).flip())}});var hn=n.prototype;hn[fr]=!0,hn[qr]=an.entries,hn.__toJS=an.toObject,hn.__toStringMapper=function(t,e){return JSON.stringify(e)+": "+rr(t)},Ge(i,{toKeyedSeq:function(){return new ie(this,!1)},filter:function(t,e){return qe(this,ce(this,t,e,!1))},findIndex:function(t,e){var r=this.findEntry(t,e);return r?r[0]:-1},indexOf:function(t){var e=this.keyOf(t);return void 0===e?-1:e},lastIndexOf:function(t){var e=this.lastKeyOf(t);return void 0===e?-1:e},reverse:function(){return qe(this,fe(this,!1))},slice:function(t,e){return qe(this,ve(this,t,e,!1))},splice:function(t,e){var r=arguments.length;if(e=Math.max(0|e,0),0===r||2===r&&!e)return this;t=g(t,0>t?this.count():this.size);var n=this.slice(0,t);return qe(this,1===r?n:n.concat(v(arguments,2),this.slice(t+e)))},findLastIndex:function(t,e){var r=this.findLastEntry(t,e);return r?r[0]:-1},first:function(){return this.get(0)},flatten:function(t){return qe(this,me(this,t,!1))},get:function(t,e){return t=y(this,t),0>t||this.size===1/0||void 0!==this.size&&t>this.size?e:this.find(function(e,r){return r===t},void 0,e)},has:function(t){return t=y(this,t),t>=0&&(void 0!==this.size?this.size===1/0||this.size>t:-1!==this.indexOf(t))},interpose:function(t){return qe(this,we(this,t))},interleave:function(){var t=[this].concat(v(arguments)),e=be(this.toSeq(),A.of,t),r=e.flatten(!0);return e.size&&(r.size=e.size*t.length),
 qe(this,r)},keySeq:function(){return tt(0,this.size)},last:function(){return this.get(-1)},skipWhile:function(t,e){return qe(this,ye(this,t,e,!1))},zip:function(){var t=[this].concat(v(arguments));return qe(this,be(this,nr,t))},zipWith:function(t){var e=v(arguments);return e[0]=this,qe(this,be(this,t,e))}}),i.prototype[cr]=!0,i.prototype[_r]=!0,Ge(o,{get:function(t,e){return this.has(t)?t:e},includes:function(t){return this.has(t)},keySeq:function(){return this.valueSeq()}}),o.prototype.has=an.includes,o.prototype.contains=o.prototype.includes,Ge(k,n.prototype),Ge(A,i.prototype),Ge(j,o.prototype),Ge(rt,n.prototype),Ge(nt,i.prototype),Ge(it,o.prototype);var fn={Iterable:r,Seq:x,Collection:et,Map:_t,OrderedMap:$t,List:Wt,Stack:Ye,Set:Te,OrderedSet:Ne,Record:je,Range:tt,Repeat:Z,is:F,fromJS:V};t["default"]=fn,t.Iterable=r,t.Seq=x,t.Collection=et,t.Map=_t,t.OrderedMap=$t,t.List=Wt,t.Stack=Ye,t.Set=Te,t.OrderedSet=Ne,t.Record=je,t.Range=tt,t.Repeat=Z,t.is=F,t.fromJS=V});
+(function() {
+
+
+}).call(this);
+(function() {
+
+
+}).call(this);
 (function() {
 
 

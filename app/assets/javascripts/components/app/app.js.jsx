@@ -30,13 +30,13 @@ class App extends React.Component {
               }
             }),
             action: "dashboard",
-            error: null,
             bodyContent: null,
-            groups: [],
             contentSortedBy: "lastname",
+            error: null,
+            groups: [],
+            survey: null,
             username: 'Guest',
             userId: null,
-            survey: null
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
