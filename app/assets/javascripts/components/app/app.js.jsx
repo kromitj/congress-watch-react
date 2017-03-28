@@ -239,7 +239,7 @@ const actions = {
        }
   },
   repIndex: function(that) {
-        if (that.state.senatorIndex !=  null) {
+        if (that.state.repIndex !=  null) {
          that.setState({
           action: "repIndex", bodyContent: that.state.repIndex
          })
