@@ -7,6 +7,7 @@ class App extends React.Component {
             action: "dashboard",
             bodyContent: null,
             senatorShow: null,
+            repShow: null,
             contentSortedBy: "lastname",
             error: null,
             groups: [],
@@ -251,7 +252,7 @@ const actions = {
           success: function(data) {
             window.scrollTo(0,0)
             const reps = data.legislators
-            that.setState({bodyContent: data.legislators,
+            that.setState({
                 repIndex: reps, bodyContent: reps, action: "repIndex"
             });
             console.log(data)
