@@ -4,33 +4,9 @@ class App extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            store: Immutable.fromJS({
-              action: "dashboard",
-              stateHistory: {
-                historyIndex: 0,
-                dataHistory: []
-              },
-              user: {
-                id: null,
-                userName: "Guest",
-                groups: []
-              },
-              legislator: {
-                senatorsStore: {
-                  senators: [],
-                  sortBy: "lastName",
-                  filters: []
-                },
-                representativesStore: {
-                  representatives: [],
-                  sortBy: "lastName",
-                  filters: []
-                },
-                legislatorShow: {}
-              }
-            }),
             action: "dashboard",
             bodyContent: null,
+            senatorShow: null,
             contentSortedBy: "lastname",
             error: null,
             groups: [],
@@ -236,25 +212,37 @@ const actions = {
     });     
   },
   senatorIndex: function(that) {
-       $.ajax({
-        url: "/legislators",
-        data: {branch: "senator"},
-        dataType: 'json',
-        cache: false,
-        success: function(data) {
-          window.scrollTo(0,0)
-          that.setState(
-            {
-              bodyContent: data.legislators, action: "senatorIndex"
-            }
-          );
-        }.bind(that),
-        error: function(xhr, status, err) {
-          console.error(that.props.url, status, err.toString());
-        }.bind(that)
-      });   
+       if (that.state.senatorIndex !=  null) {
+         that.setState({
+          action: "senatorIndex", bodyContent: that.state.senatorIndex
+         })
+       } else {
+         $.ajax({
+          url: "/legislators",
+          data: {branch: "senator"},
+          dataType: 'json',
+          cache: false,
+          success: function(data) {
+            window.scrollTo(0,0)
+            const senatators = data.legislators
+            that.setState(
+              {
+                senatorIndex: senatators, bodyContent: senatators, action: "senatorIndex", 
+              }
+            );
+          }.bind(that),
+          error: function(xhr, status, err) {
+            console.error(that.props.url, status, err.toString());
+          }.bind(that)
+        });           
+       }
   },
   repIndex: function(that) {
+        if (that.state.senatorIndex !=  null) {
+         that.setState({
+          action: "repIndex", bodyContent: that.state.repIndex
+         })
+       } else {
         $.ajax({
           url: "/legislators",
           data: {branch: "rep"},
@@ -262,15 +250,17 @@ const actions = {
           cache: false,
           success: function(data) {
             window.scrollTo(0,0)
+            const reps = data.legislators
             that.setState({bodyContent: data.legislators,
-                bodyContent: data.legislators, action: "repIndex"
+                repIndex: reps, bodyContent: reps, action: "repIndex"
             });
             console.log(data)
           }.bind(that),
           error: function(xhr, status, err) {
             console.error(that.props.url, status, err.toString());
           }.bind(that)
-        });           
+        }); 
+      }          
   },
   groupNew: function(that, params) {
     if (that.state.userId == null) {
