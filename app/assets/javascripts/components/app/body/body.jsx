@@ -13,14 +13,7 @@ class Body extends React.Component {
 
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="page-header">
-                                {this.props.header} <small>- {this.props.subHeader}</small>
-                            </h1>
-                            <ol className="breadcrumb">
-                                <li className="active">
-                                    <i className="fa fa-dashboard"></i> {this.props.cookieCrumb}
-                                </li>
-                            </ol>
+                            < BreadCrumbs {...{breadCrumbs: this.props.breadCrumbs, prepareForSegue: this.props.prepareForSegue}} />
                         </div>
                     </div>
 

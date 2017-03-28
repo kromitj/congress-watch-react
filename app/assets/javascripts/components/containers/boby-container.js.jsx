@@ -1,43 +1,35 @@
 const actionDefaults = {
     dashboard: {
         header: "DashBoard",
-        subHeader: "Ignorance is Bliss?",
-        cookieCrumb: "DashBoard"
+        subHeader: "Ignorance is Bliss?"        
     },
     groupNew: {
         header: "Create Group",
-        subHeader: "Easly Track Only What You Want To",
-        cookieCrumb: "Create Group"
+        subHeader: "Easly Track Only What You Want To"        
     },
     groupShow: {
         header: "Group Show",
-        subHeader: "Here Ya Go",
-        cookieCrumb: "Group"
+        subHeader: "Here Ya Go"        
     },
     logIn: {
         header: "Log In",
-        subHeader: "Enter Info",
-        cookieCrumb: "Log In"
+        subHeader: "Enter Info"        
     },
     repIndex: {
         header: "Legislator",
-        subHeader: "Representative",
-        cookieCrumb: "Representative"
+        subHeader: "Representative"        
     },
     roleShow: {
         header: "Legislator",
-        subHeader: "Show Details...",
-        cookieCrumb: "Representative"
+        subHeader: "Show Details..."        
     },
     senatorIndex: {
         header: "Legislator",
-        subHeader: "Senator",
-        cookieCrumb: "Senator"
+        subHeader: "Senator"        
     },
     signUp: {
         header: "Sign Up",
-        subHeader: "Enter Info",
-        cookieCrumb: "Sign Up"
+        subHeader: "Enter Info"        
     }
 }
 
@@ -111,6 +103,7 @@ class BodyContainer extends React.Component {
     }
     packBody(dataType, content) {
         props = actionDefaults[dataType]
+        props.breadCrumbs = this.props.breadCrumbs
         props.user = this.props.user
         if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }
         props.prepareForSegue = this.props.prepareForSegue        

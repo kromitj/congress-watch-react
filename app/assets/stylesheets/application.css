@@ -17,6 +17,10 @@
  *= require font-awesome
  
  */
+
+#page-wrapper {
+}
+
 .article-thumbnail {
     overflow:hidden;
     width: 100%;

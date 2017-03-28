@@ -6,14 +6,16 @@ class App extends React.Component {
         this.state = {
             action: "dashboard",
             bodyContent: null,
-            senatorShow: null,
-            repShow: null,
+            senatorIndex: null,
+            repIndex: null,
+            roleShowId: null,
             contentSortedBy: "lastname",
             error: null,
             groups: [],
             survey: null,
             username: 'Guest',
             userId: null,
+            breadCrumbs: ["Dashboard"]
         };
         this.prepareForSegue = this.prepareForSegue.bind(this)
         this.sortData = this.sortData.bind(this)
@@ -52,13 +54,14 @@ class App extends React.Component {
     packBodyProps() {
       console.log("packing body" + this.state.bodyContent)
       return {
-        user: this.state.userId,
-        dataType: this.state.action,
+        breadCrumbs: this.state.breadCrumbs,
         data: this.state.bodyContent,
-        groups: this.state.groups,
-        sortData: this.sortData,
-        prepareForSegue: this.prepareForSegue,
+        dataType: this.state.action,
         error: this.state.error,
+        groups: this.state.groups,
+        prepareForSegue: this.prepareForSegue,
+        sortData: this.sortData,
+        user: this.state.userId,
       }
     }
 
@@ -123,7 +126,9 @@ const actions = {
   },
   dashboard: function(that) {
     window.scrollTo(0,0)
-    that.setState({action: "dashboard"})
+    let newBreadCrumbs = Object.assign([])
+    newBreadCrumbs.unshift("Dashboard")
+    that.setState({action: "dashboard", breadCrumbs: newBreadCrumbs})
   },
   signUp: function(that) {
     window.scrollTo(0,0)
@@ -194,16 +199,22 @@ const actions = {
       }.bind(that)
     });        
   },
-  roleShow: function(that, roleId) {    
+  roleShow: function(that, roleId) { 
+    if (roleId == null) {
+      roleId = that.state.roleShowId
+    }
+    let newBreadCrumbs = Object.assign([], that.state.breadCrumbs)
+
     $.ajax({
       url: "/legislators/" + roleId,
       dataType: 'json',
       cache: false,
       success: function(data) {
+        newBreadCrumbs[2] = data.role.name
         window.scrollTo(0,0)
         that.setState(
           {
-            action: "roleShow", bodyContent: data.role
+            action: "roleShow", bodyContent: data.role, breadCrumbs: newBreadCrumbs, roleShowId: roleId
           }
         );
       }.bind(that),
@@ -213,9 +224,12 @@ const actions = {
     });     
   },
   senatorIndex: function(that) {
-       if (that.state.senatorIndex !=  null) {
+
+        let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
+        newBreadCrumbs[1] = "Senators"
+       if (that.state.senatorIndex !=  null) {        
          that.setState({
-          action: "senatorIndex", bodyContent: that.state.senatorIndex
+          action: "senatorIndex", bodyContent: that.state.senatorIndex, breadCrumbs: newBreadCrumbs
          })
        } else {
          $.ajax({
@@ -228,7 +242,7 @@ const actions = {
             const senatators = data.legislators
             that.setState(
               {
-                senatorIndex: senatators, bodyContent: senatators, action: "senatorIndex", 
+                senatorIndex: senatators, bodyContent: senatators, action: "senatorIndex", breadCrumbs: newBreadCrumbs
               }
             );
           }.bind(that),
@@ -239,9 +253,11 @@ const actions = {
        }
   },
   repIndex: function(that) {
+        let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
+        newBreadCrumbs[1] = "Representatives"
         if (that.state.repIndex !=  null) {
          that.setState({
-          action: "repIndex", bodyContent: that.state.repIndex
+          action: "repIndex", bodyContent: that.state.repIndex, breadCrumbs: newBreadCrumbs
          })
        } else {
         $.ajax({
@@ -253,7 +269,7 @@ const actions = {
             window.scrollTo(0,0)
             const reps = data.legislators
             that.setState({
-                repIndex: reps, bodyContent: reps, action: "repIndex"
+                repIndex: reps, bodyContent: reps, action: "repIndex", breadCrumbs: newBreadCrumbs
             });
             console.log(data)
           }.bind(that),
