@@ -1,4 +1,4 @@
-class UsernameField extends React.Component {
+ class UsernameField extends React.Component {
     constructor(props) {
         super();        
         this.state = {
