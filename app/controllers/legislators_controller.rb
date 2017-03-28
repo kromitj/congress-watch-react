@@ -15,7 +15,10 @@ class LegislatorsController < ApplicationController
 	end
 
 	def show 
-		@role = Role.find_by(role_id: params[:id]).pack_role_show
+		@role = Rails.cache.fetch("#{params[:id]}role", expires_in: 12.hours) do
+			puts "Inside Cache ______________________________________"
+			Role.find_by(role_id: params[:id]).pack_role_show
+		end      
 		# @yek_ipa = ENV["CONGRESS_GOOGLE"]
 		# @role_search_query = "https://www.googleapis.com/customsearch/v1?key=#{@yek_ipa}&cx=013241849023744786939:iozbzo9xq2y&q=#{@role.search_query}"
 		# @articles = ArticleParser.new(@role_search_query)
@@ -29,8 +32,9 @@ class LegislatorsController < ApplicationController
 # {:title=>"Democrat Tammy Baldwin wins Wisconsin Senate seat, becoming ...", :link=>"http://www.foxnews.com/politics/2012/11/07/democrat-tammy-baldwin-wins-wisconsin-senate-seat-becoming-first-openly-gay-us.html", :snippet=>"Nov 7, 2012 ... Baldwin is the state's first female senator and the first openly gay candidate ever \nelected.", :thumbnail=>"http://a57.foxnews.com/images.foxnews.com/content/fox-news/politics/2012/11/07/democrat-tammy-baldwin-wins-wisconsin-senate-seat-becoming-first-openly-gay-us/_jcr_content/par/featured-media/media-0.img.jpg/0/0/1422003880232.jpg?ve=1"},
 # {:title=>"Wisconsin Election Results 2012: Democrat Tammy Baldwin defeats ...", :link=>"https://www.washingtonpost.com/politics/decision2012/wisconsin-election-results-2012-democrat-tammy-baldwin-defeats-tommy-thompson-for-senate-rep-paul-ryan-reelected-obama-wins-narrow-victory/2012/11/07/62a292a4-23ad-11e2-ac85-e669876c6a24_story.html", :snippet=>"Nov 7, 2012 ... Wisconsin Election Results 2012: Democrat Tammy Baldwin defeats Tommy \nThompson for Senate; Rep. Paul Ryan reelected; Obama wins ...", :thumbnail=>"https://images.washingtonpost.com/?url=https://img.washingtonpost.com/pb/resources/img/twp-3000x1568.jpg&w=1484&op=resize&opt=1&filter=antialias"},
 # {:title=>"Tammy Baldwin, Tommy Thompson Face Off In Wisconsin Senate ...", :link=>"http://www.huffingtonpost.com/2012/11/06/tammy-baldwin-election-tommy-thompson_n_2047440.html", :snippet=>"Nov 6, 2012 ... The 2012 Wisconsin Senate race features a pair of relatively heavyweight \ncompetitors, vying to occupy the seat being vacated by retiring ...", :thumbnail=>"http://i.huffpost.com/gen/836249/images/o-TAMMY-BALDWIN-ELECTION-facebook.jpg"}]
-		
-
+		puts "#{params[:id]}role"
+		puts Rails.cache.fetch("#{params[:id]}role")
+			
 
 		render json: {:status => true, role: @role}
 	end
@@ -59,17 +63,22 @@ class LegislatorsController < ApplicationController
 	end
 
 	def pack_senators
-		@role = Role.where({current: true, role_type: "senator"}).map do |senator|
-			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
-		end
-		@role.sort { |a,b| a[:lastname] <=> b[:lastname] }
+		Rails.cache.fetch("senatorsIndex", expires_in: 12.hours) do
+			@roles = Role.where({current: true, role_type: "senator"}).map do |senator|
+				{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
+			end
+			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
+		end  
+		
 	end
 
 	def pack_reps
-		puts "inside pack_reps"
-		Role.where({current: true, role_type: "representative"}).map do |senator|
-			{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
-		end
+		Rails.cache.fetch("repsIndex", expires_in: 12.hours) do
+			@roles = Role.where({current: true, role_type: "representative"}).map do |senator|
+				{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
+			end
+			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
+		end	
 	end
 
 	def pack_legislator_groups(role_type)
