@@ -1,59 +1,95 @@
 def isolate_person(legislator)
   person = {}
-  person[:bioguideid] = legislator["bioguideid"]
-  person[:birthday] = legislator["birthday"]
-  person[:cspanid] = legislator["cspanid"]
-  person[:firstname] = legislator["firstname"]
+  person[:member_id] = legislator["member_id"]
+  person[:date_of_birth] = legislator["date_of_birth"]
+  person[:cspan_id] = legislator["cspan_id"]
+  person[:first_name] = legislator["first_name"]
   person[:gender] = legislator["gender"]
-  person[:gender_label] = legislator["gender_label"]
-  person[:person_id] = legislator["id"]
-  person[:lastname] = legislator["lastname"]
-  person[:link] = legislator["link"]
-  person[:middlename] = legislator["middlename"]
-  person[:name] = legislator["name"]
-  person[:namemod] = legislator["namemod"]
-  person[:nickname] = legislator["nickname"]
-  person[:osid] = legislator["osid"]
-  person[:pvsid] = legislator["pvsid"]
-  person[:sortname] = legislator["sortname"]
-  person[:twitterid] = legislator["twitterid"]
-  person[:youtubeid] = legislator["youtubeid"]
-  person[:img_sm] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/#{legislator["bioguideid"]}.jpg"
-  person[:img_lg] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/#{legislator["bioguideid"]}.jpg"
+  person[:in_office] = legislator["in_office"]
+  # person[:gender_label] = legislator["gender_label"]
+  person[:person_id] = legislator["govtrack_id"]
+  person[:last_name] = legislator["last_name"]
+  person[:link] = "https://api.propublica.org/congress/v1/members/#{person[:member_id]}.json"
+  person[:middle_name] = legislator["middle_name"]
+  person[:name] = person[:first_name] + " " + person[:last_name]
+  # person[:namemod] = legislator["namemod"]
+  # person[:nickname] = legislator["nickname"]
+  # person[:osid] = legislator["osid"]
+  # person[:pvsid] = legislator["pvsid"]
+  # person[:sortname] = legislator["sortname"]
+  person[:twitter_account] = legislator["twitter_account"]
+  person[:youtube_account] = legislator["youtube_account"]
+  person[:img_sm] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/#{legislator["member_id"]}.jpg"
+  person[:img_lg] = "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/#{legislator["member_id"]}.jpg"
   
   return person
 end
 
 def isolate_role(role)
    iso_role = {}
-   iso_role[:caucus] = role["caucus"]
-   iso_role[:congress_numbers] = role["congress_numbers"]
-   iso_role[:current] = role["current"]
-   iso_role[:description] = role["description"]
-   iso_role[:district] = role["district"]
-   iso_role[:enddate] = role["enddate"]
-   iso_role[:address] = role["extra"]["address"] unless role["extra"] == nil
-   iso_role[:contact_form] = role["extra"]["contact_form"] unless role["extra"] == nil
-   iso_role[:fax] = role["extra"]["fax"] unless role["extra"] == nil
-   iso_role[:office] = role["extra"]["office"] unless role["extra"] == nil
-   iso_role[:rss_url] = role["extra"]["rss_url"] unless role["extra"] == nil
-   iso_role[:how] = role["extra"]["how"] unless role["extra"] == nil
-   iso_role[:role_id] = role["id"]
-   iso_role[:leadership_title] = role["leadership_title"]
-   iso_role[:party] = role["party"]
-   iso_role[:person] = role["person"]
-   iso_role[:phone] = role["phone"]
-   iso_role[:role_type] = role["role_type"]
-   iso_role[:role_type_label] = role["role_type_label"]
-   iso_role[:senator_class] = role["senator_class"]
-   iso_role[:senator_rank] = role["senator_rank"]
-   iso_role[:startdate] = role["startdate"]
+   # iso_role[:caucus] = role["caucus"]
+   iso_role[:congress_number] = role["congress"]   
    iso_role[:state] = role["state"]
    iso_role[:title] = role["title"]
-   iso_role[:title_long] = role["title_long"]
-   iso_role[:website] = role["website"]
+   iso_role[:party] = role["party"]
+   iso_role[:leadership_role] = role["leadership_role"]
+   iso_role[:seniority] = role["seniority"]
+   iso_role[:district] = role["district"]
+   iso_role[:start_date] = role["start_date"]
+   iso_role[:end_date] = role["end_date"]
+   iso_role[:office] = role["office"]
+   iso_role[:phone] = role["phone"]
+   # iso_role[:address] = role[""]
+   # iso_role[:contact_form] = role["extra"]["contact_form"] unless role["extra"] == nil
+   # iso_role[:fax] = role["extra"]["fax"] unless role["extra"] == nil
+   # iso_role[:rss_url] = role["extra"]["rss_url"] unless role["extra"] == nil
+   # iso_role[:how] = role["extra"]["how"] unless role["extra"] == nil
+   # iso_role[:role_id] = role["member_id"]
+   # iso_role[:person_id] = role["person"]
+   # iso_role[:role_type_label] = role["role_type_label"]
+   # iso_role[:senator_rank] = role["senator_rank"]
+   # iso_role[:title_long] = role["title_long"]
+   # iso_role[:url] = role["website"]
+   iso_role[:description] = "#{iso_role[:title]} of #{iso_role[:state]}"
 
    return iso_role
+end
+
+def isolate_bill(bill)
+  iso_bill = {}
+  iso_bill[:bill_id] = bill["bill_id"]
+  iso_bill[:congress] = bill["congress"]
+  iso_bill[:bill] = bill["bill"]
+  iso_bill[:bill_type] = bill["bill_type"]
+  iso_bill[:number] = bill["number"]
+  iso_bill[:bill_uri] = bill["bill_uri"]
+  iso_bill[:title] = bill["title"]   
+  # iso_bill[:sponsor] = bill["sponsor"]
+  iso_bill[:role_id] = bill["sponsor_id"]
+  iso_bill[:sponsor_uri] = bill["sponsor_uri"]
+  iso_bill[:sponsor_party] = bill["sponsor_party"]
+  iso_bill[:sponsor_state] = bill["sponsor_state"]
+  iso_bill[:gpo_pdf_uri] = bill["gpo_pdf_uri"]
+  iso_bill[:congressdotgov_url] = bill["congressdotgov_url"]
+  iso_bill[:govtrack_url] = bill["govtrack_url"]
+  iso_bill[:introduced_date] = bill["introduced_date"]
+  iso_bill[:active] = bill["active"]
+  iso_bill[:house_passage] = bill["house_passage"]
+  iso_bill[:senate_passage] = bill["senate_passage"]
+  iso_bill[:enacted] = bill["enacted"]
+  iso_bill[:vetoed] = bill["vetoed"]
+  iso_bill[:cosponsors] = bill["cosponsors"]
+  iso_bill[:withdrawn_cosponsors] = bill["withdrawn_cosponsors"]
+  iso_bill[:primary_subject] = bill["primary_subject"]
+  iso_bill[:committees] = bill["committees"]
+  iso_bill[:latest_major_action_date] = bill["latest_major_action_date"]
+  iso_bill[:latest_major_action] = bill["latest_major_action"]
+  iso_bill[:last_vote_date] = bill["last_vote_date"]
+  iso_bill[:house_passage_vote] = bill["house_passage_vote"]
+  iso_bill[:senate_passage_vote] = bill["senate_passage_vote"]
+  iso_bill[:summary] = bill["summary"]
+  iso_bill[:summary_short] = bill["summary_short"]
+  return iso_bill
 end
 
 def isolate_roles(legislator)

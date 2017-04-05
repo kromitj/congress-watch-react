@@ -6,10 +6,13 @@ class BreadCrumbs extends React.Component {
         }        
     };
     render() {
-        let key = 0
+        let idx = 0
+        const numOfCrumbs = this.props.breadCrumbs.length
     	const crumbs = this.props.breadCrumbs.map(function(crumb) {
-            const crumbProps = {name: crumb, currentPage: false, requestSegue: this.props.prepareForSegue}
-            key++
+    		lastCrumb = idx == numOfCrumbs-1
+            const crumbProps = {name: crumb, currentPage: lastCrumb, requestSegue: this.props.prepareForSegue}
+            const key = idx
+            idx++
             return <Crumb key={`crumb${key}`}  {...crumbProps}/>;
         });
         return(

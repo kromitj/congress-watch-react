@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306231602) do
+ActiveRecord::Schema.define(version: 20170402215236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,42 @@ ActiveRecord::Schema.define(version: 20170306231602) do
     t.string   "thumbnail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bills", force: :cascade do |t|
+    t.integer  "congress"
+    t.string   "bill"
+    t.string   "bill_id"
+    t.string   "bill_type"
+    t.string   "number"
+    t.string   "bill_uri"
+    t.string   "title"
+    t.integer  "role_id"
+    t.string   "sponsor_uri"
+    t.string   "sponsor_party"
+    t.string   "sponsor_state"
+    t.string   "gpo_pdf_uri"
+    t.string   "congressdotgov_url"
+    t.string   "govtrack_url"
+    t.date     "introduced_date"
+    t.boolean  "active"
+    t.string   "house_passage"
+    t.string   "senate_passage"
+    t.string   "enacted"
+    t.string   "vetoed"
+    t.integer  "cosponsors"
+    t.integer  "withdrawn_cosponsors"
+    t.string   "primary_subject"
+    t.string   "committees"
+    t.date     "latest_major_action_date"
+    t.string   "latest_major_action"
+    t.string   "last_vote_date"
+    t.string   "house_passage_vote"
+    t.string   "senate_passage_vote"
+    t.string   "summary"
+    t.string   "summary_short"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "committee_legislators", id: false, force: :cascade do |t|
@@ -96,58 +132,44 @@ ActiveRecord::Schema.define(version: 20170306231602) do
   end
 
   create_table "people", primary_key: "person_id", force: :cascade do |t|
-    t.string   "bioguideid"
-    t.string   "birthday"
-    t.integer  "cspanid"
-    t.string   "firstname"
+    t.string   "member_id"
+    t.string   "date_of_birth"
+    t.integer  "cspan_id"
+    t.string   "first_name"
     t.string   "gender"
-    t.string   "gender_label"
-    t.string   "lastname"
+    t.string   "last_name"
     t.string   "link"
-    t.string   "middlename"
+    t.string   "middle_name"
     t.string   "name"
-    t.string   "namemod"
-    t.string   "nickname"
-    t.string   "osid"
+    t.boolean  "in_office"
     t.integer  "pvsid"
-    t.string   "sortname"
-    t.string   "twitterid"
-    t.string   "youtubeid"
+    t.string   "twitter_account"
+    t.string   "youtube_account"
     t.string   "img_sm"
     t.string   "img_lg"
     t.string   "wiki_intro"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "roles", primary_key: "role_id", force: :cascade do |t|
-    t.string   "caucus"
-    t.string   "congress_numbers"
-    t.boolean  "current"
+    t.string   "congress_number"
     t.string   "description"
     t.integer  "district"
-    t.date     "enddate"
-    t.string   "address"
-    t.string   "contact_form"
-    t.string   "fax"
+    t.date     "end_date"
     t.string   "office"
-    t.string   "rss_url"
-    t.string   "how"
-    t.string   "leadership_title"
+    t.string   "leadership_role"
     t.string   "party"
     t.integer  "person_id"
     t.string   "phone"
-    t.string   "role_type"
-    t.string   "role_type_label"
-    t.string   "senator_class"
-    t.string   "senator_rank"
-    t.date     "startdate"
+    t.string   "seniority"
+    t.date     "start_date"
     t.string   "state"
     t.string   "title"
-    t.string   "title_long"
-    t.string   "website"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.string   "url"
+    t.boolean  "in_office"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "survey_questions", force: :cascade do |t|

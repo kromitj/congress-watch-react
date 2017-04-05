@@ -58,6 +58,7 @@ class RoleShow extends React.Component {
                 <div className="panel-heading">{this.props.role.name}&#39;s Bio</div>
                 <div className="panel-body">{this.props.role.wiki_intro}</div>
             </div>
+              < BillList {...{bills: this.props.role.bills}}/>    
         </div>
     </div>
  

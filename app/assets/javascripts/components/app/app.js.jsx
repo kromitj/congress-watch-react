@@ -1,96 +1,96 @@
 // constants at bottom...
 
 class App extends React.Component {
-    constructor(props) {
-        super();
-        this.state = {
-            action: "dashboard",
-            bodyContent: null,
-            senatorIndex: null,
-            repIndex: null,
-            roleShowId: null,
-            contentSortedBy: "lastname",
-            error: null,
-            groups: [],
-            survey: null,
-            username: 'Guest',
-            userId: null,
-            breadCrumbs: ["Dashboard"]
-        };
-        this.prepareForSegue = this.prepareForSegue.bind(this)
-        this.sortData = this.sortData.bind(this)
+
+  constructor(props) {
+    super();
+    this.state = {
+      action: "dashboard",
+      bodyContent: null,
+      senatorIndex: null,
+      repIndex: null,
+      roleShowId: null,
+      contentSortedBy: "lastname",
+      error: null,
+      groups: [],
+      survey: null,
+      username: 'Guest',
+      userId: null,
+      breadCrumbs: ["Dashboard"]
     };
+    this.prepareForSegue = this.prepareForSegue.bind(this)
+    this.sortData = this.sortData.bind(this)
+  };
 
-    render() {
-      const navProps = this.packNavProps()
-      const bodyProps = this.packBodyProps()
-      const survey = this.state.survey
+  render() {
+    const navProps = this.packNavProps()
+    const bodyProps = this.packBodyProps()
+    const survey = this.state.survey
 
-        return(
-             <div id="wrapper">
-                <Nav {...navProps} />
-                <SurveyContainer {...{survey: survey, userId: this.state.userId}} />
-                <BodyContainer {...bodyProps}/>
-            </div>
-        )
+    return(
+      <div id="wrapper">
+        <Nav {...navProps} />
+        <SurveyContainer {...{survey: survey, userId: this.state.userId}} />
+        <BodyContainer {...bodyProps}/>
+      </div>
+    )
+  }
+
+  prepareForSegue(segue, params=null) {
+    this.setState({error: null})
+    if ((this.state.action != "groupShow") && (segue == this.state.action)) { return false }
+    var response = actions[segue](this, params)
+    console.log(response)      
+  }
+
+  packNavProps() {
+    return {
+      prepareForSegue: this.prepareForSegue, 
+      groups: this.state.groups,
+      username: this.state.username
     }
+  }
 
-    prepareForSegue(segue, params=null) {
-      this.setState({error: null})
-      if ((this.state.action != "groupShow") && (segue == this.state.action)) { return false }
-      var response = actions[segue](this, params)
-      console.log(response)      
+  packBodyProps() {
+    console.log("packing body" + this.state.bodyContent)
+    return {
+      breadCrumbs: this.state.breadCrumbs,
+      data: this.state.bodyContent,
+      dataType: this.state.action,
+      error: this.state.error,
+      groups: this.state.groups,
+      prepareForSegue: this.prepareForSegue,
+      sortData: this.sortData,
+      user: this.state.userId,
     }
+  }
 
-
-    packNavProps() {
-      return {
-        prepareForSegue: this.prepareForSegue, 
-        groups: this.state.groups,
-        username: this.state.username
+  sortData(sortBy) {
+    if (sortBy == this.state.contentSortedBy) { 
+      return false 
+    }
+    let contentCopy = Array.from(this.state.bodyContent)
+    contentCopy.sort(function(a, b) {
+      if (a[sortBy] < b[sortBy]) {
+        return -1;
       }
-    }
-
-    packBodyProps() {
-      console.log("packing body" + this.state.bodyContent)
-      return {
-        breadCrumbs: this.state.breadCrumbs,
-        data: this.state.bodyContent,
-        dataType: this.state.action,
-        error: this.state.error,
-        groups: this.state.groups,
-        prepareForSegue: this.prepareForSegue,
-        sortData: this.sortData,
-        user: this.state.userId,
+      if (a[sortBy] > b[sortBy]) {
+        return 1;
       }
-    }
-
-    sortData(sortBy) {
-      if (sortBy == this.state.contentSortedBy) { 
-        return false 
+      if (a["lastname"] < b["lastname"]) {
+        return -1;
       }
-      let contentCopy = Array.from(this.state.bodyContent)
-      contentCopy.sort(function(a, b) {
-                if (a[sortBy] < b[sortBy]) {
-                  return -1;
-                }
-                if (a[sortBy] > b[sortBy]) {
-                  return 1;
-                }
-                if (a["lastname"] < b["lastname"]) {
-                  return -1;
-                }
-                if (a["lastname"] > b["lastname"]) {
-                  return 1;
-                }
-                return 0
-              });
+      if (a["lastname"] > b["lastname"]) {
+        return 1;
+      }
+      return 0
+    });
 
-      this.setState({
-        bodyContent: contentCopy,
-        contentSortedBy: sortBy
-      })
-    }
+    this.setState({
+      bodyContent: contentCopy,
+      contentSortedBy: sortBy
+    })
+  }
 }
 
 const actions = {
@@ -224,60 +224,59 @@ const actions = {
     });     
   },
   senatorIndex: function(that) {
-
-        let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
-        newBreadCrumbs[1] = "Senators"
-       if (that.state.senatorIndex !=  null) {        
-         that.setState({
-          action: "senatorIndex", bodyContent: that.state.senatorIndex, breadCrumbs: newBreadCrumbs
-         })
-       } else {
-         $.ajax({
-          url: "/legislators",
-          data: {branch: "senator"},
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-            window.scrollTo(0,0)
-            const senatators = data.legislators
-            that.setState(
-              {
-                senatorIndex: senatators, bodyContent: senatators, action: "senatorIndex", breadCrumbs: newBreadCrumbs
-              }
-            );
-          }.bind(that),
-          error: function(xhr, status, err) {
-            console.error(that.props.url, status, err.toString());
-          }.bind(that)
-        });           
-       }
+    let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
+    newBreadCrumbs[1] = "Senators"
+     if (that.state.senatorIndex !=  null) {        
+       that.setState({
+        action: "senatorIndex", bodyContent: that.state.senatorIndex, breadCrumbs: newBreadCrumbs
+       })
+     } else {
+       $.ajax({
+        url: "/legislators",
+        data: {branch: "senator"},
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          window.scrollTo(0,0)
+          const senatators = data.legislators
+          that.setState(
+            {
+              senatorIndex: senatators, bodyContent: senatators, action: "senatorIndex", breadCrumbs: newBreadCrumbs
+            }
+          );
+        }.bind(that),
+        error: function(xhr, status, err) {
+          console.error(that.props.url, status, err.toString());
+        }.bind(that)
+      });           
+     }
   },
   repIndex: function(that) {
-        let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
-        newBreadCrumbs[1] = "Representatives"
-        if (that.state.repIndex !=  null) {
-         that.setState({
-          action: "repIndex", bodyContent: that.state.repIndex, breadCrumbs: newBreadCrumbs
-         })
-       } else {
-        $.ajax({
-          url: "/legislators",
-          data: {branch: "rep"},
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-            window.scrollTo(0,0)
-            const reps = data.legislators
-            that.setState({
-                repIndex: reps, bodyContent: reps, action: "repIndex", breadCrumbs: newBreadCrumbs
-            });
-            console.log(data)
-          }.bind(that),
-          error: function(xhr, status, err) {
-            console.error(that.props.url, status, err.toString());
-          }.bind(that)
-        }); 
-      }          
+    let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
+    newBreadCrumbs[1] = "Representatives"
+    if (that.state.repIndex !=  null) {
+      that.setState({
+        action: "repIndex", bodyContent: that.state.repIndex, breadCrumbs: newBreadCrumbs
+       })
+    } else {
+      $.ajax({
+        url: "/legislators",
+        data: {branch: "rep"},
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          window.scrollTo(0,0)
+          const reps = data.legislators
+          that.setState({
+            repIndex: reps, bodyContent: reps, action: "repIndex", breadCrumbs: newBreadCrumbs
+          });
+          console.log(data)
+        }.bind(that),
+        error: function(xhr, status, err) {
+          console.error(that.props.url, status, err.toString());
+        }.bind(that)
+      }); 
+    }          
   },
   groupNew: function(that, params) {
     if (that.state.userId == null) {
