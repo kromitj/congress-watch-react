@@ -17,7 +17,9 @@ class Role < ApplicationRecord
     def pack_role_show
         @last_tweet_html = TweetGetter.new(person.twitter_account).html
         @person = person
-        { 
+        @bills = bills
+         
+        @props = { 
             id: id,
             name: @person.name,
             desc: description,
@@ -28,8 +30,11 @@ class Role < ApplicationRecord
             website: url,
             wiki_intro: @person.wiki_intro,
             img: @person.img_sm,
-            last_tweet: @last_tweet_html
+            last_tweet: @last_tweet_html,
+            bills: @bills
         }
+        puts @props
+        return @props
 
     end
     def pack_group_show
