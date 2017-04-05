@@ -10,6 +10,7 @@ class BillListItem extends React.Component {
             <tr>
                 <td>{this.props.name}</td>
                 <td>{this.props.title}</td>
+                <td>{this.props.update}</td>
             </tr>
         )
     }
