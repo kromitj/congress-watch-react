@@ -21,7 +21,7 @@ wiki_custom = {
 # survey.survey_questions.create(question: "What is your initial impression of the website")
 # survey.survey_questions.create(question: "How would you describe this website in one or more words?")
 
-
+propublica_api = ENV["PROPUBLICA_API_KEY"]
 # # get IDs for all current Legislators
 # current_legislator_ids = HTTParty.get("https://api.propublica.org/congress/v1/115/senate/members.json",
 #   :headers => { "X-API-Key" => "p9dg2psUQw5YiXHvEmOL41oF4axEzvWT47ldiWMn"})
@@ -37,7 +37,7 @@ current_legislator_ids.each do |legislator_id|
   api_call_uri = "https://www.govtrack.us/api/v2/person/#{legislator_id}"
 
   legislator_response = HTTParty.get("https://api.propublica.org/congress/v1/members/#{legislator_id}.json",
-    :headers => { "X-API-Key" => "p9dg2psUQw5YiXHvEmOL41oF4axEzvWT47ldiWMn"})["results"][0]
+    :headers => { "X-API-Key" => propublica_api})["results"][0]
   
   if wiki_custom.include?("#{legislator_response["first_name"]} #{legislator_response["last_name"]}")
       url = wiki_custom["#{legislator_response["first_name"]} #{legislator_response["last_name"]}"]
@@ -68,12 +68,12 @@ current_legislator_ids.each do |legislator_id|
   # parse bills of role
   member_bills_url = "https://api.propublica.org/congress/v1/members/#{legislator_id}/bills/introduced.json"
   bills = HTTParty.get(member_bills_url, 
-    :headers => { "X-API-Key" => "p9dg2psUQw5YiXHvEmOL41oF4axEzvWT47ldiWMn"}
+    :headers => { "X-API-Key" => propublica_api}
   )["results"].first["bills"].map { |bill| bill["bill_uri"]}
   
   bills.each do |bill_uri|
     bill_response = HTTParty.get(bill_uri, 
-      :headers => { "X-API-Key" => "p9dg2psUQw5YiXHvEmOL41oF4axEzvWT47ldiWMn"}
+      :headers => { "X-API-Key" => propublica_api}
     )["results"][0]
     billObj = isolate_bill(bill_response)
     billObj[:role] = roleObj
