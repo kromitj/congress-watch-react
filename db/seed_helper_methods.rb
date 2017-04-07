@@ -26,10 +26,13 @@ def isolate_person(legislator)
 end
 
 def isolate_role(role)
+  states = {
+  "AL"=> "Alabama", "MT"=> "Montana", "AK"=> "Alaska", "NE"=> "Nebraska", "AZ"=> "Arizona", "NV"=> "Nevada", "AR"=> "Arkansas", "NH"=> "New Hampshire", "CA"=> "California", "NJ"=> "New Jersey", "CO"=> "Colorado", "NM"=> "New Mexico", "CT"=> "Connecticut", "NY"=> "New York", "DE"=> "Delaware", "NC"=> "North Carolina", "FL"=> "Florida", "ND"=> "North Dakota", "GA"=> "Georgia", "OH"=> "Ohio", "HI"=> "Hawaii", "OK"=> "Oklahoma", "ID"=> "Idaho", "OR"=> "Oregon", "IL"=> "Illinois", "PA"=> "Pennsylvania", "IN"=> "Indiana", "RI"=> "Rhode Island", "IA"=> "Iowa", "SC"=> "South Carolina", "KS"=> "Kansas", "SD"=> "South Dakota", "KY"=> "Kentucky", "TN"=> "Tennessee", "LA"=> "Louisiana", "TX"=> "Texas", "ME"=> "Maine", "UT"=> "Utah", "MD"=> "Maryland", "VT"=> "Vermont", "MA"=> "Massachusetts", "VA"=> "Virginia", "MI"=> "Michigan", "WA"=> "Washington", "MN"=> "Minnesota", "WV"=> "West Virginia", "MS"=> "Mississippi", "WI"=> "Wisconsin", "MO"=> "Missouri", "WY"=> "Wyoming"
+  }  
    iso_role = {}
    # iso_role[:caucus] = role["caucus"]
    iso_role[:congress_number] = role["congress"]   
-   iso_role[:state] = role["state"]
+   iso_role[:state] = states[role["state"]]
    iso_role[:title] = role["title"]
    iso_role[:party] = role["party"]
    iso_role[:leadership_role] = role["leadership_role"]
@@ -46,11 +49,10 @@ def isolate_role(role)
    # iso_role[:how] = role["extra"]["how"] unless role["extra"] == nil
    # iso_role[:role_id] = role["member_id"]
    # iso_role[:person_id] = role["person"]
-   # iso_role[:role_type_label] = role["role_type_label"]
+   iso_role[:role_type] = role["title"].split(" ")[0].gsub(",", "")
    # iso_role[:senator_rank] = role["senator_rank"]
    # iso_role[:title_long] = role["title_long"]
-   # iso_role[:url] = role["website"]
-   iso_role[:description] = "#{iso_role[:title]} of #{iso_role[:state]}"
+   # iso_role[:url] = role["website"]   
 
    return iso_role
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
   resources :legislators
   resources :session, except: [:destroy]
+  resources :bills
   delete '/session/logout' => 'session#logout'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -4,12 +4,17 @@ class BillSideBar extends React.Component {
         this.state = {
 
         }
+        this.showBillIndex = this.showBillIndex.bind(this)
     };
     render() {
         return(
-            <li className="disabled">
-                <a><i className="fa fa-fw fa-table"></i> Bills</a>
+            <li className="">
+                <a href="#" onClick={this.showBillIndex}><i className="fa fa-fw fa-table"></i> Bills</a>
             </li>
         )
+    }
+    showBillIndex(ev) {
+        ev.preventDefault();   
+        this.props.requestSegue("billIndex");
     }
 }

@@ -30,6 +30,8 @@ class Crumb extends React.Component {
             this.props.requestSegue("senatorIndex");
         } else if (action == "Representatives") {
             this.props.requestSegue("repIndex");
+        } else if (action == "Bills") {
+            this.props.requestSegue("billIndex");
         } else {
             this.props.requestSegue("roleShow", null);
         }

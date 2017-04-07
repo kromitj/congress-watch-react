@@ -5,6 +5,7 @@ class CreateRoles < ActiveRecord::Migration[5.0]
          # t.string :caucus
          t.string :congress_number
          t.string :description
+         t.string :desc_short
          t.integer :district
          t.date :end_date
          # t.string :address
@@ -17,7 +18,8 @@ class CreateRoles < ActiveRecord::Migration[5.0]
          t.string :party
          t.integer :person_id
          t.string :phone
-         # t.string :role_type
+         t.string :role_type
+         t.string :name
          # t.string :role_type_label
          t.string :seniority
          # t.string :senator_rank

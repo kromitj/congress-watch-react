@@ -41,7 +41,7 @@ class BodyContainer extends React.Component {
     };
 
     render() {
-        console.log(`data: ${this.props.data}`)
+        console.log("render: " + this.props.dataType)
         content = this.dispatchData(this.props.dataType, this.props.data)
         props = this.packBody(this.props.dataType, content)
         return(
@@ -56,6 +56,13 @@ class BodyContainer extends React.Component {
                 break;
             case "repIndex":
                 return this.dispatchSenatorList(data)
+                break;
+            case "billShow":
+                props = data
+                return < BillShow {...props}/>
+                break;
+            case "billIndex":
+                return this.dispatchBillList(data)
                 break;
             case "signUp":
                 return this.dispatchUserNew()
@@ -85,6 +92,14 @@ class BodyContainer extends React.Component {
         props = this.packList(data, this.props.sortData)
         return <RoleList {...props} />
     }
+    dispatchBillList(data) {
+        props = this.packList(data, this.props.sortData)
+        return <BillList {...props} />
+    }
+    dispatchBillShow(data) {
+        props = this.packList(data, this.props.sortData)
+        return <BillList {...props} />
+    }
     dispatchUserNew() {
         return <UserNew  {...{subscribeToDispatcher: this.props.prepareForSegue, error: this.props.error}}/>
     }
@@ -98,11 +113,15 @@ class BodyContainer extends React.Component {
         props = this.packList(data.group_items, this.props.sortData)
         return <GroupShow  {...{subscribeToDispatcher: this.props.prepareForSegue, groupItemProps: props}}/>
     }
+    dispatchBillShow() {
+
+    }
+
     dispatchRoleShow() {
         return <RoleShow {...{role: this.props.data, subscribeToDispatcher: this.props.prepareForSegue, groups: this.props.groups, user: this.props.user}} />
     }
     packBody(dataType, content) {
-        props = actionDefaults[dataType]
+        const props = {}
         props.breadCrumbs = this.props.breadCrumbs
         props.user = this.props.user
         if ((dataType != "signUp") || (dataType != "logIn") || (dataType != "userNew")) { props.content = content }
@@ -111,6 +130,6 @@ class BodyContainer extends React.Component {
     }
 
     packList(items, sortData) {
-        return {roleItems: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue}
+        return {items: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue}
     }
 } 

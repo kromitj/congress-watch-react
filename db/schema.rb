@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20170402215236) do
     t.string   "number"
     t.string   "bill_uri"
     t.string   "title"
+    t.string   "sponsor"
+    t.integer  "status"
     t.integer  "role_id"
     t.string   "sponsor_uri"
     t.string   "sponsor_party"
@@ -56,6 +58,7 @@ ActiveRecord::Schema.define(version: 20170402215236) do
     t.string   "senate_passage_vote"
     t.string   "summary"
     t.string   "summary_short"
+    t.string   "subjects"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
@@ -155,6 +158,7 @@ ActiveRecord::Schema.define(version: 20170402215236) do
   create_table "roles", primary_key: "role_id", force: :cascade do |t|
     t.string   "congress_number"
     t.string   "description"
+    t.string   "desc_short"
     t.integer  "district"
     t.date     "end_date"
     t.string   "office"
@@ -162,6 +166,8 @@ ActiveRecord::Schema.define(version: 20170402215236) do
     t.string   "party"
     t.integer  "person_id"
     t.string   "phone"
+    t.string   "role_type"
+    t.string   "name"
     t.string   "seniority"
     t.date     "start_date"
     t.string   "state"

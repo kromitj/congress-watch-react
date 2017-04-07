@@ -9,7 +9,8 @@ class CreateBills < ActiveRecord::Migration[5.0]
     	t.string :bill_uri
     	t.string :title		
 
-		# t.string :sponsor
+		t.string :sponsor
+		t.integer :status
     	t.integer :role_id
     	t.string :sponsor_uri
     	t.string :sponsor_party
@@ -34,6 +35,7 @@ class CreateBills < ActiveRecord::Migration[5.0]
 		t.string :senate_passage_vote
 		t.string :summary
 		t.string :summary_short
+		t.string :subjects
 
       t.timestamps
     end

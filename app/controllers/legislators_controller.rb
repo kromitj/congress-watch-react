@@ -50,7 +50,7 @@ class LegislatorsController < ApplicationController
 
 	def pack_senators
 		Rails.cache.fetch("senatorsIndex", expires_in: 12.hours) do
-			@roles = Role.all_in_office.map do |senator|
+			@roles = Role.where({in_office: true, role_type: "Senator"}).map do |senator|
 				{id: senator.id, firstname: senator.person.first_name, lastname: senator.person.last_name, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
 			end
 			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
@@ -60,8 +60,8 @@ class LegislatorsController < ApplicationController
 
 	def pack_reps
 		Rails.cache.fetch("repsIndex", expires_in: 12.hours) do
-			@roles = Role.where({current: true, role_type: "representative"}).map do |senator|
-				{id: senator.id, firstname: senator.person.firstname, lastname: senator.person.lastname, state: senator.state, party: senator.party, desc: senator.description, img: senator.person.img_sm}
+			@roles = Role.where({in_office: true, role_type: "Representative"}).map do |rep|
+				{id: rep.id, firstname: rep.person.first_name, lastname: rep.person.last_name, state: rep.state, party: rep.party, desc: rep.description, img: rep.person.img_sm}
 			end
 			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
 		end	

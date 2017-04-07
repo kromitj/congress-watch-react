@@ -4,9 +4,13 @@ class App extends React.Component {
 
   constructor(props) {
     super();
+    console.log(props)
     this.state = {
-      action: "dashboard",
-      bodyContent: null,
+      action: props.action,
+      bodyContent: props.bodyContent,
+      billIndex: null,
+      billShowId: null,
+      billShow: null,
       senatorIndex: null,
       repIndex: null,
       roleShowId: null,
@@ -16,7 +20,7 @@ class App extends React.Component {
       survey: null,
       username: 'Guest',
       userId: null,
-      breadCrumbs: ["Dashboard"]
+      breadCrumbs: props.breadCrumbs
     };
     this.prepareForSegue = this.prepareForSegue.bind(this)
     this.sortData = this.sortData.bind(this)
@@ -25,6 +29,7 @@ class App extends React.Component {
   render() {
     const navProps = this.packNavProps()
     const bodyProps = this.packBodyProps()
+    console.log(bodyProps)
     const survey = this.state.survey
 
     return(
@@ -52,7 +57,7 @@ class App extends React.Component {
   }
 
   packBodyProps() {
-    console.log("packing body" + this.state.bodyContent)
+    console.log("packing body" + this.state.breadCrumbs)
     return {
       breadCrumbs: this.state.breadCrumbs,
       data: this.state.bodyContent,
@@ -223,9 +228,64 @@ const actions = {
       }.bind(that)
     });     
   },
+  billShow: function(that, billId) {
+    if (billId == null ) {
+      billId = that.state.billShowId
+    }
+
+    let newBreadCrumbs = Object.assign([], that.state.breadCrumbs)
+
+     $.ajax({
+      url: "/bills/" + billId,
+      data: null,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        window.scrollTo(0,0)
+        const bill = data.bill
+        newBreadCrumbs[2] = bill.bill;
+        that.setState(
+          {
+            billShow: bill, bodyContent: bill, action: "billShow", breadCrumbs: newBreadCrumbs
+          }
+        );
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });   
+  },
+  billIndex: function(that) {
+    let newBreadCrumbs = Object.assign([], ["Dashboard", "Bills"])
+    newBreadCrumbs[1] = "Bills"
+     if (that.state.billIndex !=  null) {        
+       that.setState({
+        action: "billIndex", bodyContent: that.state.billIndex, breadCrumbs: newBreadCrumbs
+       })
+     } else {
+       $.ajax({
+        url: "/bills",
+        data: null,
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          window.scrollTo(0,0)
+          const bills = data.bills
+          that.setState(
+            {
+              billIndex: bills, bodyContent: bills, action: "billIndex", breadCrumbs: newBreadCrumbs
+            }
+          );
+        }.bind(that),
+        error: function(xhr, status, err) {
+          console.error(that.props.url, status, err.toString());
+        }.bind(that)
+      });           
+     }
+  },
   senatorIndex: function(that) {
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
-    newBreadCrumbs[1] = "Senators"
+    // newBreadCrumbs[1] = "Senators"
      if (that.state.senatorIndex !=  null) {        
        that.setState({
         action: "senatorIndex", bodyContent: that.state.senatorIndex, breadCrumbs: newBreadCrumbs
@@ -252,8 +312,7 @@ const actions = {
      }
   },
   repIndex: function(that) {
-    let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
-    newBreadCrumbs[1] = "Representatives"
+    let newBreadCrumbs = Object.assign([], ["Dashboard", "Representatives"])
     if (that.state.repIndex !=  null) {
       that.setState({
         action: "repIndex", bodyContent: that.state.repIndex, breadCrumbs: newBreadCrumbs

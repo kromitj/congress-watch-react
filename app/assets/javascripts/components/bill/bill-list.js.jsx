@@ -2,36 +2,60 @@ class BillList extends React.Component {
     constructor(props) {
         super();
         this.state = {
-
+            searchQuery: ""
         }
+        this.sortList = this.sortList.bind(this)
+        this.filterQuery = this.filterQuery.bind(this)
     };
     render() {
-        console.log("bills")
-        console.log(this.props.bills)
-        let counter = 0
-         const bills = this.props.bills.map(function(bill) {
-            const billProps = {name: bill.bill, title: bill.title, update: bill.latest_major_action_date}
-            counter++
-            console.log(counter)
-            console.log(billProps)
-            return <BillListItem key={counter}  {...billProps}/>;
+        console.log(this.props)
+        const subscribeToDispatcher = this.props.subscribeToDispatcher
+        const bills = this.props.items.map(function(bill) {
+            const billProps = {bill: bill, subscribeToDispatcher: subscribeToDispatcher}
+            return <BillListRow key={bill.id}  {...billProps}/>;
         });
+
         return(
-            <div className="panel panel-default">
-                <div className="panel-heading">Associated Bills</div>          
-                  <table className="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Bill</th>
-                        <th>Title</th>
-                        <th>Latest Update</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        { bills }
-                    </tbody>
-                  </table>
+            <div className="role-list">
+                 <div className="col-sm-12 col-md-offset-2 col-md-8">                  
+                   <input type="search" className="form-control" id="legislator-search" onKeyUp={this.filterQuery} placeholder="Filter Legislators... Democrat MN" ></input>
+                   <div className="row sort-by">
+                        <div className="col-xs-3 sort-by-btn">
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("firstname")}  >First</button>                            
+                        </div>
+                        <div className="col-xs-3 sort-by-btn">
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("lastname")}  >Last</button>                            
+                        </div>
+                        <div className="col-xs-3 sort-by-btn">
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("state")}  >State</button>                            
+                        </div>
+                        <div className="col-xs-3 sort-by-btn fluid">
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("party")}  >Party</button>                            
+                        </div>
+                    </div>
+                </div>
+                { bills }
             </div>
+                   
         )
+    }
+
+    packRoleProps(role) {
+        return {
+            role: role,
+            subscribeToDispatcher: this.props.subscribeToDispatcher
+        }
+    }
+
+    sortList(value) {  
+        console.log("sortBy: " + value)
+        this.props.sortBy(value);
+    }
+    filterQuery(ev) {
+        let newFormData = Object.assign({}, this.state.searchQuery);
+        newFormData = ev.target.value
+        console.log(newFormData)
+        this.setState({ searchQuery: newFormData } );
+        this.props.subscribeToDispatcher("filterRoles", this.state.searchQuery);
     }
 }
