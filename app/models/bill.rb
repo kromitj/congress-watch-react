@@ -9,7 +9,7 @@ class Bill < ApplicationRecord
 			sponsor: sponsor,
 			action_date: latest_major_action_date,
 			action: latest_major_action,
-			status: status
+			status: status, 
 		}
 	end
 

@@ -10,7 +10,9 @@ class BillList extends React.Component {
     render() {
         console.log(this.props)
         const subscribeToDispatcher = this.props.subscribeToDispatcher
-        const bills = this.props.items.map(function(bill) {
+        const page = this.props.items.page
+        const pages = this.props.items.pages
+        const bills = this.props.items.items.map(function(bill) {
             const billProps = {bill: bill, subscribeToDispatcher: subscribeToDispatcher}
             return <BillListRow key={bill.id}  {...billProps}/>;
         });
@@ -32,6 +34,11 @@ class BillList extends React.Component {
                         <div className="col-xs-3 sort-by-btn fluid">
                             <button className="btn-block" type="button" onClick={ () => this.sortList("party")}  >Party</button>                            
                         </div>
+                    </div>
+                    <div className="row">
+                         <div className="col-sm-12 col-md-8"> 
+                            <BillPagination  {...{page: page, pages: pages, subscribeToDispatcher: subscribeToDispatcher}}/>
+                         </div>
                     </div>
                 </div>
                 { bills }

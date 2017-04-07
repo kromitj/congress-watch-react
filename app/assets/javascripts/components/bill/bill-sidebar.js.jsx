@@ -15,6 +15,6 @@ class BillSideBar extends React.Component {
     }
     showBillIndex(ev) {
         ev.preventDefault();   
-        this.props.requestSegue("billIndex");
+        this.props.requestSegue("billIndex", 1);
     }
 }

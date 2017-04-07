@@ -8,7 +8,6 @@ class App extends React.Component {
     this.state = {
       action: props.action,
       bodyContent: props.bodyContent,
-      billIndex: null,
       billShowId: null,
       billShow: null,
       senatorIndex: null,
@@ -43,7 +42,12 @@ class App extends React.Component {
 
   prepareForSegue(segue, params=null) {
     this.setState({error: null})
-    if ((this.state.action != "groupShow") && (segue == this.state.action)) { return false }
+    {/* 
+      if (((this.state.action != "groupShow") && (this.state.action != "groupShow")) && (segue == this.state.action)) {
+        alert("returning false")
+        return false 
+     }
+   */} 
     var response = actions[segue](this, params)
     console.log(response)      
   }
@@ -255,33 +259,26 @@ const actions = {
       }.bind(that)
     });   
   },
-  billIndex: function(that) {
+  billIndex: function(that, page) {
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Bills"])
     newBreadCrumbs[1] = "Bills"
-     if (that.state.billIndex !=  null) {        
-       that.setState({
-        action: "billIndex", bodyContent: that.state.billIndex, breadCrumbs: newBreadCrumbs
-       })
-     } else {
-       $.ajax({
-        url: "/bills",
-        data: null,
-        dataType: 'json',
-        cache: false,
-        success: function(data) {
-          window.scrollTo(0,0)
-          const bills = data.bills
-          that.setState(
-            {
-              billIndex: bills, bodyContent: bills, action: "billIndex", breadCrumbs: newBreadCrumbs
-            }
-          );
-        }.bind(that),
-        error: function(xhr, status, err) {
-          console.error(that.props.url, status, err.toString());
-        }.bind(that)
-      });           
-     }
+     $.ajax({
+      url: "/bills",
+      data: {page: page},
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        const bills = data.bills
+        that.setState(
+          {
+            billIndex: bills, bodyContent: bills, action: "billIndex", breadCrumbs: newBreadCrumbs
+          }
+        );
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    }); 
   },
   senatorIndex: function(that) {
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
