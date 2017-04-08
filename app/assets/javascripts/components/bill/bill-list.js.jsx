@@ -23,16 +23,16 @@ class BillList extends React.Component {
                    <input type="search" className="form-control" id="legislator-search" onKeyUp={this.filterQuery} placeholder="Filter Legislators... Democrat MN" ></input>
                    <div className="row sort-by">
                         <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("firstname")}  >First</button>                            
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("Bill Id")}  >Bill Id</button>                            
                         </div>
                         <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("lastname")}  >Last</button>                            
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("Sponsor")}  >Sponsor</button>                            
                         </div>
                         <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("state")}  >State</button>                            
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("Last Action")}  >Last Action</button>                            
                         </div>
                         <div className="col-xs-3 sort-by-btn fluid">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("party")}  >Party</button>                            
+                            <button className="btn-block" type="button" onClick={ () => this.sortList("Stage")}  >Stage</button>                            
                         </div>
                     </div>
                     <div className="row">
@@ -42,6 +42,11 @@ class BillList extends React.Component {
                     </div>
                 </div>
                 { bills }
+                <div className="row">
+                         <div className="col-sm-12 col-md-8"> 
+                            <BillPagination  {...{page: page, pages: pages, subscribeToDispatcher: subscribeToDispatcher}}/>
+                         </div>
+                    </div>
             </div>
                    
         )

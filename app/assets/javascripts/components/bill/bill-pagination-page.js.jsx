@@ -18,8 +18,8 @@ class BillPaginationPage extends React.Component {
     }
 
     requestPage(ev) {
-        ev.preventDefault();   
         const page_requested = this.props.page
+        ev.preventDefault();   
         this.props.subscribeToDispatcher("billIndex", this.props.page);
     }
 }

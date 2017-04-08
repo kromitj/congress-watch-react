@@ -262,23 +262,30 @@ const actions = {
   billIndex: function(that, page) {
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Bills"])
     newBreadCrumbs[1] = "Bills"
-     $.ajax({
-      url: "/bills",
-      data: {page: page},
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        const bills = data.bills
-        that.setState(
-          {
-            billIndex: bills, bodyContent: bills, action: "billIndex", breadCrumbs: newBreadCrumbs
-          }
-        );
-      }.bind(that),
-      error: function(xhr, status, err) {
-        console.error(that.props.url, status, err.toString());
-      }.bind(that)
-    }); 
+    if (page == null) {
+      const bills = that.state.billIndex
+      that.setState({
+        action: "billIndex", bodyContent: bills
+      })
+    } else {
+       $.ajax({
+        url: "/bills",
+        data: {page: page},
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          const bills = data.bills
+          that.setState(
+            {
+              billIndex: bills, bodyContent: bills, action: "billIndex", breadCrumbs: newBreadCrumbs
+            }
+          );
+        }.bind(that),
+        error: function(xhr, status, err) {
+          console.error(that.props.url, status, err.toString());
+        }.bind(that)
+      });       
+    }
   },
   senatorIndex: function(that) {
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Senators"])
