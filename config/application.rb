@@ -13,4 +13,12 @@ module CongressWatchReact
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
   end
+
+
+end
+
+module ReactTesting
+  class Application < Rails::Application
+    config.react.addons = true
+  end
 end

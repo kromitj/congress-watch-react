@@ -8,9 +8,18 @@ class RoleList extends React.Component {
         this.filterQuery = this.filterQuery.bind(this)
     };
     render() {
-        console.log(this.props)
         const subscribeToDispatcher = this.props.subscribeToDispatcher
-        const roles = this.props.items.map(function(role) {
+        const searchWords = this.state.searchQuery.split(" ")
+        const filteredRoles = this.props.items.filter(function(role) {
+            if (searchWords.length == 0) { return role }
+            const personString = role.desc + role.firstname + role.lastname + role.id + role.party + role.state
+            let searchMatch = true
+            searchWords.forEach(function(word) {
+                if (personString.includes(word) == false) { searchMatch = false}
+            })
+            return searchMatch
+        })
+        const roles = filteredRoles.map(function(role) {
             const roleProps = {role: role, subscribeToDispatcher: subscribeToDispatcher}
             return <RoleListRow key={role.id}  {...roleProps}/>;
         });
@@ -56,6 +65,6 @@ class RoleList extends React.Component {
         newFormData = ev.target.value
         console.log(newFormData)
         this.setState({ searchQuery: newFormData } );
-        this.props.subscribeToDispatcher("filterRoles", this.state.searchQuery);
+        // this.props.subscribeToDispatcher("filterRoles", this.state.searchQuery);
     }
 }
