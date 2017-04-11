@@ -18,6 +18,27 @@ class Role < ApplicationRecord
         @last_tweet_html = TweetGetter.new(person.twitter_account).html
         @person = person
         @bills = bills
+
+        uri = URI("https://api.nytimes.com/svc/search/v2/articlesearch.json")
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        uri.query = URI.encode_www_form({
+          "api-key" => "53fec61ec9ec49798817e3a9177f478a",
+          "q" => @person.first_name + "+" + @person.last_name,
+          "fq" => "document_type:article",
+          "sort" => "newest"
+        })
+
+            request = Net::HTTP::Get.new(uri.request_uri)
+            @result = JSON.parse(http.request(request).body)
+            @articles = @result["response"]["docs"].map do |article|
+                if article["multimedia"].count != 0 
+                    @img = "https://static01.nyt.com/" + article["multimedia"][0]["url"] 
+                else 
+                    @img = "https://static01.nyt.com/images/2017/04/11/opinion/11tue1web/11tue1web-thumbStandard.jpg"
+                end
+                { url: article["web_url"], snippet: article["snippet"], source: article["source"], img: @img, pub_date: article["pub_date"]}                
+            end
          
         @props = { 
             id: id,
@@ -31,7 +52,8 @@ class Role < ApplicationRecord
             wiki_intro: @person.wiki_intro,
             img: @person.img_sm,
             last_tweet: @last_tweet_html,
-            bills: @bills
+            bills: @bills,
+            articles: @articles
         }
         puts @props
         return @props

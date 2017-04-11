@@ -59,6 +59,7 @@ class RoleShow extends React.Component {
                 <div className="panel-body">{this.props.role.wiki_intro}</div>
             </div>
               < RoleBillsList {...{bills: this.props.role.bills}}/>    
+              <ArticleTable {...{data: this.props.role.articles}} />
         </div>
     </div>
  

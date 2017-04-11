@@ -7,19 +7,20 @@ class App extends React.Component {
     console.log(props)
     this.state = {
       action: props.action,
-      bodyContent: props.bodyContent,
-      billShowId: null,
       billShow: null,
-      senatorIndex: null,
-      repIndex: null,
-      roleShowId: null,
+      billShowId: null,
+      bodyContent: props.bodyContent,
+      breadCrumbs: props.breadCrumbs,
+      dashboard: props.bodyContent,
       contentSortedBy: "lastname",
       error: null,
       groups: [],
+      repIndex: null,
+      roleShowId: null,
+      senatorIndex: null,
       survey: null,
       username: 'Guest',
-      userId: null,
-      breadCrumbs: props.breadCrumbs
+      userId: null
     };
     this.prepareForSegue = this.prepareForSegue.bind(this)
     this.sortData = this.sortData.bind(this)
@@ -135,9 +136,10 @@ const actions = {
   },
   dashboard: function(that) {
     window.scrollTo(0,0)
+    const dashboardBody = Object.assign([], that.state.dashboard)
     let newBreadCrumbs = Object.assign([])
     newBreadCrumbs.unshift("Dashboard")
-    that.setState({action: "dashboard", breadCrumbs: newBreadCrumbs})
+    that.setState({action: "dashboard", breadCrumbs: newBreadCrumbs, bodyContent: dashboardBody})
   },
   signUp: function(that) {
     window.scrollTo(0,0)

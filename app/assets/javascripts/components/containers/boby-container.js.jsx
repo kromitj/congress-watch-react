@@ -51,6 +51,9 @@ class BodyContainer extends React.Component {
 
     dispatchData(dataType, data) {
         switch(dataType) {
+            case "dashboard":
+                return this.dispatchDashboard(data)
+                break;
             case "senatorIndex":
                 return this.dispatchSenatorList(data)
                 break;
@@ -87,7 +90,9 @@ class BodyContainer extends React.Component {
 
         }
     }
-
+    dispatchDashboard(data) {
+        return <ArticleTable {...{data}}  />
+    }
     dispatchSenatorList(data) {
         props = this.packList(data, this.props.sortData)
         return <RoleList {...props} />
