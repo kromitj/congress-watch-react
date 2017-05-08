@@ -135,6 +135,6 @@ class BodyContainer extends React.Component {
     }
 
     packList(items, sortData) {
-        return {items: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue}
+        return {items: items, sortBy: sortData, subscribeToDispatcher: this.props.prepareForSegue, sortOrderAndBy: this.props.sortOrderAndBy}
     }
 } 

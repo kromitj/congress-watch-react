@@ -29,7 +29,7 @@ class CreateRoles < ActiveRecord::Migration[5.0]
          # t.string :title_long
          t.string :url
          t.boolean :in_office
-   
+         
          t.timestamps
 
     end

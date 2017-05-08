@@ -23,32 +23,18 @@ class RoleList extends React.Component {
             const roleProps = {role: role, subscribeToDispatcher: subscribeToDispatcher}
             return <RoleListRow key={role.id}  {...roleProps}/>;
         });
+        const sortOrderAndBy = this.props.sortOrderAndBy
 
         return(
             <div className="role-list">
-                 <div className="col-sm-12 col-md-offset-2 col-md-8">                  
-                   <input type="search" className="form-control" id="legislator-search" onKeyUp={this.filterQuery} placeholder="Filter Legislators... Democrat MN" ></input>
-                   <div className="row sort-by">
-                        <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("firstname")}  >First</button>                            
-                        </div>
-                        <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("lastname")}  >Last</button>                            
-                        </div>
-                        <div className="col-xs-3 sort-by-btn">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("state")}  >State</button>                            
-                        </div>
-                        <div className="col-xs-3 sort-by-btn fluid">
-                            <button className="btn-block" type="button" onClick={ () => this.sortList("party")}  >Party</button>                            
-                        </div>
-                    </div>
-                </div>
+                <FilterNSortable {...{sortList: this.sortList, sortOrderAndBy: sortOrderAndBy, this, filterQuery: this.filterQuery, sortByFields: [{name: "Popularity", sortListArg: "view_count"},{name: "Last", sortListArg: "lastname"},{name: "State", sortListArg: "state"},{name: "Party", sortListArg: "party"},]}} />                 
                 { roles }
             </div>
                    
         )
     }
 
+        
     packRoleProps(role) {
         return {
             role: role,
@@ -60,9 +46,9 @@ class RoleList extends React.Component {
         console.log("sortBy: " + value)
         this.props.sortBy(value);
     }
-    filterQuery(ev) {
+    filterQuery(filterContent) {
         let newFormData = Object.assign({}, this.state.searchQuery);
-        newFormData = ev.target.value
+        newFormData = filterContent
         console.log(newFormData)
         this.setState({ searchQuery: newFormData } );
         // this.props.subscribeToDispatcher("filterRoles", this.state.searchQuery);

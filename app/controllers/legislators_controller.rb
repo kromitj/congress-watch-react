@@ -15,13 +15,12 @@ class LegislatorsController < ApplicationController
 	end
 
 	def show 
-		@role = Rails.cache.fetch("#{params[:id]}role", expires_in: 12.hours) do
+		@role_id = params[:id]
+		@role = Rails.cache.fetch("#{@role_id}role", expires_in: 12.hours) do
 			Role.find_by(role_id: params[:id]).pack_role_show
-		end      
-		puts "#{params[:id]}role"
-		puts Rails.cache.fetch("#{params[:id]}role")
-			
-
+		end      			
+		Role.increment_counter(:view_count, @role_id)
+		@role[:view_count] = Role.find(@role_id).view_count
 		render json: {:status => true, role: @role}
 	end
 
@@ -50,9 +49,9 @@ class LegislatorsController < ApplicationController
 
 	def pack_senators
 		party = {"D" => "Democrate", "R" => "Republican", "I" => "Independent"}
-		Rails.cache.fetch("senatorsIndex", expires_in: 12.hours) do
+		Rails.cache.fetch("senatorsIndex", expires_in: 10.seconds) do
 			@roles = Role.where({in_office: true, role_type: "Senator"}).map do |senator|
-				{id: senator.id, firstname: senator.person.first_name, lastname: senator.person.last_name, state: senator.state, party: party[senator.party], desc: senator.description, img: senator.person.img_sm}
+				{id: senator.id, firstname: senator.person.first_name, lastname: senator.person.last_name, state: senator.state, party: party[senator.party], desc: senator.description, img: senator.person.img_sm, view_count: senator.view_count}
 			end
 			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
 		end  
@@ -61,9 +60,9 @@ class LegislatorsController < ApplicationController
 
 	def pack_reps
 		party = {"D" => "Democrate", "R" => "Republican", "I" => "Independent"}
-		Rails.cache.fetch("repsIndex", expires_in: 12.hours) do
+		Rails.cache.fetch("repsIndex", expires_in: 10.seconds) do
 			@roles = Role.where({in_office: true, role_type: "Representative"}).map do |rep|
-				{id: rep.id, firstname: rep.person.first_name, lastname: rep.person.last_name, state: rep.state, party: party[rep.party], desc: rep.description, img: rep.person.img_sm}
+				{id: rep.id, firstname: rep.person.first_name, lastname: rep.person.last_name, state: rep.state, party: party[rep.party], desc: rep.description, img: rep.person.img_sm, view_count: rep.view_count}
 			end
 			@roles.sort { |a,b| a[:lastname] <=> b[:lastname] }
 		end	

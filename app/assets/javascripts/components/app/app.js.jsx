@@ -13,6 +13,7 @@ class App extends React.Component {
       breadCrumbs: props.breadCrumbs,
       dashboard: props.bodyContent,
       contentSortedBy: "lastname",
+      contentOrder: "ascending",
       error: null,
       groups: [],
       repIndex: null,
@@ -29,7 +30,6 @@ class App extends React.Component {
   render() {
     const navProps = this.packNavProps()
     const bodyProps = this.packBodyProps()
-    console.log(bodyProps)
     const survey = this.state.survey
 
     return(
@@ -41,14 +41,10 @@ class App extends React.Component {
     )
   }
 
+  // the delegator that handles all action requests; seque is the action type and params is any addictional data needed for the actuon to be called
   prepareForSegue(segue, params=null) {
     this.setState({error: null})
-    {/* 
-      if (((this.state.action != "groupShow") && (this.state.action != "groupShow")) && (segue == this.state.action)) {
-        alert("returning false")
-        return false 
-     }
-   */} 
+
     var response = actions[segue](this, params)
     console.log(response)      
   }
@@ -72,20 +68,24 @@ class App extends React.Component {
       prepareForSegue: this.prepareForSegue,
       sortData: this.sortData,
       user: this.state.userId,
+      sortOrderAndBy: {by: this.state.contentSortedBy, order: this.state.contentOrder}
     }
   }
 
   sortData(sortBy) {
-    if (sortBy == this.state.contentSortedBy) { 
-      return false 
-    }
     let contentCopy = Array.from(this.state.bodyContent)
-    contentCopy.sort(function(a, b) {
+    let sortByOrder = null
+    if (sortBy == this.state.contentSortedBy) { 
+      contentCopy.reverse();
+      sortByOrder = this.flipOrder()
+    } else if (sortBy == "view_count") {
+      sortByOrder = "ascending"
+      contentCopy.sort(function(a, b) {
       if (a[sortBy] < b[sortBy]) {
-        return -1;
+        return 1;
       }
       if (a[sortBy] > b[sortBy]) {
-        return 1;
+        return -1;
       }
       if (a["lastname"] < b["lastname"]) {
         return -1;
@@ -95,14 +95,42 @@ class App extends React.Component {
       }
       return 0
     });
-
+    } else {
+      sortByOrder = "ascending"
+      contentCopy.sort(function(a, b) {
+        if (a[sortBy] < b[sortBy]) {
+          return -1;
+        }
+        if (a[sortBy] > b[sortBy]) {
+          return 1;
+        }
+        if (a["lastname"] < b["lastname"]) {
+          return -1;
+        }
+        if (a["lastname"] > b["lastname"]) {
+          return 1;
+        }
+        return 0
+      });      
+    }
     this.setState({
       bodyContent: contentCopy,
-      contentSortedBy: sortBy
+      contentSortedBy: sortBy,
+      contentOrder: sortByOrder
     })
   }
+
+  flipOrder() {
+    if (this.state.contentOrder == "ascending")  {
+      return "descending"
+    } else {
+      return "ascending"
+    }
+  }
+
 }
 
+// object that handles all callable actions. Deals with state change and communitating with the server 
 const actions = {
   groupableNew: function(that, groupParams) {
     const data = {userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId}

@@ -71,6 +71,10 @@
 	font-size: 18px;
 }
 
+.btn-active {
+	background-color: blue;
+}
+
 .sort-by-btn {
 	padding-left: 0;
 	padding-right: 0;
