@@ -134,7 +134,7 @@ class App extends React.Component {
 const actions = {
   groupableNew: function(that, groupParams) {
     const data = {userId: that.state.userId, groupId: groupParams.groupId, groupableId: groupParams.groupableId}
-    const url = `/user/${that.state.userId}/groups/${groupParams.groupId}/group_items` 
+    const url = `/users/${that.state.userId}/groups/${groupParams.groupId}/group_items` 
     // const url = "/users/" + that.state.userId + "/groups/" + groupParams.groupId + "/group_items"
     $.ajax({
       url: url,
@@ -187,7 +187,8 @@ const actions = {
       cache: false,
       success: function(data) {
         window.scrollTo(0,0)
-        that.setState({bodyContent: null,
+        const dashboardContent = that.state.dashboard
+        that.setState({bodyContent: dashboardContent,
           action: "dashboard", username: "Guest", userId: null, groups: []
         });
       }.bind(that),
@@ -207,7 +208,8 @@ const actions = {
       cache: false,
       success: function(data) {
         window.scrollTo(0,0)
-        that.setState({bodyContent: null,
+        const dashboardContent = that.state.dashboard
+        that.setState({bodyContent: dashboardContent,
           action: "dashboard", username: data.username, userId: data.userId, survey: data.survey, error: null
         });
       }.bind(that),
@@ -228,7 +230,8 @@ const actions = {
       cache: false,
       success: function(data) {
         window.scrollTo(0,0)
-        that.setState({bodyContent: null,
+        const dashboardContent = that.state.dashboard
+        that.setState({bodyContent: dashboardContent,
           action: "dashboard", username: data.username, userId: data.userId, groups: data.groups, error: null
         });
       }.bind(that),
