@@ -9,8 +9,9 @@ class RoleShow extends React.Component {
   }
 
   render() {
+    const partyLong = { "D": "Democrate", "R": "Rebublican", "I": "Independent"}
     const website = this
-    const party = "info-block-" + this.props.role.party + " block-info clearfix"
+    const party = "info-block-" + partyLong[this.props.role.party] + " block-info clearfix"
     const groupList = this.groupList(this)
     let groupBtn = "btn btn-default"
     let groupBtnDropDown = "btn btn-default dropdown-toggle"
