@@ -1,8 +1,9 @@
 $( document ).ready(function() {
-  $('.legislator-header').on('click', function(event) {
-    alert("clicked on header")
-    event.preventDefault();
-    console.log("header clicked!!!!")
-    
-  })
+   $(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') )  {
+    		if( $(e.target).hasClass('actionable') )  {
+	        $(this).collapse('hide');
+      	}
+    }
+});
 });

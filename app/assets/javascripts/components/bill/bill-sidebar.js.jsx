@@ -9,7 +9,7 @@ class BillSideBar extends React.Component {
     render() {
         return(
             <li className="">
-                <a href="#" onClick={this.showBillIndex}><i className="fa fa-fw fa-table"></i> Bills</a>
+                <a className="actionable" href="#" onClick={this.showBillIndex}><i className="fa fa-fw fa-table"></i> Bills</a>
             </li>
         )
     }

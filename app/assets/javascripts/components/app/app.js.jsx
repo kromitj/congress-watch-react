@@ -12,6 +12,10 @@ class App extends React.Component {
       bodyContent: props.bodyContent,
       breadCrumbs: props.breadCrumbs,
       dashboard: props.bodyContent,
+      senatorStore: {
+        contentSortedBy: "lastname",
+        contentOrder: "ascending",  
+      },
       contentSortedBy: "lastname",
       contentOrder: "ascending",
       error: null,
@@ -73,6 +77,7 @@ class App extends React.Component {
   }
 
   sortData(sortBy) {
+    console.log(sortBy)
     let contentCopy = Array.from(this.state.bodyContent)
     let sortByOrder = null
     if (sortBy == this.state.contentSortedBy) { 
@@ -199,7 +204,6 @@ const actions = {
   },
   userNew: function(that, params) {
     const data = {user: params};
-    console.log(data)
     $.ajax({
       url: "/users",
       type: 'POST',
@@ -293,6 +297,7 @@ const actions = {
     });   
   },
   billIndex: function(that, page) {
+    // send sortby and sortOrder and filterQuery so all content is ordered and filtered, send an ajax request every n amount of chars(3)
     let newBreadCrumbs = Object.assign([], ["Dashboard", "Bills"])
     newBreadCrumbs[1] = "Bills"
     if (page == null) {

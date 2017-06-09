@@ -9,7 +9,7 @@ class GroupAddBtn extends React.Component {
     render() {
         
         return(
-             <li><a href="#" onClick={this.onNewGroupClick}><i className="glyphicon glyphicon-plus"></i>   Create Group</a></li>
+             <li><a className="actionable" href="#" onClick={this.onNewGroupClick}><i className="glyphicon glyphicon-plus"></i>   Create Group</a></li>
         )
     }
 

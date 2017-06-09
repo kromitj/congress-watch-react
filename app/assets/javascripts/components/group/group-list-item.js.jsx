@@ -9,7 +9,7 @@ class GroupListItem extends React.Component {
     render() {
         
         return(
-             <li><a href="#" onClick={this.onGroupClick}>{this.props.name}</a></li>
+             <li><a className="actionable" href="#" onClick={this.onGroupClick}>{this.props.name}</a></li>
         )
     }
 

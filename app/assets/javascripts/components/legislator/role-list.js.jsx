@@ -27,7 +27,7 @@ class RoleList extends React.Component {
 
         return(
             <div className="role-list">
-                <FilterNSortable {...{sortList: this.sortList, sortOrderAndBy: sortOrderAndBy, this, filterQuery: this.filterQuery, sortByFields: [{name: "Popularity", sortListArg: "view_count"},{name: "Last", sortListArg: "lastname"},{name: "State", sortListArg: "state"},{name: "Party", sortListArg: "party"},]}} />                 
+                <FilterNSortable {...{sortList: this.sortList, sortOrderAndBy: sortOrderAndBy, filterQuery: this.filterQuery, sortByFields: [{name: "Popularity", sortListArg: "view_count"},{name: "Last", sortListArg: "lastname"},{name: "State", sortListArg: "state"},{name: "Party", sortListArg: "party"},]}} />                 
                 { roles }
             </div>
                    

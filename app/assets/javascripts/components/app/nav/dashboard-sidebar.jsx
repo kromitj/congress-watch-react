@@ -9,7 +9,7 @@ class DashboardSideBar extends React.Component {
     render() {
         return(
             <li className="active">
-                <a href="#" onClick={this.onClick} ><i className="fa fa-fw fa-dashboard"></i>Dashboard</a>
+                <a className="actionable" href="#" onClick={this.onClick} ><i className="fa fa-fw fa-dashboard"></i>Dashboard</a>
             </li>
         )
     }
