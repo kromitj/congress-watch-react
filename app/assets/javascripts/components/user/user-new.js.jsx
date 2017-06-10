@@ -19,8 +19,8 @@ class UserNew extends React.Component {
     };
 
     render() {
-            const passwordErrorClass = this.passwordIsValid(this.state.formData.password);
-            console.log(passwordErrorClass)
+        const surveyTitle = { "false": "No", "true": "Yes"}
+        const surveySelection = surveyTitle[this.state.formData.survey_participant]
         return (
             <div className="form-group col-sm-12 col-md-offset-2 col-md-8">
                         <ErrorAlert error={this.props.error} />
@@ -42,7 +42,8 @@ class UserNew extends React.Component {
                         <label for="survey">Do you want to participate in a User-Experience Survey</label>
                         <div className="checkbox">
                             <label>
-                              <input value={this.state.formData.password} onChange={this.updateInput} type="checkbox" id="survey_participant"></input>
+                              <input title={surveySelection} onChange={this.updateInput} type="checkbox" id="survey_participant"></input>
+                                <span>{surveySelection}</span>
                             </label>
                           </div>
 
