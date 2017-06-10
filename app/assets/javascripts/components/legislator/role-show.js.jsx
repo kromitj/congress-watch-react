@@ -9,7 +9,7 @@ class RoleShow extends React.Component {
   }
 
   render() {
-    const partyLong = { "D": "Democrate", "R": "Rebublican", "I": "Independent"}
+    const partyLong = { "D": "Democrate", "R": "Republican", "I": "Independent"}
     const website = this
     const party = "info-block-" + partyLong[this.props.role.party] + " block-info clearfix"
     const groupList = this.groupList(this)
