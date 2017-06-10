@@ -32,7 +32,6 @@ class RoleShow extends React.Component {
                 <ul className="dropdown-menu">
                   { groupList }
                 </ul>
-                          <button type="button" className="btn btn-info">Follow</button>
             </div></div>            
             <br></br>
             <br></br>
