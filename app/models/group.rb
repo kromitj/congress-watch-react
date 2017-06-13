@@ -1,5 +1,5 @@
 class Group < ApplicationRecord
-    has_many :group_items
+    has_many :group_items, :dependent => :destroy
     belongs_to :user
 
     def self.senator_groups

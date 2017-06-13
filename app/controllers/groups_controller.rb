@@ -32,6 +32,14 @@ class GroupsController < ApplicationController
 		render :json => {status: true, group: @group.pack_group_show}
 	end
 
+	def destroy
+		@user = User.find(params[:user_id])
+		@group = @user.groups.destroy(params[:id])
+		@groups = @user.groups
+		render :json => {status: true, groups: @groups}
+	end
+
+
 	private
 
 	def group_params

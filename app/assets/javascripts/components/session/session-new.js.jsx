@@ -4,7 +4,7 @@ class SessionNew extends React.Component {
         this.state = {
             formData: {                
                 username: 'kromitj',
-                password: 'password'
+                password: 'Password1'
             }
         }
         this.updateInput = this.updateInput.bind(this);

@@ -418,5 +418,20 @@ const actions = {
         console.error(that.props.url, status, err.toString());
       }.bind(that)
     });
+  },
+  groupDestroy: function(that, groupId) {
+    const url = "/users/"+ that.state.userId + "/groups/" + groupId
+    $.ajax({
+      url: url,
+      type: 'DELETE',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {      
+        that.setState({groups: data.groups});
+      }.bind(that),
+      error: function(xhr, status, err) {
+        console.error(that.props.url, status, err.toString());
+      }.bind(that)
+    });
   }
 }
