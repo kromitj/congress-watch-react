@@ -34,9 +34,6 @@ role_abbrev = {
   }
 
 def current_bill_status(bill)
-  # puts "fuck balls: #{bill["enacted"]}" 
-  # puts "fuck balls: #{bill["senate_passage"]}"
-  # puts "fuck balls: #{bill["house_passage"]}"
   if bill["vetoed"] != ""
     return 0
   elsif bill["enacted"] != ""
